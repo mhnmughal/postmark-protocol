@@ -14,10 +14,10 @@ Date: 2026-08-26. Evidence sources: the automated Play Mode integration session 
 | Pause | PASS | PASS | PASS | PASS | PASS | PASS — Resume, Restart invoked every level; Handbook/Settings/Desk reachable from pause | PASS | **PASS** |
 | Success (Delivered) | PASS | PASS | PASS | PASS | PASS | PASS — Next, Review, Desk invoked | PASS | **PASS**, with one documented timing note (see below) |
 | Failure (Returned) | PASS | PASS | PASS | PASS | PASS | PASS — Try Again (Review), Desk invoked every level via empty-plan test | PASS | **PASS** |
-| Settings | PASS | PASS | PASS | PASS | PASS | PASS — Music/Sound sliders, Haptics toggle, Reset Progress, Credits, Close all invoked and value-verified on disk | PASS | **PASS** |
+| Settings | PASS | PASS | PASS | PASS | PASS | PASS — Music/Sound sliders, Haptics toggle, Reset Progress, Close all invoked and value-verified on disk | PASS | **PASS** |
 | Handbook | PASS | PASS | PASS | PASS | PASS | PASS — Close invoked | PASS | **PASS** |
-| Credits | PASS | PASS | PASS | PASS | PASS | PASS — Back invoked | PASS | **PASS** |
 | Dialogs (Reset confirmation) | PASS | PASS | PASS | PASS | PASS | PASS — Cancel and confirmed-Reset both invoked and disk-verified | PASS | **PASS** |
+| First-launch Intro (new this session) | PASS | PASS | PASS | PASS | PASS | PASS — GotIt invoked, dismisses to Main Menu and marks the "intro" key seen (verified on disk) | PASS | **PASS** |
 
 ## Fixed this session
 
@@ -37,6 +37,12 @@ Both reverified clean with a full 36-level automated pass afterward (0 layout fi
 
 - Physical device testing (notch/Dynamic Island exact margins, touch-target feel, thermal/frame-time) — no iPhone/iPad attached to this host.
 - A true "generic UI" gut-check was done via direct screenshot review rather than side-by-side competitive benchmarking; reviewer judgment is that the postal-desk identity is unmistakable and none of the anti-patterns in the brief (blue panels, giant Play button, star ratings, neon) are present anywhere in the authored hierarchy.
+
+## Updated this session (post-launch changes)
+
+- **Credits panel and its opening buttons removed** (both `MainDesk` and `Gameplay` scenes) per explicit request — no in-game credits/attribution screen ships. `ResetProgress` was recentered in the Settings panel row it used to share with the Credits button, rather than leaving a lopsided single-button row. Dead `Act()` switch cases (`"Credits"`, `"BackSettings"`) removed from `SceneUI.cs`.
+- **First-launch Intro overlay added**: a short, non-multi-paragraph welcome panel ("WELCOME TO THE DESK") shown once before Main Menu on a save that hasn't seen it, dismissed by a single "GOT IT" button. Built by duplicating the existing `ResetDialog` panel (guarantees identical component/structure fidelity to every other authored panel) and reusing the existing `tutorialSeen` persistence mechanism with a new `"intro"` key — no save-schema change. Verified live: correct panel shown on a genuinely fresh save, correct dismissal and persistence, clean layout audit, and exercised end-to-end by `SessionQA` across the full 36-level automated run.
+- Both changes reverified with a full 36-level `SessionQA` pass after each: 36/36 functional completion, no navigation breakage, no console errors.
 
 ## Verdict
 

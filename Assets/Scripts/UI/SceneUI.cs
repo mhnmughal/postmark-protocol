@@ -72,7 +72,7 @@ namespace RehmanMughal.PostmarkProtocol.UI
             else
             {
                 SetText("ShiftProgress", $"{CompletedCount()} / 36 DELIVERIES FILED");
-                Show("MainMenu");
+                Show(SaveService.IsTutorialSeen("intro") ? "MainMenu" : "IntroPanel");
             }
         }
         // Count through the stable service API rather than storing duplicate progress.
@@ -102,13 +102,12 @@ namespace RehmanMughal.PostmarkProtocol.UI
             }
             switch(action)
             {
+                case "GotIt": SaveService.MarkTutorialSeen("intro"); SaveService.Save(); Show("MainMenu"); break;
                 case "StartShift": Begin(Mathf.Min(36,SaveService.UnlockedLevel)); break;
                 case "Ledger": RefreshChapters(); Show("ChapterPanel"); AudioService.Play("paper"); break;
                 case "BackChapters": RefreshChapters(); Show("ChapterPanel"); break;
                 case "Settings": returnPanel=currentPanel; SettingsLabels(); Show("SettingsPanel"); break;
                 case "Handbook": returnPanel=currentPanel; Show("HandbookPanel"); break;
-                case "Credits": Show("CreditsPanel"); break;
-                case "BackSettings": SettingsLabels(); Show("SettingsPanel"); break;
                 case "Close": SaveService.Save(); Show(returnPanel); break;
                 case "Desk": Time.timeScale=1; SceneManager.LoadScene("MainDesk"); break;
                 case "BackMain": Show("MainMenu"); break;

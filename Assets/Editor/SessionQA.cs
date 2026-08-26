@@ -197,7 +197,10 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             VisualQA.Resolution(1600, 900);
             // This is fixture setup; every navigation assertion below uses the authored UI.
             SceneManager.LoadScene("MainDesk");
-            yield return Until(() => Panel("MainMenu"), "MainDesk startup", 20);
+            // A fresh isolated save has not seen the first-launch intro, so IntroPanel shows before MainMenu.
+            yield return Until(() => Panel("IntroPanel") || Panel("MainMenu"), "MainDesk startup", 20);
+            if (Panel("IntroPanel")) { Audit("Intro"); Click("GotIt"); }
+            yield return Until(() => Panel("MainMenu"), "MainMenu after intro", 20);
             AudioAuthoring.ValidatePlayback();
             Audit("Main menu");
             Click("Settings");
@@ -207,10 +210,6 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             sliders.Single(s => s.name == "MusicVolume").value = 0.21f;
             sliders.Single(s => s.name == "SoundVolume").value = 0.37f;
             UI.GetComponentsInChildren<Toggle>(true).Single().isOn = false;
-            Click("Credits");
-            Check(Panel("CreditsPanel"), "Credits did not open.");
-            Audit("Credits");
-            Click("BackSettings");
             Click("ResetProgress");
             Check(Panel("ResetDialog"), "Reset confirmation missing.");
             Audit("Reset confirmation");
@@ -364,7 +363,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             text.AppendLine("The user save is isolated by an Editor-only repository swap and restored at termination. Test save: `" + qaPath + "`. Each persisted record is independently read from disk.\n");
             text.AppendLine("| Level | Empty-plan return | Restart/review | Known solution | Pause/resume | Replay | Seals/file save | Next/menu/ledger |\n| --- | --- | --- | --- | --- | --- | --- | --- |");
             foreach (var row in Rows) text.AppendLine(row);
-            text.AppendLine("\nSuccessful full completion additionally checks settings controls and file persistence, credits, handbook, initial locks, actual live mixer mute/half-volume response before and after transitions, and confirmed progress reset retaining settings.");
+            text.AppendLine("\nSuccessful full completion additionally checks settings controls and file persistence, handbook, initial locks, actual live mixer mute/half-volume response before and after transitions, and confirmed progress reset retaining settings.");
             text.AppendLine("\n## Screenshots and layout\n\nPlanning and delivered screenshots are saved under `QA/Playthrough/level-XX-planning.png` and `level-XX-delivered.png`. Active text extents and screen bounds are audited on menus and every level's planning, pause, returned and delivered screens. Full audit output is in `QA/LayoutAudit.txt`.\n");
             text.AppendLine("Layout findings: " + LayoutFailures.Count + ".");
             foreach (var finding in LayoutFailures) text.AppendLine("- " + finding);

@@ -51,13 +51,15 @@ Every button carries `PaperMotion` (custom hover-lift/press-scale easing over 0.
 
 ## Panel structure
 
-Every modal (`PausePanel`, `SettingsPanel`, `SuccessPanel`, `FailurePanel`, `ResetDialog`, `HandbookPanel`, `CreditsPanel`, `ChapterPanel`, `LevelLedger`) shares the same authored recipe: `Desk dimmer` (background scrim) → `Cotton paper panel` (card + Shadow) → `Letterhead rule` (divider) → `Panel running header` (breadcrumb, "POSTMARK PROTOCOL / POSTAL SERVICE") → title → body content → action row. This recipe is hand-authored per panel rather than a single shared prefab instance — functionally identical and already verified consistent in every panel, so it was left as-is rather than refactored into a prefab; that refactor is real but non-urgent scope (see Known issues).
+Every modal (`PausePanel`, `SettingsPanel`, `SuccessPanel`, `FailurePanel`, `ResetDialog`, `HandbookPanel`, `IntroPanel`, `ChapterPanel`, `LevelLedger`) shares the same authored recipe: `Desk dimmer` (background scrim) → `Cotton paper panel` (card + Shadow) → `Letterhead rule` (divider) → `Panel running header` (breadcrumb, "POSTMARK PROTOCOL / POSTAL SERVICE") → title → body content → action row. This recipe is hand-authored per panel rather than a single shared prefab instance — functionally identical and already verified consistent in every panel, so it was left as-is rather than refactored into a prefab; that refactor is real but non-urgent scope (see Known issues).
 
 `PanelMotion` slides every panel in from -46px over 0.24s with cubic ease-out on unscaled time, so panels stay responsive under pause.
 
+`IntroPanel` (first-launch welcome) was authored by duplicating `ResetDialog` in the Editor and relabeling its children — not hand-built from primitives — specifically to guarantee identical component/structure fidelity to every other panel rather than risk a one-off divergent implementation. Its body copy is two short lines by design, not the "multi-paragraph tutorial before gameplay begins" the brief explicitly warns against; it is shown once per save (`SaveService` `"intro"` tutorialSeen key) and dismissed with a single "GOT IT" button.
+
 ## Screen list (all authored, all verified live)
 
-Main Desk, Chapter Selection, Level Ledger, Gameplay HUD (TopHUD + Command Tray + Planning slip + Dispatch), Tutorial (contextual `Lesson` line, no full-screen overlay), Pause (clipboard), Success (delivery receipt with 3 postal seals), Failure (RETURNED + contextual reason), Settings (real Slider × 2 + Toggle), Handbook, Credits, Reset Progress confirmation. See `QA_UX_REPORT.md`-style detail in `UI_QA_REPORT.md`.
+First-launch Intro (once, before Main Desk), Main Desk, Chapter Selection, Level Ledger, Gameplay HUD (TopHUD + Command Tray + Planning slip + Dispatch), Tutorial (contextual `Lesson` line, no full-screen overlay), Pause (clipboard), Success (delivery receipt with 3 postal seals), Failure (RETURNED + contextual reason), Settings (real Slider × 2 + Toggle), Handbook, Reset Progress confirmation. No Credits screen ships — removed by explicit request; see Important decisions in `MEMORY_BANK.md`. See detail in `UI_QA_REPORT.md`.
 
 ## Interaction & animation principles
 

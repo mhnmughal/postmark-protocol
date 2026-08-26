@@ -226,8 +226,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             var check=Image("Haptics check",toggleRect,new Vector2(-75,0),new Vector2(38,38),Red);toggle.graphic=check;
             Label("HapticsOnLabel",toggleRect,"ENABLED",new Vector2(23,0),new Vector2(140,52),22,Cream,TextAnchor.MiddleCenter);
             Label("HapticsLabel",settings,"Haptic feedback",new Vector2(-244,-65),new Vector2(390,64),28);
-            Button("ResetProgress",settings,"RESET PROGRESS",new Vector2(-242,-182),new Vector2(438,66),Red);
-            Button("Credits",settings,"CREDITS & ORIGINS",new Vector2(242,-182),new Vector2(438,66));
+            Button("ResetProgress",settings,"RESET PROGRESS",new Vector2(0,-182),new Vector2(438,66),Red);
             Label("LocalOnly",settings,"Your deliveries stay on this device. No accounts. No connection required.",new Vector2(0,-251),new Vector2(928,54),22,Muted,TextAnchor.MiddleCenter);
             Button("Close",settings,"CLOSE SETTINGS",new Vector2(0,-313),new Vector2(410,62));
             var reset=Panel("ResetDialog").transform;
@@ -235,16 +234,18 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             Label("ResetExplanation",reset,"This removes all delivery progress and postal seals from this device.\n\nMusic, sound and haptic preferences will be kept.\nThis cannot be undone.",new Vector2(0,70),new Vector2(890,250),30,Dark,TextAnchor.MiddleCenter);
             Button("CancelReset",reset,"KEEP MY PROGRESS",new Vector2(-240,-200),new Vector2(435,76));
             Button("ConfirmReset",reset,"CLEAR PROGRESS",new Vector2(240,-200),new Vector2(435,76),Red);
+            // First-launch overlay only; shown once (SaveService "intro" tutorial key), before MainMenu.
+            // Short by design, not a multi-paragraph wall of text before gameplay begins.
+            var intro=Panel("IntroPanel").transform;
+            Label("IntroTitle",intro,"WELCOME TO THE DESK",new Vector2(0,278),new Vector2(960,55),36);
+            Label("IntroBody",intro,"You don't steer the letter — you program it.\n\nStamp your instructions on the route, then press Dispatch.",new Vector2(0,70),new Vector2(890,250),30,Dark,TextAnchor.MiddleCenter);
+            Button("GotIt",intro,"GOT IT",new Vector2(0,-200),new Vector2(435,76));
             var handbook=Panel("HandbookPanel").transform;
             Label("HandbookTitle",handbook,"THE ROUTE HANDBOOK",new Vector2(0,278),new Vector2(960,55),36);
             Label("HandbookCommands",handbook,"01 / INSTRUCTION STAMPS\n\n↰ LEFT / ↱ RIGHT   Turn 90°\n↶ REVERSE   Turn back\nⅡ WAIT   Pause one cycle\n>> FAST   Next move: one cycle\n~ SLOW   Next move: three cycles\n⌃ JUMP   Cross one small gap",new Vector2(-242,42),new Vector2(438,370),25);
             Label("HandbookRules",handbook,"02 / INK & PARCELS\n\n1 STANDARD   Execute once\n×2 DOUBLE   Execute twice\nLOCK PERMANENT   Reset to change\n\n! FRAGILE   Avoid bumps\n>> EXPRESS   Never wait\nR REGISTERED   Visit every check",new Vector2(242,42),new Vector2(438,370),25);
             Label("HandbookTiming",handbook,"A normal step takes 2 cycles. Gates show open phase / period.\nStamp a marked space, then Dispatch. Review and adjust at any time.",new Vector2(0,-210),new Vector2(940,86),24,Muted,TextAnchor.MiddleCenter);
             Button("Close",handbook,"BACK TO THE DESK",new Vector2(0,-313),new Vector2(470,62));
-            var credits=Panel("CreditsPanel").transform;
-            Label("CreditsTitle",credits,"POSTMARK PROTOCOL",new Vector2(0,278),new Vector2(960,55),36);
-            Label("CreditsBody",credits,"Stamp the instructions. Send the route.\n\nDevelopment • Rehman Mughal\nOriginal project-generated sound design and music.\nOriginal scene geometry and materials.\nOriginal app artwork created with OpenAI image generation.\n\nMade with Unity. Unity trademarks belong to Unity Technologies.\nAll 36 deliveries work offline. No ads. No tracking.",new Vector2(0,25),new Vector2(920,415),27,Dark,TextAnchor.MiddleCenter);
-            Button("BackSettings",credits,"BACK TO SETTINGS",new Vector2(0,-313),new Vector2(430,62));
         }
         static void Slider(Transform parent,string name,string caption,float y,float value)
         {
@@ -279,7 +280,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             Button("Handbook",menu,"THE HANDBOOK  ↗",new Vector2(316,-70),new Vector2(410,112),Cream,null,29);
             Button("Settings",menu,"DESK SETTINGS",new Vector2(316,-220),new Vector2(410,88),Dark);
             Label("ShiftProgress",menu,"0 / 36 DELIVERIES FILED",new Vector2(-255,-286),new Vector2(520,48),22,Cream);
-            Label("Footer",menu,"REHMAN MUGHAL     /     EST. 2026",new Vector2(0,-385),new Vector2(1060,42),18,new Color(.78f,.7f,.55f),TextAnchor.MiddleCenter);
+            Label("Footer",menu,"",new Vector2(0,-385),new Vector2(1060,42),18,new Color(.78f,.7f,.55f),TextAnchor.MiddleCenter);
             var chapters=Panel("ChapterPanel").transform;
             Label("ChapterTitle",chapters,"THE DELIVERY LEDGER",new Vector2(0,278),new Vector2(960,55),36);
             string[] names={"LOCAL ROUTE","EXPRESS DESK","RETURN OFFICE","INK LAB","PRIORITY SERVICE","NIGHT SHIFT"};
