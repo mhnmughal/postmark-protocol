@@ -9013,10 +9013,23 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Stamp the instructions. Send the route.\n\nDevelopment \u2022 Rehman Mughal\nOriginal
-    project-generated sound design and music.\nOriginal scene geometry and materials.\nOriginal
-    app artwork created with OpenAI image generation.\n\nMade with Unity. Unity trademarks
-    belong to Unity Technologies.\nAll 36 deliveries work offline. No ads. No tracking."
+  m_Text: 'Stamp the instructions. Send the route.
+
+
+    Original project-generated
+    sound design and music.
+
+    Original scene geometry and materials.
+
+    Original
+    app artwork created with OpenAI image generation.
+
+
+    Made with Unity. Unity
+    trademarks belong to Unity Technologies.
+
+    All 36 deliveries work offline.
+    No ads. No tracking.'
 --- !u!222 &911391647
 CanvasRenderer:
   m_ObjectHideFlags: 0
