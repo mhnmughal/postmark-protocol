@@ -1,0 +1,6 @@
+{
+  "name": "PostmarkProtocol.GameplayTests",
+  "references": ["PostmarkProtocol.Runtime"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"]
+}

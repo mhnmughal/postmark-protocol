@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 898e9abf52cf03040862ab6f9b3e27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PostmarkProtocol.Runtime::RehmanMughal.PostmarkProtocol.Levels.LevelDefinition
+  id: 34
+  chapter: 6
+  width: 8
+  height: 6
+  title: Long Leap
+  lesson: DOUBLE JUMP advances four cells across the marked obstacle run.
+  start: {x: 0, y: 4}
+  destination: {x: 4, y: 2}
+  startDirection: 1
+  route:
+  - {x: 0, y: 4}
+  - {x: 1, y: 4}
+  - {x: 5, y: 4}
+  - {x: 6, y: 4}
+  - {x: 6, y: 3}
+  - {x: 6, y: 2}
+  - {x: 6, y: 1}
+  - {x: 6, y: 0}
+  - {x: 5, y: 0}
+  - {x: 4, y: 0}
+  - {x: 3, y: 0}
+  - {x: 2, y: 0}
+  - {x: 2, y: 1}
+  - {x: 2, y: 2}
+  - {x: 3, y: 2}
+  - {x: 4, y: 2}
+  slots:
+  - position: {x: 6, y: 4}
+    allowedInks: 000000000100000002000000
+  - position: {x: 6, y: 0}
+    allowedInks: 000000000100000002000000
+  - position: {x: 2, y: 0}
+    allowedInks: 000000000100000002000000
+  - position: {x: 2, y: 2}
+    allowedInks: 000000000100000002000000
+  - position: {x: 1, y: 4}
+    allowedInks: 01000000
+  - position: {x: 6, y: 3}
+    allowedInks: 000000000100000002000000
+  availableCommands: 00000000010000000200000003000000040000000500000006000000
+  commandLimits:
+  - command: 0
+    count: 1
+  - command: 1
+    count: 4
+  - command: 2
+    count: 1
+  - command: 3
+    count: 1
+  - command: 4
+    count: 1
+  - command: 5
+    count: 1
+  - command: 6
+    count: 1
+  gates:
+  - position: {x: 6, y: 2}
+    period: 5
+    openPhase: 1
+    openDuration: 1
+  hazards: []
+  gaps:
+  - {x: 2, y: 4}
+  - {x: 3, y: 4}
+  - {x: 4, y: 4}
+  checkpoints: []
+  parcel: 1
+  stampLimit: 6
+  par: 6
+  optimalSteps: 18
+  maxTicks: 160
+  knownSolution:
+  - position: {x: 6, y: 4}
+    command: 1
+    ink: 0
+  - position: {x: 6, y: 0}
+    command: 1
+    ink: 0
+  - position: {x: 2, y: 0}
+    command: 1
+    ink: 0
+  - position: {x: 2, y: 2}
+    command: 1
+    ink: 0
+  - position: {x: 1, y: 4}
+    command: 6
+    ink: 1
+  - position: {x: 6, y: 3}
+    command: 5
+    ink: 0
+  night: 1

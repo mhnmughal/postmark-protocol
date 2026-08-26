@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 898e9abf52cf03040862ab6f9b3e27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PostmarkProtocol.Runtime::RehmanMughal.PostmarkProtocol.Levels.LevelDefinition
+  id: 31
+  chapter: 6
+  width: 8
+  height: 6
+  title: After-Hours Crossing
+  lesson: A fragile delivery, a permanent turn and a timed bridge.
+  start: {x: 0, y: 1}
+  destination: {x: 1, y: 3}
+  startDirection: 1
+  route:
+  - {x: 0, y: 1}
+  - {x: 1, y: 1}
+  - {x: 3, y: 1}
+  - {x: 4, y: 1}
+  - {x: 5, y: 1}
+  - {x: 5, y: 2}
+  - {x: 5, y: 3}
+  - {x: 5, y: 4}
+  - {x: 5, y: 5}
+  - {x: 4, y: 5}
+  - {x: 3, y: 5}
+  - {x: 2, y: 5}
+  - {x: 1, y: 5}
+  - {x: 1, y: 4}
+  - {x: 1, y: 3}
+  slots:
+  - position: {x: 5, y: 1}
+    allowedInks: 000000000100000002000000
+  - position: {x: 5, y: 5}
+    allowedInks: 02000000
+  - position: {x: 1, y: 5}
+    allowedInks: 000000000100000002000000
+  - position: {x: 1, y: 1}
+    allowedInks: 000000000100000002000000
+  - position: {x: 3, y: 1}
+    allowedInks: 000000000100000002000000
+  - position: {x: 1, y: 4}
+    allowedInks: 00000000
+  availableCommands: 00000000010000000200000003000000040000000500000006000000
+  commandLimits:
+  - command: 0
+    count: 3
+  - command: 1
+    count: 1
+  - command: 2
+    count: 1
+  - command: 3
+    count: 1
+  - command: 4
+    count: 1
+  - command: 5
+    count: 1
+  - command: 6
+    count: 1
+  gates:
+  - position: {x: 4, y: 1}
+    period: 5
+    openPhase: 2
+    openDuration: 1
+  hazards: []
+  gaps:
+  - {x: 2, y: 1}
+  checkpoints: []
+  parcel: 1
+  stampLimit: 6
+  par: 5
+  optimalSteps: 15
+  maxTicks: 160
+  knownSolution:
+  - position: {x: 5, y: 1}
+    command: 0
+    ink: 0
+  - position: {x: 5, y: 5}
+    command: 0
+    ink: 2
+  - position: {x: 1, y: 5}
+    command: 0
+    ink: 0
+  - position: {x: 1, y: 1}
+    command: 6
+    ink: 0
+  - position: {x: 3, y: 1}
+    command: 5
+    ink: 0
+  night: 1

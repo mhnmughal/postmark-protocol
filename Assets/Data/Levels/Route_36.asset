@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 898e9abf52cf03040862ab6f9b3e27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PostmarkProtocol.Runtime::RehmanMughal.PostmarkProtocol.Levels.LevelDefinition
+  id: 36
+  chapter: 6
+  width: 8
+  height: 6
+  title: Postmark Protocol
+  lesson: 'One final sheet: double return, two signatures, a bridge, and exact gate
+    timing.'
+  start: {x: 2, y: 1}
+  destination: {x: 6, y: 2}
+  startDirection: 3
+  route:
+  - {x: 2, y: 1}
+  - {x: 1, y: 1}
+  - {x: 0, y: 1}
+  - {x: 3, y: 1}
+  - {x: 4, y: 1}
+  - {x: 4, y: 2}
+  - {x: 4, y: 4}
+  - {x: 4, y: 5}
+  - {x: 5, y: 5}
+  - {x: 6, y: 5}
+  - {x: 7, y: 5}
+  - {x: 7, y: 4}
+  - {x: 7, y: 3}
+  - {x: 7, y: 2}
+  - {x: 6, y: 2}
+  slots:
+  - position: {x: 0, y: 1}
+    allowedInks: 01000000
+  - position: {x: 4, y: 1}
+    allowedInks: 02000000
+  - position: {x: 4, y: 5}
+    allowedInks: 000000000100000002000000
+  - position: {x: 7, y: 5}
+    allowedInks: 000000000100000002000000
+  - position: {x: 7, y: 2}
+    allowedInks: 000000000100000002000000
+  - position: {x: 4, y: 2}
+    allowedInks: 000000000100000002000000
+  - position: {x: 5, y: 5}
+    allowedInks: 01000000
+  availableCommands: 00000000010000000200000003000000040000000500000006000000
+  commandLimits:
+  - command: 0
+    count: 1
+  - command: 1
+    count: 4
+  - command: 2
+    count: 1
+  - command: 3
+    count: 1
+  - command: 4
+    count: 1
+  - command: 5
+    count: 1
+  - command: 6
+    count: 1
+  gates:
+  - position: {x: 6, y: 5}
+    period: 7
+    openPhase: 3
+    openDuration: 1
+  hazards: []
+  gaps:
+  - {x: 4, y: 3}
+  checkpoints:
+  - {x: 1, y: 1}
+  - {x: 5, y: 5}
+  parcel: 3
+  stampLimit: 7
+  par: 7
+  optimalSteps: 17
+  maxTicks: 160
+  knownSolution:
+  - position: {x: 0, y: 1}
+    command: 1
+    ink: 1
+  - position: {x: 4, y: 1}
+    command: 0
+    ink: 2
+  - position: {x: 4, y: 5}
+    command: 1
+    ink: 0
+  - position: {x: 7, y: 5}
+    command: 1
+    ink: 0
+  - position: {x: 7, y: 2}
+    command: 1
+    ink: 0
+  - position: {x: 4, y: 2}
+    command: 6
+    ink: 0
+  - position: {x: 5, y: 5}
+    command: 5
+    ink: 1
+  night: 1

@@ -1,0 +1,7 @@
+{
+  "name": "PostmarkProtocol.Services.Tests",
+  "rootNamespace": "RehmanMughal.PostmarkProtocol.Tests",
+  "references": ["PostmarkProtocol.Runtime"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"]
+}

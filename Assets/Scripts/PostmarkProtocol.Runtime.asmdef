@@ -1,0 +1,6 @@
+{
+  "name": "PostmarkProtocol.Runtime",
+  "rootNamespace": "RehmanMughal.PostmarkProtocol",
+  "references": ["Unity.ugui", "Unity.InputSystem"],
+  "autoReferenced": true
+}

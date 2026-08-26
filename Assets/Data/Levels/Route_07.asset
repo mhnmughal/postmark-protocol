@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 898e9abf52cf03040862ab6f9b3e27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PostmarkProtocol.Runtime::RehmanMughal.PostmarkProtocol.Levels.LevelDefinition
+  id: 7
+  chapter: 2
+  width: 8
+  height: 6
+  title: One Beat Later
+  lesson: WAIT holds for one tick. The gate's numbers show its open phase.
+  start: {x: 0, y: 2}
+  destination: {x: 6, y: 4}
+  startDirection: 1
+  route:
+  - {x: 0, y: 2}
+  - {x: 1, y: 2}
+  - {x: 2, y: 2}
+  - {x: 3, y: 2}
+  - {x: 4, y: 2}
+  - {x: 4, y: 3}
+  - {x: 4, y: 4}
+  - {x: 5, y: 4}
+  - {x: 6, y: 4}
+  slots:
+  - position: {x: 4, y: 2}
+    allowedInks: 00000000
+  - position: {x: 4, y: 4}
+    allowedInks: 00000000
+  - position: {x: 1, y: 2}
+    allowedInks: 00000000
+  - position: {x: 5, y: 4}
+    allowedInks: 00000000
+  availableCommands: 0000000001000000020000000400000005000000
+  commandLimits:
+  - command: 0
+    count: 1
+  - command: 1
+    count: 1
+  - command: 2
+    count: 2
+  - command: 4
+    count: 1
+  - command: 5
+    count: 1
+  gates:
+  - position: {x: 2, y: 2}
+    period: 4
+    openPhase: 1
+    openDuration: 1
+  hazards: []
+  gaps: []
+  checkpoints: []
+  parcel: 0
+  stampLimit: 4
+  par: 3
+  optimalSteps: 8
+  maxTicks: 160
+  knownSolution:
+  - position: {x: 4, y: 2}
+    command: 0
+    ink: 0
+  - position: {x: 4, y: 4}
+    command: 1
+    ink: 0
+  - position: {x: 1, y: 2}
+    command: 2
+    ink: 0
+  night: 0

@@ -1,0 +1,49 @@
+# Unity generated
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+
+# Never commit generated iOS/Xcode/Android export output
+/Builds/
+
+# Asset meta backups
+*.tmp
+*.orig
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Crashlytics (unused here but standard to exclude)
+crashlytics-build.properties
+
+# Packages lock is kept (reproducible resolution); local override caches are not
+/[Pp]ackages/vc/
+
+# Editor auto-generated files not needed in VCS
+/ExportedObj/
+/DevelopmentPlayer/

@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 898e9abf52cf03040862ab6f9b3e27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PostmarkProtocol.Runtime::RehmanMughal.PostmarkProtocol.Levels.LevelDefinition
+  id: 17
+  chapter: 3
+  width: 8
+  height: 6
+  title: Return Window
+  lesson: FAST triggers on both visits. The exit gate opens after the complete return.
+  start: {x: 3, y: 1}
+  destination: {x: 4, y: 4}
+  startDirection: 1
+  route:
+  - {x: 3, y: 1}
+  - {x: 4, y: 1}
+  - {x: 5, y: 1}
+  - {x: 6, y: 1}
+  - {x: 2, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 2}
+  - {x: 1, y: 3}
+  - {x: 1, y: 4}
+  - {x: 2, y: 4}
+  - {x: 3, y: 4}
+  - {x: 4, y: 4}
+  slots:
+  - position: {x: 6, y: 1}
+    allowedInks: 00000000
+  - position: {x: 1, y: 1}
+    allowedInks: 00000000
+  - position: {x: 1, y: 4}
+    allowedInks: 00000000
+  - position: {x: 4, y: 1}
+    allowedInks: 00000000
+  availableCommands: 000000000100000002000000030000000400000005000000
+  commandLimits:
+  - command: 0
+    count: 1
+  - command: 1
+    count: 2
+  - command: 2
+    count: 1
+  - command: 3
+    count: 1
+  - command: 4
+    count: 1
+  - command: 5
+    count: 1
+  gates:
+  - position: {x: 5, y: 1}
+    period: 4
+    openPhase: 3
+    openDuration: 1
+  - position: {x: 1, y: 2}
+    period: 8
+    openPhase: 0
+    openDuration: 1
+  hazards: []
+  gaps: []
+  checkpoints: []
+  parcel: 0
+  stampLimit: 4
+  par: 4
+  optimalSteps: 14
+  maxTicks: 160
+  knownSolution:
+  - position: {x: 6, y: 1}
+    command: 3
+    ink: 0
+  - position: {x: 1, y: 1}
+    command: 1
+    ink: 0
+  - position: {x: 1, y: 4}
+    command: 1
+    ink: 0
+  - position: {x: 4, y: 1}
+    command: 4
+    ink: 0
+  night: 0
