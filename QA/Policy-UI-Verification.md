@@ -1,0 +1,230 @@
+# Policy UI verification
+
+UTC: 2026-08-28 10:37:53Z
+
+Result: **FAIL: 2 layout audit findings**
+
+Editor-only checks; no physical testing, iOS build/export, signing or login. All 36 levels receive planning-layout checks at four measured resolutions. Four representative deliveries use live presentation, authored controls, seal checks and isolated file saves. Settings button/panel removal, reset write failure and retry are exercised. User save is restored at completion.
+
+Layout findings: 2. Live deliveries completed: 4/4.
+
+- Menu MainMenu: 1136x640: PASS text extents and screen bounds
+- Menu ChapterPanel: 1136x640: PASS text extents and screen bounds
+- Menu LevelLedger: 1136x640: PASS text extents and screen bounds
+- Menu SettingsPanel: 1136x640: PASS text extents and screen bounds
+- Menu ResetDialog: 1136x640: PASS text extents and screen bounds
+- Menu IntroPanel: 1136x640: PASS text extents and screen bounds
+- Menu HandbookPanel: 1136x640: PASS text extents and screen bounds
+- Reset failure: 1136x640: PASS text extents and screen bounds
+- Control height at 1136x640 / 2 scale: minimum 47.3 logical points (Editor simulation, not physical measurement)
+- Level 1 planning: 1136x640: PASS text extents and screen bounds
+- Level 2 planning: 1136x640: PASS text extents and screen bounds
+- Level 3 planning: 1136x640: PASS text extents and screen bounds
+- Level 4 planning: 1136x640: PASS text extents and screen bounds
+- Level 5 planning: 1136x640: PASS text extents and screen bounds
+- Level 6 planning: 1136x640: PASS text extents and screen bounds
+- Level 7 planning: 1136x640: PASS text extents and screen bounds
+- Level 8 planning: 1136x640: PASS text extents and screen bounds
+- Level 9 planning: 1136x640: PASS text extents and screen bounds
+- Level 10 planning: 1136x640: PASS text extents and screen bounds
+- Level 11 planning: 1136x640: PASS text extents and screen bounds
+- Level 12 planning: 1136x640: PASS text extents and screen bounds
+- Level 13 planning: 1136x640: PASS text extents and screen bounds
+- Level 14 planning: 1136x640: PASS text extents and screen bounds
+- Level 15 planning: 1136x640: PASS text extents and screen bounds
+- Level 16 planning: 1136x640: PASS text extents and screen bounds
+- Level 17 planning: 1136x640: PASS text extents and screen bounds
+- Level 18 planning: 1136x640: PASS text extents and screen bounds
+- Level 19 planning: 1136x640: PASS text extents and screen bounds
+- Level 20 planning: 1136x640: PASS text extents and screen bounds
+- Level 21 planning: 1136x640: PASS text extents and screen bounds
+- Level 22 planning: 1136x640: PASS text extents and screen bounds
+- Level 23 planning: 1136x640: PASS text extents and screen bounds
+- Level 24 planning: 1136x640: PASS text extents and screen bounds
+- Level 25 planning: 1136x640: PASS text extents and screen bounds
+- Level 26 planning: 1136x640: PASS text extents and screen bounds
+- Level 27 planning: 1136x640: PASS text extents and screen bounds
+- Level 28 planning: 1136x640: PASS text extents and screen bounds
+- Level 29 planning: 1136x640: PASS text extents and screen bounds
+- Level 30 planning: 1136x640: PASS text extents and screen bounds
+- Level 31 planning: 1136x640: PASS text extents and screen bounds
+- Level 32 planning: 1136x640: PASS text extents and screen bounds
+- Level 33 planning: 1136x640: PASS text extents and screen bounds
+- Level 34 planning: 1136x640: PASS text extents and screen bounds
+- Level 35 planning: 1136x640: PASS text extents and screen bounds
+- Level 36 planning: 1136x640: PASS text extents and screen bounds
+- Gameplay InkPanel: 1136x640: PASS text extents and screen bounds
+- Gameplay PausePanel: 1136x640: PASS text extents and screen bounds
+- Gameplay SuccessPanel: 1136x640: PASS text extents and screen bounds
+- Gameplay FailurePanel: 1136x640: PASS text extents and screen bounds
+- Gameplay SettingsPanel: 1136x640: PASS text extents and screen bounds
+- Gameplay ResetDialog: 1136x640: PASS text extents and screen bounds
+- Gameplay IntroPanel: 1136x640: PASS text extents and screen bounds
+- Gameplay HandbookPanel: 1136x640: PASS text extents and screen bounds
+- Live delivery 1: 1136x640: PASS text extents and screen bounds
+- Live authored-control delivery 1: PASS delivery, perfect seal and file reload
+- Live delivery 19: 1136x640: PASS text extents and screen bounds
+- Live authored-control delivery 19: PASS delivery, perfect seal and file reload
+- Live delivery 34: 1136x640: PASS text extents and screen bounds
+- Live authored-control delivery 34: PASS delivery, perfect seal and file reload
+- Live delivery 36: 1136x640: PASS text extents and screen bounds
+- Live authored-control delivery 36: PASS delivery, perfect seal and file reload
+- Menu MainMenu: 2778x1284: PASS text extents and screen bounds
+- Menu ChapterPanel: 2778x1284: PASS text extents and screen bounds
+- Menu LevelLedger: 2778x1284: PASS text extents and screen bounds
+- Menu SettingsPanel: 2778x1284: PASS text extents and screen bounds
+- Menu ResetDialog: 2778x1284: PASS text extents and screen bounds
+- Menu IntroPanel: 2778x1284: PASS text extents and screen bounds
+- Menu HandbookPanel: 2778x1284: PASS text extents and screen bounds
+- Reset failure: 2778x1284: PASS text extents and screen bounds
+- Control height at 2778x1284 / 3 scale: minimum 63.4 logical points (Editor simulation, not physical measurement)
+- Level 1 planning: 2778x1284: PASS text extents and screen bounds
+- Level 2 planning: 1278x1044: Stamp_RightLabel outside screen; Stamp_ReverseLabel outside screen; EraseLabel outside screen; Lesson outside screen; ParcelLabel outside screen; DispatchLabel outside screen; Stamp_LeftLabel outside screen; Stamp_SlowLabel outside screen; Stamp_JumpLabel outside screen; PauseLabel outside screen; ChapterName outside screen; Stamp_WaitLabel outside screen; LevelTitle outside screen; Stamp_FastLabel outside screen; Stamp_Right control outside screen; Stamp_Slow control outside screen; Stamp_Reverse control outside screen; Erase control outside screen; Pause control outside screen; Stamp_Fast control outside screen; Stamp_Jump control outside screen; Dispatch control outside screen; Stamp_Left control outside screen; Stamp_Wait control outside screen
+- Level 3 planning: 2778x1284: PASS text extents and screen bounds
+- Level 4 planning: 2778x1284: PASS text extents and screen bounds
+- Level 5 planning: 2778x1284: PASS text extents and screen bounds
+- Level 6 planning: 2778x1284: PASS text extents and screen bounds
+- Level 7 planning: 2778x1284: PASS text extents and screen bounds
+- Level 8 planning: 2778x1284: PASS text extents and screen bounds
+- Level 9 planning: 2778x1284: PASS text extents and screen bounds
+- Level 10 planning: 2778x1284: PASS text extents and screen bounds
+- Level 11 planning: 2778x1284: PASS text extents and screen bounds
+- Level 12 planning: 2778x1284: PASS text extents and screen bounds
+- Level 13 planning: 2778x1284: PASS text extents and screen bounds
+- Level 14 planning: 2778x1284: PASS text extents and screen bounds
+- Level 15 planning: 2778x1284: PASS text extents and screen bounds
+- Level 16 planning: 2778x1284: PASS text extents and screen bounds
+- Level 17 planning: 2778x1284: PASS text extents and screen bounds
+- Level 18 planning: 2778x1284: PASS text extents and screen bounds
+- Level 19 planning: 2778x1284: PASS text extents and screen bounds
+- Level 20 planning: 2778x1284: PASS text extents and screen bounds
+- Level 21 planning: 2778x1284: PASS text extents and screen bounds
+- Level 22 planning: 2778x1284: PASS text extents and screen bounds
+- Level 23 planning: 2778x1284: PASS text extents and screen bounds
+- Level 24 planning: 2778x1284: PASS text extents and screen bounds
+- Level 25 planning: 2778x1284: PASS text extents and screen bounds
+- Level 26 planning: 2778x1284: PASS text extents and screen bounds
+- Level 27 planning: 2778x1284: PASS text extents and screen bounds
+- Level 28 planning: 2778x1284: PASS text extents and screen bounds
+- Level 29 planning: 2778x1284: PASS text extents and screen bounds
+- Level 30 planning: 2778x1284: PASS text extents and screen bounds
+- Level 31 planning: 2778x1284: PASS text extents and screen bounds
+- Level 32 planning: 2778x1284: PASS text extents and screen bounds
+- Level 33 planning: 2778x1284: PASS text extents and screen bounds
+- Level 34 planning: 2778x1284: PASS text extents and screen bounds
+- Level 35 planning: 2778x1284: PASS text extents and screen bounds
+- Level 36 planning: 2778x1284: PASS text extents and screen bounds
+- Gameplay InkPanel: 2778x1284: PASS text extents and screen bounds
+- Gameplay PausePanel: 2778x1284: PASS text extents and screen bounds
+- Gameplay SuccessPanel: 2778x1284: PASS text extents and screen bounds
+- Gameplay FailurePanel: 2778x1284: PASS text extents and screen bounds
+- Gameplay SettingsPanel: 2778x1284: PASS text extents and screen bounds
+- Gameplay ResetDialog: 2778x1284: PASS text extents and screen bounds
+- Gameplay IntroPanel: 2778x1284: PASS text extents and screen bounds
+- Gameplay HandbookPanel: 2778x1284: PASS text extents and screen bounds
+- Menu MainMenu: 2732x2048: PASS text extents and screen bounds
+- Menu ChapterPanel: 2732x2048: PASS text extents and screen bounds
+- Menu LevelLedger: 2732x2048: PASS text extents and screen bounds
+- Menu SettingsPanel: 2732x2048: PASS text extents and screen bounds
+- Menu ResetDialog: 2732x2048: PASS text extents and screen bounds
+- Menu IntroPanel: 2732x2048: PASS text extents and screen bounds
+- Menu HandbookPanel: 1278x36: HandbookTitle outside screen; Panel running header outside screen; HandbookBodyScrollHint outside screen; CloseLabel outside screen; Close control outside screen
+- Reset failure: 2732x2048: PASS text extents and screen bounds
+- Control height at 2732x2048 / 2 scale: minimum 113.8 logical points (Editor simulation, not physical measurement)
+- Level 1 planning: 2732x2048: PASS text extents and screen bounds
+- Level 2 planning: 2732x2048: PASS text extents and screen bounds
+- Level 3 planning: 2732x2048: PASS text extents and screen bounds
+- Level 4 planning: 2732x2048: PASS text extents and screen bounds
+- Level 5 planning: 2732x2048: PASS text extents and screen bounds
+- Level 6 planning: 2732x2048: PASS text extents and screen bounds
+- Level 7 planning: 2732x2048: PASS text extents and screen bounds
+- Level 8 planning: 2732x2048: PASS text extents and screen bounds
+- Level 9 planning: 2732x2048: PASS text extents and screen bounds
+- Level 10 planning: 2732x2048: PASS text extents and screen bounds
+- Level 11 planning: 2732x2048: PASS text extents and screen bounds
+- Level 12 planning: 2732x2048: PASS text extents and screen bounds
+- Level 13 planning: 2732x2048: PASS text extents and screen bounds
+- Level 14 planning: 2732x2048: PASS text extents and screen bounds
+- Level 15 planning: 2732x2048: PASS text extents and screen bounds
+- Level 16 planning: 2732x2048: PASS text extents and screen bounds
+- Level 17 planning: 2732x2048: PASS text extents and screen bounds
+- Level 18 planning: 2732x2048: PASS text extents and screen bounds
+- Level 19 planning: 2732x2048: PASS text extents and screen bounds
+- Level 20 planning: 2732x2048: PASS text extents and screen bounds
+- Level 21 planning: 2732x2048: PASS text extents and screen bounds
+- Level 22 planning: 2732x2048: PASS text extents and screen bounds
+- Level 23 planning: 2732x2048: PASS text extents and screen bounds
+- Level 24 planning: 2732x2048: PASS text extents and screen bounds
+- Level 25 planning: 2732x2048: PASS text extents and screen bounds
+- Level 26 planning: 2732x2048: PASS text extents and screen bounds
+- Level 27 planning: 2732x2048: PASS text extents and screen bounds
+- Level 28 planning: 2732x2048: PASS text extents and screen bounds
+- Level 29 planning: 2732x2048: PASS text extents and screen bounds
+- Level 30 planning: 2732x2048: PASS text extents and screen bounds
+- Level 31 planning: 2732x2048: PASS text extents and screen bounds
+- Level 32 planning: 2732x2048: PASS text extents and screen bounds
+- Level 33 planning: 2732x2048: PASS text extents and screen bounds
+- Level 34 planning: 2732x2048: PASS text extents and screen bounds
+- Level 35 planning: 2732x2048: PASS text extents and screen bounds
+- Level 36 planning: 2732x2048: PASS text extents and screen bounds
+- Gameplay InkPanel: 2732x2048: PASS text extents and screen bounds
+- Gameplay PausePanel: 2732x2048: PASS text extents and screen bounds
+- Gameplay SuccessPanel: 2732x2048: PASS text extents and screen bounds
+- Gameplay FailurePanel: 2732x2048: PASS text extents and screen bounds
+- Gameplay SettingsPanel: 2732x2048: PASS text extents and screen bounds
+- Gameplay ResetDialog: 2732x2048: PASS text extents and screen bounds
+- Gameplay IntroPanel: 2732x2048: PASS text extents and screen bounds
+- Gameplay HandbookPanel: 2732x2048: PASS text extents and screen bounds
+- Menu MainMenu: 1278x1044: PASS text extents and screen bounds
+- Menu ChapterPanel: 1278x1044: PASS text extents and screen bounds
+- Menu LevelLedger: 1278x1044: PASS text extents and screen bounds
+- Menu SettingsPanel: 1278x1044: PASS text extents and screen bounds
+- Menu ResetDialog: 1278x1044: PASS text extents and screen bounds
+- Menu IntroPanel: 1278x1044: PASS text extents and screen bounds
+- Menu HandbookPanel: 1278x1044: PASS text extents and screen bounds
+- Reset failure: 1278x1044: PASS text extents and screen bounds
+- Control height at 1278x1044 / 1 scale: minimum 106.5 logical points (Editor simulation, not physical measurement)
+- Level 1 planning: 1278x1044: PASS text extents and screen bounds
+- Level 2 planning: 1278x1044: PASS text extents and screen bounds
+- Level 3 planning: 1278x1044: PASS text extents and screen bounds
+- Level 4 planning: 1278x1044: PASS text extents and screen bounds
+- Level 5 planning: 1278x1044: PASS text extents and screen bounds
+- Level 6 planning: 1278x1044: PASS text extents and screen bounds
+- Level 7 planning: 1278x1044: PASS text extents and screen bounds
+- Level 8 planning: 1278x1044: PASS text extents and screen bounds
+- Level 9 planning: 1278x1044: PASS text extents and screen bounds
+- Level 10 planning: 1278x1044: PASS text extents and screen bounds
+- Level 11 planning: 1278x1044: PASS text extents and screen bounds
+- Level 12 planning: 1278x1044: PASS text extents and screen bounds
+- Level 13 planning: 1278x1044: PASS text extents and screen bounds
+- Level 14 planning: 1278x1044: PASS text extents and screen bounds
+- Level 15 planning: 1278x1044: PASS text extents and screen bounds
+- Level 16 planning: 1278x1044: PASS text extents and screen bounds
+- Level 17 planning: 1278x1044: PASS text extents and screen bounds
+- Level 18 planning: 1278x1044: PASS text extents and screen bounds
+- Level 19 planning: 1278x1044: PASS text extents and screen bounds
+- Level 20 planning: 1278x1044: PASS text extents and screen bounds
+- Level 21 planning: 1278x1044: PASS text extents and screen bounds
+- Level 22 planning: 1278x1044: PASS text extents and screen bounds
+- Level 23 planning: 1278x1044: PASS text extents and screen bounds
+- Level 24 planning: 1278x1044: PASS text extents and screen bounds
+- Level 25 planning: 1278x1044: PASS text extents and screen bounds
+- Level 26 planning: 1278x1044: PASS text extents and screen bounds
+- Level 27 planning: 1278x1044: PASS text extents and screen bounds
+- Level 28 planning: 1278x1044: PASS text extents and screen bounds
+- Level 29 planning: 1278x1044: PASS text extents and screen bounds
+- Level 30 planning: 1278x1044: PASS text extents and screen bounds
+- Level 31 planning: 1278x1044: PASS text extents and screen bounds
+- Level 32 planning: 1278x1044: PASS text extents and screen bounds
+- Level 33 planning: 1278x1044: PASS text extents and screen bounds
+- Level 34 planning: 1278x1044: PASS text extents and screen bounds
+- Level 35 planning: 1278x1044: PASS text extents and screen bounds
+- Level 36 planning: 1278x1044: PASS text extents and screen bounds
+- Gameplay InkPanel: 1278x1044: PASS text extents and screen bounds
+- Gameplay PausePanel: 1278x1044: PASS text extents and screen bounds
+- Gameplay SuccessPanel: 1278x1044: PASS text extents and screen bounds
+- Gameplay FailurePanel: 1278x1044: PASS text extents and screen bounds
+- Gameplay SettingsPanel: 1278x1044: PASS text extents and screen bounds
+- Gameplay ResetDialog: 1278x1044: PASS text extents and screen bounds
+- Gameplay IntroPanel: 1278x1044: PASS text extents and screen bounds
+- Gameplay HandbookPanel: 1278x1044: PASS text extents and screen bounds

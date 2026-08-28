@@ -169,11 +169,22 @@ namespace RehmanMughal.PostmarkProtocol
         public bool ResetProgress()
         {
             // Deliberate reset retains the settings the player just chose.
+            var previous = Data;
+            bool previousFutureVersion = futureVersion;
             Data = new SaveData { musicVolume = Data.musicVolume, soundVolume = Data.soundVolume, haptics = Data.haptics };
             futureVersion = false;
             bool written = Save();
+            if (!written)
+            {
+                Data = previous;
+                futureVersion = previousFutureVersion;
+                LastIssue = "Reset was not saved. Your session progress is unchanged. Free storage and retry.";
+                return false;
+            }
             // A second atomic checkpoint ensures recovery cannot resurrect erased progress.
-            return written && Save();
+            if (Save()) return true;
+            LastIssue = "The reset backup could not be saved. Retry before closing to finish clearing the ledger.";
+            return false;
         }
     }
 

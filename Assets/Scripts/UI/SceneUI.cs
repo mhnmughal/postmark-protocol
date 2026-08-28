@@ -111,9 +111,9 @@ namespace RehmanMughal.PostmarkProtocol.UI
                 case "Close": SaveService.Save(); Show(returnPanel); break;
                 case "Desk": Time.timeScale=1; SceneManager.LoadScene("MainDesk"); break;
                 case "BackMain": Show("MainMenu"); break;
-                case "ResetProgress": Show("ResetDialog"); break;
+                case "ResetProgress": SetText("ResetStatus",""); SetText("ConfirmResetLabel","CLEAR PROGRESS"); Show("ResetDialog"); break;
                 case "CancelReset": Show("SettingsPanel"); break;
-                case "ConfirmReset": SaveService.ResetProgress(); if(route!=null) { Time.timeScale=1; SceneManager.LoadScene("MainDesk"); } else { Show("SettingsPanel"); SetText("ShiftProgress","0 / 36 DELIVERIES FILED"); } break;
+                case "ConfirmReset": ConfirmReset(); break;
                 case "Dispatch": if(IsPlanning) { Show("GameHUD"); route.Dispatch(); } break;
                 case "Pause": if(route!=null) { Time.timeScale=0; Show("PausePanel"); AudioService.Play("pause"); } break;
                 case "Resume": Time.timeScale=1; Show("GameHUD"); break;
@@ -122,12 +122,27 @@ namespace RehmanMughal.PostmarkProtocol.UI
                 case "TryAgain": Time.timeScale=1; route.Restart(false); Show("GameHUD"); RefreshPlanning(); break;
                 case "Next": Time.timeScale=1; if(route.level.id<36) LoadLevel(route.level.id+1); else SceneManager.LoadScene("MainDesk"); break;
                 case "Erase": if(IsPlanning) { erasing=true; SetText("SelectionLabel","LIFT INK • tap a stamped space"); } break;
-                case "InkStandard": ink=Ink.Standard; erasing=false; RefreshPlanning(); break;
-                case "InkDouble": ink=Ink.Double; erasing=false; RefreshPlanning(); break;
-                case "InkPermanent": ink=Ink.Permanent; erasing=false; RefreshPlanning(); break;
+                case "ChooseInk": if(IsPlanning) Show("InkPanel"); break;
+                case "CancelInk": Show("GameHUD"); break;
+                case "InkStandard": ink=Ink.Standard; erasing=false; Show("GameHUD"); RefreshPlanning(); break;
+                case "InkDouble": ink=Ink.Double; erasing=false; Show("GameHUD"); RefreshPlanning(); break;
+                case "InkPermanent": ink=Ink.Permanent; erasing=false; Show("GameHUD"); RefreshPlanning(); break;
             }
         }
         private void Begin(int id) { PostalApplication.SelectedLevel=id; SceneManager.LoadScene("Gameplay"); }
+        private void ConfirmReset()
+        {
+            if(!SaveService.ResetProgress())
+            {
+                SetText("ResetStatus",SaveService.LastIssue);
+                SetText("ConfirmResetLabel","RETRY RESET");
+                Show("ResetDialog");
+                return;
+            }
+            SetText("SaveNotice","");
+            if(route!=null) { Time.timeScale=1; SceneManager.LoadScene("MainDesk"); }
+            else { Show("SettingsPanel"); SetText("ShiftProgress","0 / 36 DELIVERIES FILED"); }
+        }
         private void SettingsLabels()
         {
             SetText("MusicValue",Mathf.RoundToInt(SaveService.Current.musicVolume*100)+"%");
@@ -173,8 +188,7 @@ namespace RehmanMughal.PostmarkProtocol.UI
             SetText("Lesson",definition.id==1 && !SaveService.IsTutorialSeen("level-1") ? "Pick up the Turn Right stamp." : definition.lesson);
             foreach(Command command in Enum.GetValues(typeof(Command))) buttons["Stamp_"+command].interactable=definition.availableCommands.Contains(command);
             bool lab=definition.chapter>=4;
-            buttons["InkDouble"].gameObject.SetActive(lab);
-            buttons["InkPermanent"].gameObject.SetActive(lab);
+            buttons["ChooseInk"].gameObject.SetActive(lab);
             RefreshPlanning();
         }
         public void SelectStamp(string command)
@@ -212,6 +226,7 @@ namespace RehmanMughal.PostmarkProtocol.UI
             }
             buttons["Dispatch"].interactable=!route.IsRunning;
             buttons["Erase"].interactable=!route.IsRunning;
+            buttons["ChooseInk"].interactable=!route.IsRunning;
             foreach(var key in new[]{"InkStandard","InkDouble","InkPermanent"}) buttons[key].interactable=!route.IsRunning;
             foreach(var key in new[]{"Stamp_Right","Dispatch"})
             {
@@ -283,4 +298,3 @@ namespace RehmanMughal.PostmarkProtocol.UI
         }
     }
 }
-

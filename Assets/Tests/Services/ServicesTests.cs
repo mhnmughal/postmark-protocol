@@ -124,6 +124,30 @@ namespace RehmanMughal.PostmarkProtocol.Tests
             Assert.That(restored.Data.soundVolume, Is.EqualTo(0.3f));
             Assert.That(restored.Data.haptics, Is.False);
         }
+        [Test] public void FailedResetPreservesSessionAndCanBeRetried()
+        {
+            var repo = Load();
+            repo.RecordDelivery(12, 3, 14, 3, 14);
+            Directory.CreateDirectory(path + ".tmp"); // Deterministically prevents the atomic write.
+            Assert.That(repo.ResetProgress(), Is.False);
+            Assert.That(repo.GetLevel(12).delivered, Is.True);
+            Assert.That(Load().GetLevel(12).delivered, Is.True);
+            Assert.That(repo.LastIssue, Does.Contain("Reset was not saved"));
+            Directory.Delete(path + ".tmp");
+            Assert.That(repo.ResetProgress(), Is.True);
+            Assert.That(Load().Data.levels, Is.Empty);
+        }
+        [Test] public void AppInformationRejectsUnsafeLinksAndIncompleteContact()
+        {
+            Assert.That(AppInformation.IsWebUrl("https://example.com/privacy"), Is.True);
+            Assert.That(AppInformation.IsWebUrl("javascript:alert(1)"), Is.False);
+            Assert.That(AppInformation.IsWebUrl("https://user:password@example.com"), Is.False);
+            Assert.That(AppInformation.IsEmail("support@example.com"), Is.True);
+            Assert.That(AppInformation.IsEmail("support@example.com\r\nBcc:other@example.com"), Is.False);
+            var info = ScriptableObject.CreateInstance<AppInformation>();
+            try { Assert.That(info.Ready, Is.False); }
+            finally { UnityEngine.Object.DestroyImmediate(info); }
+        }
         [Test] public void ProgressionUnlocksNextChapterAndStopsAt36()
         {
             var repo = Load();

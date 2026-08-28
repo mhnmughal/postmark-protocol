@@ -44,7 +44,9 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         private static int completed;
         public static string Status { get; private set; } = "Not run.";
         public static bool Running => routine != null;
-        private const string ReportPath = "Assets/Documentation/SESSION_QA_REPORT.md";
+        private static string ReportPath = "Assets/Documentation/SESSION_QA_REPORT.md";
+        private static bool layoutReview;
+        private static readonly List<string> LayoutResults = new List<string>();
 
         static SessionQA()
         {
@@ -57,6 +59,10 @@ namespace RehmanMughal.PostmarkProtocol.Editor
 
         [MenuItem("Postmark Protocol/QA/Run Authored UI Session (Play Mode)")]
         public static void Begin()
+        { BeginInternal(false); }
+        public static void BeginLayoutReview()
+        { BeginInternal(true); }
+        private static void BeginInternal(bool review)
         {
             if (!EditorApplication.isPlaying) throw new InvalidOperationException("Enter Play Mode before invoking SessionQA.Begin().");
             if (Running) throw new InvalidOperationException("Session QA is already running.");
@@ -74,6 +80,9 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             AudioService.ApplySettings();
             Rows.Clear();
             LayoutFailures.Clear();
+            LayoutResults.Clear();
+            layoutReview=review;
+            ReportPath=review ? "QA/Policy-UI-Verification.md" : "Assets/Documentation/SESSION_QA_REPORT.md";
             completed = 0;
             mainSum = mainMax = gcSum = gcMax = drawSum = drawMax = 0;
             frameSum = frameMax = 0;
@@ -89,7 +98,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             started = EditorApplication.timeSinceStartup;
             Status = "Starting isolated authored-UI session.";
             Application.logMessageReceived += CaptureError;
-            routine = Run();
+            routine = review ? LayoutSweep() : Run();
             EditorApplication.update += Tick;
             Debug.Log("POSTMARK SESSION QA STARTED: isolated save=" + qaPath);
         }
@@ -149,7 +158,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         { if (!passed) throw new InvalidOperationException(description); }
         private static void Place(StampPlacement stamp)
         {
-            Click("Ink" + stamp.ink);
+            if(UI.route.level.chapter>=4) { Click("ChooseInk"); Click("Ink" + stamp.ink); }
             Click("Stamp_" + stamp.command);
             UI.Place(stamp.position);
             Check(UI.route.plan.Stamps.Any(s => s.position == stamp.position && s.command == stamp.command && s.ink == stamp.ink),
@@ -159,12 +168,88 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         { var disk = new SaveRepository(qaPath); disk.Load(); return disk; }
         private static void Audit(string context)
         {
-            // The headless Game View can drift off the pinned resolution mid-run (observed as a one-off
-            // portrait-shaped size during a long unattended pass); reassert only when it actually drifted,
-            // so this doesn't spam duplicate custom Game View size entries on every audit call.
-            if (Screen.width != 1600 || Screen.height != 900) VisualQA.Resolution(1600, 900);
             string result = VisualQA.LayoutAudit();
+            LayoutResults.Add(context+": "+result);
             if (!result.Contains(": PASS ")) LayoutFailures.Add(context + ": " + result);
+        }
+        private static IEnumerator LayoutSweep()
+        {
+            foreach(var size in new[]{new Vector3Int(1136,640,2),new Vector3Int(2778,1284,3),new Vector3Int(2732,2048,2),new Vector3Int(1278,1044,1)})
+            {
+                Status="Layout sweep "+size.x+"x"+size.y;
+                VisualQA.Resolution(size.x,size.y);
+                yield return Until(()=>Screen.width==size.x && Screen.height==size.y,"Exact Game View resolution",20);
+                SceneManager.LoadScene("MainDesk");
+                yield return Until(()=>UI!=null && UI.route==null,"Main desk for layout",20);
+                yield return Delay(.4);
+                foreach(var panel in UI.panels)
+                {
+                    UI.Show(panel.name);
+                    yield return Delay(.3);
+                    Audit("Menu "+panel.name);
+                    if(panel.name=="MainMenu" || panel.name=="IntroPanel")
+                    { VisualQA.Capture("policy-"+panel.name+"-"+size.x+"x"+size.y);yield return Delay(.4); }
+                }
+                UI.Show("MainMenu");Click("Settings");
+                Check(Panel("SettingsPanel"),"Settings did not open");
+                Check(!UI.GetComponentsInChildren<Button>(true).Any(b=>b.name=="Privacy" || b.name=="Support"),"Removed Settings buttons remain");
+                Check(!UI.panels.Any(p=>p.name=="PrivacyPanel" || p.name=="SupportPanel"),"Removed information panels remain");
+                Click("ResetProgress");
+                SaveService.RecordDelivery(1,1,5,1,5);
+                Directory.CreateDirectory(qaPath+".tmp");
+                Click("ConfirmReset");
+                Check(Panel("ResetDialog") && SaveService.GetLevel(1).delivered,"Failed reset lost session data or left the dialog");
+                Check(UI.GetComponentsInChildren<Text>().Any(t=>t.name=="ResetStatus" && t.text.Contains("not saved")),"Reset failure message missing");
+                yield return Delay(.3);Audit("Reset failure");
+                Directory.Delete(qaPath+".tmp");Click("ConfirmReset");
+                Check(Panel("SettingsPanel") && !ReadDisk().GetLevel(1).delivered,"Reset retry did not persist");
+                yield return Delay(.3);
+                VisualQA.Capture("policy-settings-"+size.x+"x"+size.y);
+                yield return Delay(.4); // CaptureScreenshot renders on a later frame; do not switch scenes yet.
+                SaveService.MarkTutorialSeen("intro");
+                PostalApplication.SelectedLevel=1;SceneManager.LoadScene("Gameplay");
+                yield return Until(()=>Panel("GameHUD") && UI.route!=null,"Gameplay for layout",20);
+                yield return Delay(.4);
+                float minPoints=UI.GetComponentsInChildren<Selectable>().Min(b=>((RectTransform)b.transform).rect.height*UI.GetComponent<Canvas>().scaleFactor/size.z);
+                Check(minPoints>=44,"Gameplay touch target below 44 simulated logical points: "+minPoints);
+                LayoutResults.Add("Control height at "+size.x+"x"+size.y+" / "+size.z+" scale: minimum "+minPoints.ToString("F1")+" logical points (Editor simulation, not physical measurement)");
+                foreach(var level in UI.levels)
+                {
+                    typeof(SceneUI).GetMethod("LoadLevel",BindingFlags.NonPublic|BindingFlags.Instance).Invoke(UI,new object[]{level.id});
+                    yield return Delay(.3);
+                    Audit("Level "+level.id+" planning");
+                    if(level.id==1)
+                    {
+                        var slot=level.slots[0].position;
+                        Vector2 near=UI.route.gameCamera.WorldToScreenPoint(UI.route.World(slot));
+                        near.x-=35*UI.GetComponent<Canvas>().scaleFactor;
+                        Check(UI.route.TryPoint(near,out var chosen) && chosen==slot,"Expanded route-slot hit region failed");
+                    }
+                    if(level.id==1 || level.id==36) { VisualQA.Capture("policy-level"+level.id+"-"+size.x+"x"+size.y);yield return Delay(.15); }
+                }
+                foreach(var panel in UI.panels.Where(p=>p.name!="GameHUD"))
+                { UI.Show(panel.name);yield return Delay(.3);Audit("Gameplay "+panel.name); }
+                UI.Show("GameHUD");Click("ChooseInk");Click("InkDouble");
+                Check(UI.IsPlanning,"Ink selection did not return to route");
+                if(size.x==1136)
+                {
+                    foreach(int id in new[]{1,19,34,36})
+                    {
+                        typeof(SceneUI).GetMethod("LoadLevel",BindingFlags.NonPublic|BindingFlags.Instance).Invoke(UI,new object[]{id});
+                        yield return Delay(.3);
+                        foreach(var stamp in UI.route.level.knownSolution) Place(stamp);
+                        Click("Dispatch");
+                        yield return Until(()=>!UI.route.IsRunning,"Delivery "+id,90);
+                        Check(Panel("SuccessPanel") && ReadDisk().GetLevel(id).perfect,"Delivery/seal/save failed: "+id);
+                        yield return Delay(1);
+                        Audit("Live delivery "+id);
+                        VisualQA.Capture("policy-delivered"+id+"-"+size.x+"x"+size.y);
+                        LayoutResults.Add("Live authored-control delivery "+id+": PASS delivery, perfect seal and file reload");
+                        completed++;
+                    }
+                }
+                WriteReport("RUNNING");
+            }
         }
         private static string Capture(int id, string state)
         {
@@ -348,7 +433,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             PostalApplication.SelectedLevel = originalSelectedLevel;
             Application.runInBackground = originalRunInBackground;
             AudioService.ApplySettings();
-            Status = result + "; " + completed + "/36 levels; original user save restored; report=" + ReportPath;
+            Status = result + "; " + completed + (layoutReview ? "/4 representative deliveries" : "/36 levels") + "; original user save restored; report=" + ReportPath;
             WriteReport(result);
             if (returnToDesk && EditorApplication.isPlaying) SceneManager.LoadScene("MainDesk");
             Debug.Log("POSTMARK SESSION QA " + Status);
@@ -356,6 +441,11 @@ namespace RehmanMughal.PostmarkProtocol.Editor
 
         private static void WriteReport(string result)
         {
+            if(layoutReview)
+            {
+                File.WriteAllText(ReportPath,"# Policy UI verification\n\nUTC: "+DateTime.UtcNow.ToString("u")+"\n\nResult: **"+result+"**\n\nEditor-only checks; no physical testing, iOS build/export, signing or login. All 36 levels receive planning-layout checks at four measured resolutions. Four representative deliveries use live presentation, authored controls, seal checks and isolated file saves. Settings button/panel removal, reset write failure and retry are exercised. User save is restored at completion.\n\nLayout findings: "+LayoutFailures.Count+". Live deliveries completed: "+completed+"/4.\n\n"+string.Join("\n",LayoutResults.Select(s=>"- "+s))+"\n");
+                return;
+            }
             var text = new StringBuilder();
             text.AppendLine("# Automated Play Mode session integration QA\n");
             text.AppendLine("UTC: " + DateTime.UtcNow.ToString("u") + "  \nResult: **" + result.Replace("\n", " ") + "**  \nCompleted levels: " + completed + "/36  \nElapsed: " + (EditorApplication.timeSinceStartup - started).ToString("F1") + " seconds\n");

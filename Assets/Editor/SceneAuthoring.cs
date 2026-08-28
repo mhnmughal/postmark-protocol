@@ -191,22 +191,24 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         static GameObject Panel(string name, bool paperPanel=true)
         {
             var rect=Rect(name,safe,Vector2.zero,Vector2.zero);Full(rect);panels.Add(rect.gameObject);
-            if(paperPanel) rect.gameObject.AddComponent<PanelMotion>();
             if(paperPanel)
             {
-                var scrim=Image("Desk dimmer",rect,Vector2.zero,Vector2.zero,new Color(.07f,.12f,.1f,.68f));Full((RectTransform)scrim.transform);scrim.raycastTarget=true;
-                var sheet=Image("Cotton paper panel",rect,Vector2.zero,new Vector2(1060,738),Cream);
-                var shadow=sheet.gameObject.AddComponent<Shadow>();shadow.effectDistance=new Vector2(8,-12);shadow.effectColor=new Color(0,0,0,.3f);
-                Image("Letterhead rule",rect,new Vector2(0,247),new Vector2(964,3),Dark);
-                Label("Panel running header",rect,"POSTMARK PROTOCOL     /     POSTAL SERVICE",new Vector2(0,318),new Vector2(964,34),20,Muted);
+                rect.gameObject.AddComponent<PanelMotion>();
+                var scrim=Image("Desk dimmer",rect,Vector2.zero,Vector2.zero,new Color(.07f,.12f,.1f,.78f));Full((RectTransform)scrim.transform);scrim.raycastTarget=true;
+                Image("Cotton paper panel",rect,Vector2.zero,new Vector2(936,524),Cream);
+                Image("Letterhead rule",rect,new Vector2(0,170),new Vector2(872,2),Muted);
+                Label("Panel running header",rect,"POSTMARK PROTOCOL / POSTAL SERVICE",new Vector2(0,239),new Vector2(864,26),20,Muted);
             }
             return rect.gameObject;
         }
+        static void Title(Transform panel,string name,string caption)
+        { Label(name,panel,caption,new Vector2(0,202),new Vector2(864,44),30); }
         static void UI(Transform root)
         {
             panels.Clear();
             var canvas=Empty("UI",root).AddComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;
-            var scaler=canvas.gameObject.AddComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1600,900);scaler.screenMatchMode=CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;scaler.matchWidthOrHeight=1;
+            var scaler=canvas.gameObject.AddComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ConstantPixelSize;
+            scaler.referenceResolution=new Vector2(960,540);
             canvas.gameObject.AddComponent<GraphicRaycaster>();
             ui=canvas.gameObject.AddComponent<SceneUI>();
             safe=Rect("SafeArea",canvas.transform,Vector2.zero,Vector2.zero);Full((RectTransform)safe);safe.gameObject.AddComponent<SafeArea>();
@@ -214,84 +216,81 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             var eventSystem=Empty("EventSystem",root);eventSystem.AddComponent<EventSystem>();eventSystem.AddComponent<InputSystemUIInputModule>();
             ui.levels=AssetDatabase.FindAssets("t:LevelDefinition").Select(g=>AssetDatabase.LoadAssetAtPath<LevelDefinition>(AssetDatabase.GUIDToAssetPath(g))).OrderBy(l=>l.id).ToArray();
         }
+        static void ScrollText(Transform panel,string name,string value)
+        {
+            var r=Rect(name+"Scroll",panel,new Vector2(0,23),new Vector2(864,272));
+            var bg=r.gameObject.AddComponent<Image>();bg.color=Cream;bg.raycastTarget=true;
+            var scroll=r.gameObject.AddComponent<ScrollRect>();scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;
+            var viewport=Rect("Viewport",r,Vector2.zero,Vector2.zero);Full(viewport);viewport.gameObject.AddComponent<RectMask2D>();
+            var text=Label(name,viewport,value,Vector2.zero,new Vector2(840,600),24,Dark,TextAnchor.UpperLeft);
+            var content=text.rectTransform;content.anchorMin=new Vector2(0,1);content.anchorMax=new Vector2(1,1);content.pivot=new Vector2(.5f,1);content.offsetMin=new Vector2(8,0);content.offsetMax=new Vector2(-20,0);
+            var fitter=text.gameObject.AddComponent<ContentSizeFitter>();fitter.verticalFit=ContentSizeFitter.FitMode.PreferredSize;
+            scroll.viewport=viewport;scroll.content=content;scroll.verticalNormalizedPosition=1;
+            Label(name+"ScrollHint",panel,"SWIPE UP TO READ MORE",new Vector2(0,-134),new Vector2(840,26),20,Muted,TextAnchor.MiddleCenter);
+        }
         static void CommonPanels()
         {
-            var settings=Panel("SettingsPanel").transform;
-            Label("SettingsTitle",settings,"DESK SETTINGS",new Vector2(0,278),new Vector2(960,55),36);
-            Slider(settings,"MusicVolume","Music",135,SaveService.Current.musicVolume);
-            Slider(settings,"SoundVolume","Sound effects",35,SaveService.Current.soundVolume);
-            var toggleRect=Rect("Haptics",settings,new Vector2(328,-65),new Vector2(230,64));
-            var toggle=toggleRect.gameObject.AddComponent<Toggle>();
-            var bg=Image("Toggle track",toggleRect,Vector2.zero,new Vector2(230,64),Dark);bg.raycastTarget=true;toggle.targetGraphic=bg;
-            var check=Image("Haptics check",toggleRect,new Vector2(-75,0),new Vector2(38,38),Red);toggle.graphic=check;
-            Label("HapticsOnLabel",toggleRect,"ENABLED",new Vector2(23,0),new Vector2(140,52),22,Cream,TextAnchor.MiddleCenter);
-            Label("HapticsLabel",settings,"Haptic feedback",new Vector2(-244,-65),new Vector2(390,64),28);
-            Button("ResetProgress",settings,"RESET PROGRESS",new Vector2(0,-182),new Vector2(438,66),Red);
-            Label("LocalOnly",settings,"Your deliveries stay on this device. No accounts. No connection required.",new Vector2(0,-251),new Vector2(928,54),22,Muted,TextAnchor.MiddleCenter);
-            Button("Close",settings,"CLOSE SETTINGS",new Vector2(0,-313),new Vector2(410,62));
-            var reset=Panel("ResetDialog").transform;
-            Label("ResetTitle",reset,"CLEAR THE LEDGER?",new Vector2(0,278),new Vector2(960,55),36);
-            Label("ResetExplanation",reset,"This removes all delivery progress and postal seals from this device.\n\nMusic, sound and haptic preferences will be kept.\nThis cannot be undone.",new Vector2(0,70),new Vector2(890,250),30,Dark,TextAnchor.MiddleCenter);
-            Button("CancelReset",reset,"KEEP MY PROGRESS",new Vector2(-240,-200),new Vector2(435,76));
-            Button("ConfirmReset",reset,"CLEAR PROGRESS",new Vector2(240,-200),new Vector2(435,76),Red);
-            // First-launch overlay only; shown once (SaveService "intro" tutorial key), before MainMenu.
-            // Short by design, not a multi-paragraph wall of text before gameplay begins.
-            var intro=Panel("IntroPanel").transform;
-            Label("IntroTitle",intro,"WELCOME TO THE DESK",new Vector2(0,278),new Vector2(960,55),36);
-            Label("IntroBody",intro,"You don't steer the letter — you program it.\n\nStamp your instructions on the route, then press Dispatch.",new Vector2(0,70),new Vector2(890,250),30,Dark,TextAnchor.MiddleCenter);
-            Button("GotIt",intro,"GOT IT",new Vector2(0,-200),new Vector2(435,76));
-            var handbook=Panel("HandbookPanel").transform;
-            Label("HandbookTitle",handbook,"THE ROUTE HANDBOOK",new Vector2(0,278),new Vector2(960,55),36);
-            Label("HandbookCommands",handbook,"01 / INSTRUCTION STAMPS\n\n↰ LEFT / ↱ RIGHT   Turn 90°\n↶ REVERSE   Turn back\nⅡ WAIT   Pause one cycle\n>> FAST   Next move: one cycle\n~ SLOW   Next move: three cycles\n⌃ JUMP   Cross one small gap",new Vector2(-242,42),new Vector2(438,370),25);
-            Label("HandbookRules",handbook,"02 / INK & PARCELS\n\n1 STANDARD   Execute once\n×2 DOUBLE   Execute twice\nLOCK PERMANENT   Reset to change\n\n! FRAGILE   Avoid bumps\n>> EXPRESS   Never wait\nR REGISTERED   Visit every check",new Vector2(242,42),new Vector2(438,370),25);
-            Label("HandbookTiming",handbook,"A normal step takes 2 cycles. Gates show open phase / period.\nStamp a marked space, then Dispatch. Review and adjust at any time.",new Vector2(0,-210),new Vector2(940,86),24,Muted,TextAnchor.MiddleCenter);
-            Button("Close",handbook,"BACK TO THE DESK",new Vector2(0,-313),new Vector2(470,62));
+            var settings=Panel("SettingsPanel").transform;Title(settings,"SettingsTitle","DESK SETTINGS");
+            Slider(settings,"MusicVolume","Music",118,SaveService.Current.musicVolume);
+            Slider(settings,"SoundVolume","Sound effects",36,SaveService.Current.soundVolume);
+            var toggleRect=Rect("Haptics",settings,new Vector2(251,-46),new Vector2(330,80));var toggle=toggleRect.gameObject.AddComponent<Toggle>();
+            var bg=Image("Toggle track",toggleRect,Vector2.zero,new Vector2(330,80),Dark);bg.raycastTarget=true;toggle.targetGraphic=bg;
+            var check=Image("Haptics check",toggleRect,new Vector2(-121,0),new Vector2(36,36),Red);toggle.graphic=check;
+            Label("HapticsOnLabel",toggleRect,"ENABLED",new Vector2(23,0),new Vector2(220,50),24,Cream,TextAnchor.MiddleCenter);
+            Label("HapticsLabel",settings,"Haptic feedback",new Vector2(-252,-46),new Vector2(360,64),25);
+            Button("ResetProgress",settings,"RESET PROGRESS",new Vector2(0,-133),new Vector2(430,80),Red,null,24);
+            Button("Close",settings,"CLOSE SETTINGS",new Vector2(0,-221),new Vector2(430,80));
+            var reset=Panel("ResetDialog").transform;Title(reset,"ResetTitle","CLEAR THE LEDGER?");
+            Label("ResetExplanation",reset,"Clear delivery progress, seals and tutorial state.\nMusic, sound and haptic preferences are kept.\nThis cannot be undone.",new Vector2(0,78),new Vector2(840,152),26,Dark,TextAnchor.MiddleCenter);
+            Label("ResetStatus",reset,"",new Vector2(0,-68),new Vector2(840,128),25,Red,TextAnchor.MiddleCenter);
+            Button("CancelReset",reset,"BACK TO SETTINGS",new Vector2(-223,-221),new Vector2(430,80));
+            Button("ConfirmReset",reset,"CLEAR PROGRESS",new Vector2(223,-221),new Vector2(430,80),Red);
+            var intro=Panel("IntroPanel").transform;Title(intro,"IntroTitle","WELCOME TO THE DESK");
+            Label("IntroBody",intro,"You don't steer the letter — you program it.\n\nStamp your instructions on the route, then press Dispatch.",new Vector2(0,32),new Vector2(840,240),30,Dark,TextAnchor.MiddleCenter);
+            Button("GotIt",intro,"GOT IT",new Vector2(0,-221),new Vector2(430,80));
+            var handbook=Panel("HandbookPanel").transform;Title(handbook,"HandbookTitle","THE ROUTE HANDBOOK");
+            ScrollText(handbook,"HandbookBody","INSTRUCTION STAMPS\nLEFT / RIGHT: Turn 90 degrees. REVERSE: Turn back.\nWAIT: Pause one cycle. FAST: Next move one cycle. SLOW: Next move three cycles. JUMP: Cross a small marked gap.\n\nINK AND PARCELS\nSTANDARD executes once per visit. DOUBLE executes twice per visit. PERMANENT locks editing until Restart. Stamps remain on the sheet through a dispatch.\nFRAGILE: Avoid bumps. EXPRESS: Never wait. REGISTERED: Visit every checkpoint.\n\nPLANNING\nChoose a stamp, then tap a marked space. You can also drag a stamp onto the route. LIFT INK erases a non-permanent stamp. From chapter 4, choose INK to open the ink selector.\n\nTIMING AND SEALS\nA normal step takes two cycles. Gates show open phase / period. Dispatch runs your plan. Pause stops it. Review lets you adjust it.\nDelivered: Reach the mailbox. Efficient: Meet par stamp count. Perfect Route: Meet par and optimal distance.");
+            Button("Close",handbook,"BACK",new Vector2(0,-221),new Vector2(430,80));
         }
         static void Slider(Transform parent,string name,string caption,float y,float value)
         {
-            Label(name+"Caption",parent,caption,new Vector2(-252,y),new Vector2(370,64),28);
-            Label(name=="MusicVolume" ? "MusicValue" : "SoundValue",parent,Mathf.RoundToInt(value*100)+"%",new Vector2(421,y),new Vector2(85,64),25,Dark,TextAnchor.MiddleRight);
-            var rect=Rect(name,parent,new Vector2(140,y),new Vector2(430,64));var slider=rect.gameObject.AddComponent<UnityEngine.UI.Slider>();
-            var track=Image("Track",rect,Vector2.zero,new Vector2(410,10),new Color(.69f,.7f,.61f));track.raycastTarget=true;
-            var fillArea=Rect("Fill area",rect,Vector2.zero,new Vector2(390,10));
+            Label(name+"Caption",parent,caption,new Vector2(-252,y),new Vector2(360,64),25);
+            Label(name=="MusicVolume" ? "MusicValue" : "SoundValue",parent,Mathf.RoundToInt(value*100)+"%",new Vector2(392,y),new Vector2(80,64),24,Dark,TextAnchor.MiddleRight);
+            var rect=Rect(name,parent,new Vector2(174,y),new Vector2(320,80));var slider=rect.gameObject.AddComponent<UnityEngine.UI.Slider>();
+            var hit=Image("Slider hit area",rect,Vector2.zero,new Vector2(320,80),Color.clear);hit.raycastTarget=true;
+            Image("Track",rect,Vector2.zero,new Vector2(290,8),new Color(.69f,.7f,.61f));
+            var fillArea=Rect("Fill area",rect,Vector2.zero,new Vector2(270,8));
             var fill=Image("Fill",fillArea,Vector2.zero,Vector2.zero,Red);Full((RectTransform)fill.transform);
-            var handleArea=Rect("Handle area",rect,Vector2.zero,new Vector2(390,64));
-            var handle=Image("Handle",handleArea,Vector2.zero,new Vector2(36,56),Dark);handle.raycastTarget=true;
+            var handleArea=Rect("Handle area",rect,Vector2.zero,new Vector2(270,56));
+            // Slider stretches the handle vertically; zero sizeDelta avoids adding height twice.
+            var handle=Image("Handle",handleArea,Vector2.zero,new Vector2(40,0),Dark);handle.raycastTarget=true;
             slider.fillRect=(RectTransform)fill.transform;slider.handleRect=(RectTransform)handle.transform;slider.targetGraphic=handle;slider.value=value;
+        }
+        static void FinishScene(UnityEngine.SceneManagement.Scene scene,string name,string initial)
+        {
+            SaveNotice();ui.panels=panels.ToArray();foreach(var p in panels) p.SetActive(p.name==initial);
+            EditorSceneManager.SaveScene(scene,"Assets/Scenes/"+name+".unity");
         }
         static void MainDesk()
         {
             var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
             var root=Environment("MainDesk",out _,out _,out _);root.Find("Environment/RoutePaper").gameObject.SetActive(false);UI(root);
             var menu=Panel("MainMenu",false).transform;
-            Label("Masthead",menu,"POSTMARK\nPROTOCOL",new Vector2(-265,224),new Vector2(540,180),72,Cream);
-            Label("Tagline",menu,"Stamp the instructions. Send the route.",new Vector2(-270,98),new Vector2(530,64),26,Cream);
-            Label("Edition",menu,"AN OFFLINE PUZZLE IN 36 DELIVERIES",new Vector2(-260,358),new Vector2(550,40),20,new Color(.86f,.7f,.45f));
-            var start=Button("StartShift",menu,"",new Vector2(-257,-91),new Vector2(520,250),Cream);
-            start.transform.localRotation=Quaternion.Euler(0,0,-3);
-            Label("EnvelopeMicro",start.transform,"POSTAL SERVICE  /  OUTGOING",new Vector2(0,79),new Vector2(455,36),18,Muted);
-            Label("StartShiftLabel",start.transform,"START SHIFT  →",new Vector2(0,4),new Vector2(455,65),39,Dark);
-            Label("EnvelopeSub",start.transform,"Your next delivery is waiting.",new Vector2(0,-65),new Vector2(455,38),23,Muted);
-            Image("Envelope postage",start.transform,new Vector2(194,79),new Vector2(32,40),Red);
-            var ledger=Button("Ledger",menu,"",new Vector2(313,168),new Vector2(420,250),Dark);ledger.transform.localRotation=Quaternion.Euler(0,0,2);
-            Image("Ledger spine",ledger.transform,new Vector2(-180,0),new Vector2(6,220),new Color(.69f,.53f,.3f));
-            Label("LedgerFoil",ledger.transform,"DELIVERY RECORDS",new Vector2(12,68),new Vector2(340,42),18,new Color(.83f,.68f,.42f),TextAnchor.MiddleCenter);
-            Label("LedgerMenuLabel",ledger.transform,"LEVEL\nLEDGER",new Vector2(12,-8),new Vector2(340,130),44,Cream,TextAnchor.MiddleCenter);
-            Button("Handbook",menu,"THE HANDBOOK  ↗",new Vector2(316,-70),new Vector2(410,112),Cream,null,29);
-            Button("Settings",menu,"DESK SETTINGS",new Vector2(316,-220),new Vector2(410,88),Dark);
-            Label("ShiftProgress",menu,"0 / 36 DELIVERIES FILED",new Vector2(-255,-286),new Vector2(520,48),22,Cream);
-            Label("Footer",menu,"",new Vector2(0,-385),new Vector2(1060,42),18,new Color(.78f,.7f,.55f),TextAnchor.MiddleCenter);
-            var chapters=Panel("ChapterPanel").transform;
-            Label("ChapterTitle",chapters,"THE DELIVERY LEDGER",new Vector2(0,278),new Vector2(960,55),36);
+            Label("Masthead",menu,"POSTMARK\nPROTOCOL",new Vector2(-222,135),new Vector2(444,152),54,Cream);
+            Label("Tagline",menu,"Stamp the instructions. Send the route.",new Vector2(-215,24),new Vector2(430,64),24,Cream);
+            var start=Button("StartShift",menu,"START SHIFT  →",new Vector2(-217,-93),new Vector2(430,118),Cream,null,34);
+            Label("ShiftProgress",menu,"0 / 36 DELIVERIES FILED",new Vector2(-217,-190),new Vector2(430,44),23,Cream);
+            Button("Ledger",menu,"DELIVERY LEDGER",new Vector2(247,117),new Vector2(400,120),Dark,null,30);
+            Button("Handbook",menu,"THE HANDBOOK",new Vector2(247,-5),new Vector2(400,96),Cream,null,28);
+            Button("Settings",menu,"DESK SETTINGS",new Vector2(247,-115),new Vector2(400,96));
+            var chapters=Panel("ChapterPanel").transform;Title(chapters,"ChapterTitle","THE DELIVERY LEDGER");
             string[] names={"LOCAL ROUTE","EXPRESS DESK","RETURN OFFICE","INK LAB","PRIORITY SERVICE","NIGHT SHIFT"};
-            for(int i=0;i<6;i++) Button("Chapter_"+i,chapters,$"{i+1:00}   {names[i]}\nOPEN LEDGER  →",new Vector2(i%2==0 ? -245 : 245,150-(i/2)*151),new Vector2(450,120),i==5 ? Dark : Muted,"ChapterLabel_"+i,24);
-            Button("BackMain",chapters,"BACK TO DESK",new Vector2(0,-313),new Vector2(400,62));
-            var ledgerPanel=Panel("LevelLedger").transform;
-            Label("LedgerTitle",ledgerPanel,"CHAPTER 01 / LOCAL ROUTE",new Vector2(0,278),new Vector2(960,55),33);
-            for(int i=0;i<6;i++) Button("Level_"+i,ledgerPanel,$"{i+1:00}   DELIVERY\nAWAITING DISPATCH",new Vector2(0,188-i*80),new Vector2(954,67),i%2==0 ? Dark : Muted,"LevelLabel_"+i,21);
-            Button("BackChapters",ledgerPanel,"ALL CHAPTERS",new Vector2(0,-313),new Vector2(400,62));
-            CommonPanels();SaveNotice();ui.panels=panels.ToArray();foreach(var p in panels) p.SetActive(p.name=="MainMenu");
-            EditorSceneManager.SaveScene(scene,"Assets/Scenes/MainDesk.unity");
+            for(int i=0;i<6;i++) Button("Chapter_"+i,chapters,$"{i+1:00}   {names[i]}\nOPEN LEDGER",new Vector2(i%2==0 ? -223 : 223,108-(i/2)*96),new Vector2(430,88),i==5 ? Dark : Muted,"ChapterLabel_"+i,24);
+            Button("BackMain",chapters,"BACK TO DESK",new Vector2(0,-221),new Vector2(430,80));
+            var ledger=Panel("LevelLedger").transform;Title(ledger,"LedgerTitle","CHAPTER 01 / LOCAL ROUTE");
+            for(int i=0;i<6;i++) Button("Level_"+i,ledger,$"{i+1:00}   DELIVERY\nAWAITING DISPATCH",new Vector2(i%2==0 ? -223 : 223,108-(i/2)*96),new Vector2(430,88),i%2==0 ? Dark : Muted,"LevelLabel_"+i,21);
+            Button("BackChapters",ledger,"ALL CHAPTERS",new Vector2(0,-221),new Vector2(430,80));
+            CommonPanels();FinishScene(scene,"MainDesk","MainMenu");
         }
         static void GameplayScene()
         {
@@ -306,74 +305,80 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             var lid=Empty("Hinged lid",mailbox).transform;lid.localPosition=new Vector3(0,.38f,.37f);Shape("Lid",lid,new Vector3(0,0,-.37f),new Vector3(.91f,.07f,.85f),red);presentation.mailboxLid=lid;
             WorldText("Mailbox insignia",lid,"POST",new Vector3(0,.048f,-.37f),.038f,Cream);
             presentation.impactStamp=Stamp("ImpactStamp",Empty("Effects",root).transform,Vector3.zero);presentation.impactStamp.gameObject.SetActive(false);
-            presentation.deliveryImprint=WorldText("Delivered ink impression",root.Find("Effects"),"DELIVERED",Vector3.zero,.35f,Red).transform;presentation.deliveryImprint.gameObject.SetActive(false);
+            presentation.deliveryImprint=WorldText("Delivered ink impression",root.Find("Effects"),"DELIVERED",Vector3.zero,.13f,Red).transform;presentation.deliveryImprint.gameObject.SetActive(false);
             presentation.gameCamera=camera;presentation.deskLight=light;presentation.dayDesk=wood;presentation.nightDesk=night;presentation.deskRenderer=desk;
             var hud=Panel("GameHUD",false).transform;
-            var top=Image("TopHUD",hud,new Vector2(0,-64),new Vector2(0,126),Dark);var topRect=(RectTransform)top.transform;topRect.anchorMin=new Vector2(0,1);topRect.anchorMax=new Vector2(1,1);topRect.offsetMin=new Vector2(24,-140);topRect.offsetMax=new Vector2(-24,-16);
-            var chapterLabel=Label("ChapterName",top.transform,"LOCAL ROUTE",new Vector2(32,-23),new Vector2(700,32),19,new Color(.82f,.68f,.44f));AnchorLeftTop((RectTransform)chapterLabel.transform);
-            var title=Label("LevelTitle",top.transform,"01 / FIRST DISPATCH",new Vector2(32,-70),new Vector2(720,56),32,Cream);AnchorLeftTop((RectTransform)title.transform);
-            var pause=Button("Pause",top.transform,"PAUSE",new Vector2(-90,0),new Vector2(136,70),Cream);AnchorRight((RectTransform)pause.transform);
-            var tray=Image("CommandTray",hud,new Vector2(-144,-7),new Vector2(240,580),Dark);AnchorRight((RectTransform)tray.transform);
-            Label("TrayTitle",tray.transform,"INSTRUCTION\nSTAMPS",new Vector2(0,238),new Vector2(208,70),25,Cream,TextAnchor.MiddleCenter);
-            string[] commands={"Left","Right","Wait","Reverse","Fast","Slow","Jump"};string[] marks={"↰","↱","Ⅱ","↶",">>","~","^"};
+            var top=Image("TopHUD",hud,Vector2.zero,Vector2.zero,Dark);var tr=(RectTransform)top.transform;Full(tr);tr.anchorMin=new Vector2(0,1);tr.offsetMin=new Vector2(12,-94);tr.offsetMax=new Vector2(-12,-10);
+            AnchorLeftTop(Label("ChapterName",top.transform,"LOCAL ROUTE",new Vector2(20,-19),new Vector2(620,26),20,new Color(.82f,.68f,.44f)).rectTransform);
+            AnchorLeftTop(Label("LevelTitle",top.transform,"01 / FIRST CLASS",new Vector2(20,-56),new Vector2(620,42),28,Cream).rectTransform);
+            var pause=Button("Pause",top.transform,"PAUSE",new Vector2(-74,0),new Vector2(136,80),Cream);AnchorRight((RectTransform)pause.transform);
+            var tray=Image("CommandTray",hud,new Vector2(-172,0),new Vector2(320,336),Dark);AnchorRight((RectTransform)tray.transform);
+            string[] commands={"Left","Right","Wait","Reverse","Fast","Slow","Jump"};
             for(int i=0;i<7;i++)
             {
-                var button=Button("Stamp_"+commands[i],tray.transform,marks[i]+"   "+commands[i].ToUpperInvariant(),new Vector2(0,155-i*55),new Vector2(206,52),Muted,null,23);
+                var button=Button("Stamp_"+commands[i],tray.transform,commands[i].ToUpperInvariant(),new Vector2(i%2==0 ? -78 : 78,126-(i/2)*84),new Vector2(148,80),Muted,null,23);
                 var drag=button.gameObject.AddComponent<StampDrag>();drag.command=commands[i];
-                if(i==1) { var outline=button.gameObject.AddComponent<Outline>();outline.effectColor=new Color(.93f,.7f,.28f);outline.effectDistance=new Vector2(4,4); }
+                if(i==1) { var outline=button.gameObject.AddComponent<Outline>();outline.effectColor=new Color(.93f,.7f,.28f);outline.effectDistance=new Vector2(3,3); }
             }
-            Button("Erase",tray.transform,"LIFT INK",new Vector2(0,-246),new Vector2(206,52),Cream,null,22);
-            var footer=Image("Planning slip",hud,new Vector2(0,68),new Vector2(0,125),Cream);var footerRect=(RectTransform)footer.transform;footerRect.anchorMin=new Vector2(0,0);footerRect.anchorMax=new Vector2(1,0);footerRect.offsetMin=new Vector2(24,18);footerRect.offsetMax=new Vector2(-286,145);
-            var count=Label("StampCount",footer.transform,"0 / 3 STAMPS • PAR 1",new Vector2(20,-25),new Vector2(600,35),21);AnchorLeftTop((RectTransform)count.transform);
-            var selection=Label("SelectionLabel",footer.transform,"RIGHT / STANDARD",new Vector2(20,-65),new Vector2(700,35),23);AnchorLeftTop((RectTransform)selection.transform);
-            var clock=Label("RouteClock",footer.transform,"READY TO DISPATCH",new Vector2(20,-102),new Vector2(700,28),19,Muted);AnchorLeftTop((RectTransform)clock.transform);
-            var dispatch=Button("Dispatch",hud,"DISPATCH\n↓",new Vector2(-144,83),new Vector2(240,126),Red,null,31);var dr=(RectTransform)dispatch.transform;dr.anchorMin=dr.anchorMax=new Vector2(1,0);
-            var dispatchOutline=dispatch.gameObject.AddComponent<Outline>();dispatchOutline.effectColor=new Color(.93f,.7f,.28f);dispatchOutline.effectDistance=new Vector2(4,4);dispatchOutline.enabled=false;
-            var lesson=Label("Lesson",hud,"Pick up the Turn Right stamp.",new Vector2(-135,-274),new Vector2(760,44),22,Cream,TextAnchor.MiddleCenter);
-            var parcel=Label("ParcelLabel",hud,"STANDARD MAIL",new Vector2(-135,250),new Vector2(450,45),22,Dark,TextAnchor.MiddleCenter);
-            var inkControls=Rect("InkPads",hud,new Vector2(-152,-220),new Vector2(600,60));
-            Button("InkStandard",inkControls,"1 STANDARD",new Vector2(-196,0),new Vector2(184,55),Dark,null,20);
-            Button("InkDouble",inkControls,"×2 DOUBLE",Vector2.zero,new Vector2(184,55),Red,null,20);
-            Button("InkPermanent",inkControls,"LOCK INK",new Vector2(196,0),new Vector2(184,55),Muted,null,20);
-            var pausePanel=Panel("PausePanel").transform;
-            Image("Clipboard clip",pausePanel,new Vector2(0,370),new Vector2(200,48),Muted);
-            Label("PauseTitle",pausePanel,"ROUTE ON HOLD",new Vector2(0,278),new Vector2(960,55),36);
-            Button("Resume",pausePanel,"RESUME ROUTE",new Vector2(0,144),new Vector2(720,80));
-            Button("Restart",pausePanel,"RESTART DELIVERY",new Vector2(0,42),new Vector2(720,80));
-            Button("Handbook",pausePanel,"INSTRUCTIONS",new Vector2(-184,-61),new Vector2(350,80));
-            Button("Settings",pausePanel,"SETTINGS",new Vector2(184,-61),new Vector2(350,80));
-            Button("Desk",pausePanel,"RETURN TO DESK",new Vector2(0,-164),new Vector2(720,80),Red);
+            Button("Erase",tray.transform,"LIFT INK",new Vector2(78,-126),new Vector2(148,80),Cream,null,22);
+            var footer=Image("Planning slip",hud,Vector2.zero,Vector2.zero,Cream);var fr=(RectTransform)footer.transform;Full(fr);fr.anchorMax=new Vector2(1,0);fr.offsetMin=new Vector2(12,10);fr.offsetMax=new Vector2(-344,94);
+            AnchorLeftTop(Label("StampCount",footer.transform,"0 / 3 STAMPS / PAR 1",new Vector2(12,-16),new Vector2(560,26),20).rectTransform);
+            AnchorLeftTop(Label("SelectionLabel",footer.transform,"RIGHT / STANDARD",new Vector2(12,-42),new Vector2(560,26),21).rectTransform);
+            AnchorLeftTop(Label("RouteClock",footer.transform,"READY TO DISPATCH",new Vector2(12,-68),new Vector2(560,26),20,Muted).rectTransform);
+            var dispatch=Button("Dispatch",hud,"DISPATCH",new Vector2(-224,52),new Vector2(208,84),Red,null,27);var dr=(RectTransform)dispatch.transform;dr.anchorMin=dr.anchorMax=new Vector2(1,0);
+            var outlineDispatch=dispatch.gameObject.AddComponent<Outline>();outlineDispatch.effectColor=new Color(.93f,.7f,.28f);outlineDispatch.effectDistance=new Vector2(3,3);outlineDispatch.enabled=false;
+            var chooseInk=Button("ChooseInk",hud,"INK",new Vector2(-62,52),new Vector2(100,84),Dark,null,24);var ir=(RectTransform)chooseInk.transform;ir.anchorMin=ir.anchorMax=new Vector2(1,0);
+            var board=Rect("BoardArea",hud,Vector2.zero,Vector2.zero);Full(board);board.offsetMin=new Vector2(22,169);board.offsetMax=new Vector2(-354,-129);presentation.boardArea=board;
+            var hitSurface=board.gameObject.AddComponent<Image>();hitSurface.color=Color.clear;hitSurface.raycastTarget=true;
+            board.gameObject.AddComponent<RouteBoardInput>().route=presentation;
+            var lessonBand=Image("Lesson band",hud,Vector2.zero,Vector2.zero,Dark).rectTransform;Full(lessonBand);lessonBand.anchorMax=new Vector2(1,0);lessonBand.offsetMin=new Vector2(12,98);lessonBand.offsetMax=new Vector2(-344,164);
+            var lesson=Label("Lesson",lessonBand,"Pick up the Turn Right stamp.",Vector2.zero,Vector2.zero,22,Cream,TextAnchor.MiddleCenter).rectTransform;Full(lesson,5);
+            var parcelBand=Image("Parcel band",hud,Vector2.zero,Vector2.zero,Dark).rectTransform;Full(parcelBand);parcelBand.anchorMin=new Vector2(0,1);parcelBand.offsetMin=new Vector2(12,-125);parcelBand.offsetMax=new Vector2(-344,-95);
+            var parcel=Label("ParcelLabel",parcelBand,"STANDARD MAIL",Vector2.zero,Vector2.zero,20,Cream,TextAnchor.MiddleCenter).rectTransform;Full(parcel);
+            var inkPanel=Panel("InkPanel").transform;Title(inkPanel,"InkTitle","CHOOSE YOUR INK");
+            Label("InkHelp",inkPanel,"Standard: once per visit. Double: twice per visit.\nPermanent: locked against editing until Restart.",new Vector2(0,93),new Vector2(864,106),27,Dark,TextAnchor.MiddleCenter);
+            Button("InkStandard",inkPanel,"STANDARD",new Vector2(-292,-30),new Vector2(280,100),Dark);
+            Button("InkDouble",inkPanel,"DOUBLE",new Vector2(0,-30),new Vector2(280,100),Red);
+            Button("InkPermanent",inkPanel,"PERMANENT",new Vector2(292,-30),new Vector2(280,100),Muted);
+            Button("CancelInk",inkPanel,"BACK TO ROUTE",new Vector2(0,-221),new Vector2(430,80));
+            var pausePanel=Panel("PausePanel").transform;Title(pausePanel,"PauseTitle","ROUTE ON HOLD");
+            Button("Resume",pausePanel,"RESUME ROUTE",new Vector2(0,110),new Vector2(864,84));
+            Button("Restart",pausePanel,"RESTART DELIVERY",new Vector2(-223,16),new Vector2(430,84));
+            Button("Handbook",pausePanel,"INSTRUCTIONS",new Vector2(223,16),new Vector2(430,84));
+            Button("Settings",pausePanel,"SETTINGS",new Vector2(-223,-78),new Vector2(430,84));
+            Button("Desk",pausePanel,"RETURN TO DESK",new Vector2(223,-78),new Vector2(430,84),Red);
             var success=Panel("SuccessPanel").transform;
-            Label("ResultTitle",success,"DELIVERED",new Vector2(0,204),new Vector2(940,105),72,Red,TextAnchor.MiddleCenter);
-            Label("ResultReason",success,"Another letter, safely home.",new Vector2(0,115),new Vector2(930,70),27,Dark,TextAnchor.MiddleCenter);
-            ui.rewardSeals=new GameObject[3];
-            string[] sealNames={"DELIVERED","EFFICIENT","PERFECT\nROUTE"};
+            Label("ResultTitle",success,"DELIVERED",new Vector2(0,193),new Vector2(864,64),46,Red,TextAnchor.MiddleCenter);
+            Label("ResultReason",success,"Another letter, safely home.",new Vector2(0,128),new Vector2(864,62),25,Dark,TextAnchor.MiddleCenter);
+            ui.rewardSeals=new GameObject[3];string[] sealNames={"DELIVERED","EFFICIENT","PERFECT\nROUTE"};
             for(int i=0;i<3;i++)
             {
-                var seal=Image("Postal seal "+i,success,new Vector2((i-1)*294,-14),new Vector2(268,128),i==2 ? Dark : Red);
-                Image("Seal paper center",seal.transform,Vector2.zero,new Vector2(256,116),Cream);
-                Label("Seal legend "+i,seal.transform,sealNames[i],Vector2.zero,new Vector2(230,100),28,i==2 ? Dark : Red,TextAnchor.MiddleCenter);
-                seal.transform.localRotation=Quaternion.Euler(0,0,i==0 ? -5 : i==1 ? 3 : -2);ui.rewardSeals[i]=seal.gameObject;
+                var seal=Image("Postal seal "+i,success,new Vector2((i-1)*284,27),new Vector2(256,100),i==2 ? Dark : Red);
+                Image("Seal paper center",seal.transform,Vector2.zero,new Vector2(246,90),Cream);
+                Label("Seal legend "+i,seal.transform,sealNames[i],Vector2.zero,new Vector2(232,78),25,i==2 ? Dark : Red,TextAnchor.MiddleCenter);
+                ui.rewardSeals[i]=seal.gameObject;
             }
-            Label("ResultDetails",success,"",new Vector2(0,-129),new Vector2(940,52),25,Muted,TextAnchor.MiddleCenter);
-            Button("Next",success,"NEXT DELIVERY  →",new Vector2(0,-218),new Vector2(720,76),Red,"NextLabel");
-            Button("Review",success,"REPLAY ROUTE",new Vector2(-231,-313),new Vector2(436,62));Button("Desk",success,"RETURN TO DESK",new Vector2(231,-313),new Vector2(436,62));
-            var failure=Panel("FailurePanel").transform;
-            Label("FailureTitle",failure,"RETURNED",new Vector2(0,180),new Vector2(940,116),72,Red,TextAnchor.MiddleCenter);
-            Label("FailureReason",failure,"Route blocked.",new Vector2(0,49),new Vector2(890,110),32,Dark,TextAnchor.MiddleCenter);
-            Label("FailureAdvice",failure,"Every route can be corrected. Your stamps are still on the sheet.",new Vector2(0,-66),new Vector2(890,90),27,Muted,TextAnchor.MiddleCenter);
-            Button("TryAgain",failure,"TRY AGAIN",new Vector2(-235,-214),new Vector2(440,80),Red);
-            Button("Review",failure,"REVIEW ROUTE",new Vector2(235,-214),new Vector2(440,80));
-            Button("Desk",failure,"RETURN TO DESK",new Vector2(0,-313),new Vector2(420,62));
+            Label("ResultDetails",success,"",new Vector2(0,-61),new Vector2(864,42),23,Muted,TextAnchor.MiddleCenter);
+            Button("Next",success,"NEXT DELIVERY",new Vector2(0,-133),new Vector2(864,80),Red,"NextLabel");
+            Button("Review",success,"REPLAY ROUTE",new Vector2(-223,-221),new Vector2(430,80));
+            Button("Desk",success,"RETURN TO DESK",new Vector2(223,-221),new Vector2(430,80));
+            var failure=Panel("FailurePanel").transform;Title(failure,"FailureTitle","RETURNED");
+            Label("FailureReason",failure,"Route blocked.",new Vector2(0,98),new Vector2(864,102),30,Red,TextAnchor.MiddleCenter);
+            Label("FailureAdvice",failure,"Every route can be corrected. Your stamps are still on the sheet.",new Vector2(0,-8),new Vector2(864,100),26,Muted,TextAnchor.MiddleCenter);
+            Button("TryAgain",failure,"TRY AGAIN",new Vector2(-223,-133),new Vector2(430,80),Red);
+            Button("Review",failure,"REVIEW ROUTE",new Vector2(223,-133),new Vector2(430,80));
+            Button("Desk",failure,"RETURN TO DESK",new Vector2(0,-221),new Vector2(430,80));
             CommonPanels();
-            var ghost=Image("Physical stamp drag",safe,Vector2.zero,new Vector2(154,126),Dark);var sh=ghost.gameObject.AddComponent<Shadow>();sh.effectDistance=new Vector2(14,-22);sh.effectColor=new Color(0,0,0,.45f);
-            Image("Wood grip",ghost.transform,new Vector2(0,35),new Vector2(92,27),new Color(.43f,.27f,.15f));
-            Label("GhostLabel",ghost.transform,"RIGHT",new Vector2(0,-10),new Vector2(145,62),25,Cream,TextAnchor.MiddleCenter);ui.stampGhost=(RectTransform)ghost.transform;ghost.gameObject.SetActive(false);
-            SaveNotice();ui.panels=panels.ToArray();foreach(var p in panels) p.SetActive(p.name=="GameHUD");
-            EditorSceneManager.SaveScene(scene,"Assets/Scenes/Gameplay.unity");
+            var ghost=Image("Physical stamp drag",safe,Vector2.zero,new Vector2(116,100),Dark);
+            Label("GhostLabel",ghost.transform,"RIGHT",Vector2.zero,new Vector2(112,68),22,Cream,TextAnchor.MiddleCenter);ui.stampGhost=(RectTransform)ghost.transform;ghost.gameObject.SetActive(false);
+            FinishScene(scene,"Gameplay","GameHUD");
         }
         static void AnchorLeftTop(RectTransform rect) { rect.anchorMin=rect.anchorMax=new Vector2(0,1);rect.pivot=new Vector2(0,.5f); }
         static void AnchorRight(RectTransform rect) { rect.anchorMin=rect.anchorMax=new Vector2(1,.5f); }
-        static void SaveNotice() { var label=Label("SaveNotice",safe,"",new Vector2(0,12),new Vector2(1000,32),20,Red,TextAnchor.MiddleCenter);var r=(RectTransform)label.transform;r.anchorMin=r.anchorMax=new Vector2(.5f,0); }
+        static void SaveNotice()
+        {
+            var label=Label("SaveNotice",safe,"",new Vector2(0,15),new Vector2(880,28),20,Red,TextAnchor.MiddleCenter);
+            var r=(RectTransform)label.transform;r.anchorMin=r.anchorMax=new Vector2(.5f,0);
+        }
     }
 }

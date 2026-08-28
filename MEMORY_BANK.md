@@ -1,11 +1,28 @@
 # Postmark Protocol — project memory
 
+## Current policy-review status - 2026-08-28
+
+- Latest user request removed Privacy Policy and Support buttons, panels and runtime external actions from both MainDesk and Gameplay Settings. Reset Progress is centered above Close Settings. No Credits UI was restored; first-launch introduction remains.
+- [Policy remediation](I:/UnityProject/PostmarkProtocol/Assets/Documentation/POLICY_REMEDIATION.md) retains disabled Engine Diagnostics/automatic analytics, reset error/retry handling and responsive UI fixes. Public privacy/support URLs and contact are still missing, and accessible in-app information is unresolved again. AppInformation remains release configuration only; filling it does not restore the removed UI. No publisher identity was invented.
+- Earlier remediation evidence: 68/68 NUnit tests (job 8d8a9dbaa53c); a zero-finding planning-layout sweep at four resolutions plus four representative deliveries. Latest removal checks are in QA/Settings-Removal-Verification.md: both Settings flows passed, refreshed phone/iPad images, 0 compilation errors/warnings. The follow-up broad sweep retained two unexpected-resolution bounds findings; targeted fixed-size rechecks passed, and its report remains FAIL honestly. The original SESSION_QA_REPORT is historical; its three layout findings were superseded by the new sweep, not rewritten as a new full live run.
+- Fresh RGB candidate screenshots: QA/StoreCandidates, with exact iPhone/iPad dimensions and manifest. Metadata copy/review notes updated; nothing uploaded or published.
+- Main UI uses 960x540 fitted to safe area, two-column commands, and an INK selector from chapter 4. Main UI controls were at least 47.3 simulated logical points on the smallest tested phone; route spaces accept nearby taps.
+- Physical tests, iOS export/builds, signing and Apple account login remain excluded by the user. No final-binary/network privacy certification or account-policy clearance is claimed.
+
+## Repository handoff - 2026-08-28
+
+- Repository: https://github.com/mhnmughal/postmark-protocol.git; working branch `main`, upstream `origin/main`. The user explicitly requested this memory update, a commit and a push of the accumulated policy/UI work.
+- Preserve the latest Settings design: music, sound effects, haptics, centered Reset Progress and Close Settings. Do not restore Privacy Policy, Support or Credits without a new user request. Both saved scenes and the SceneAuthoring recipe match this design.
+- Current screenshot candidates are in `QA/StoreCandidates`, with exact dimensions and SHA-256 hashes in `manifest.json`. Older Privacy/Support screenshots in `QA/Screens` are historical evidence, not the current app UI or upload recommendations.
+- ReleaseCompliance still rejects missing public privacy/support configuration. Populating AppInformation is not full submission clearance and does not restore in-app access. The access gap and excluded release checks remain open.
+- Latest completed Unity checks are recorded in `QA/Settings-Removal-Verification.md`; the wider follow-up report retains its two findings. Do not convert those findings into a blanket PASS. The last verification left Unity out of Play Mode with MainDesk saved and clean.
+
 ## Project identity
 - Game: Postmark Protocol. Tagline: Stamp the instructions. Send the route.
 - Tactile offline 2.5D programming puzzle; iPhone/iPad first, Android-compatible architecture.
 - Landscape left/right. Bundle ID `com.rehmanmughal.postmarkprotocol`.
 - Namespace `RehmanMughal.PostmarkProtocol`; Unity 6000.3.19f1.
-- Fresh Unity 2D URP template inspected 2026-08-26. No existing game implementation or Git repository found. No repository initialized.
+- Fresh Unity 2D URP template inspected 2026-08-26; no existing game implementation or Git repository was present at that initial inspection. Git was subsequently configured; see the current repository handoff above.
 
 ## MCP setup and verification
 - Existing package `com.anklebreaker.unity-mcp`, plugin 2.39.5, discovered project `I:/UnityProject/PostmarkProtocol`, port 7890.

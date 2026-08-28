@@ -1,5 +1,7 @@
 # Network audit
 
+> **Current configuration, 2026-08-28:** EngineDiagnosticsSettings.enabled, its default-build value, and PlayerSettings.submitAnalytics were verified false after remediation. Insights, Analytics/Ads initialization, cloud crash and performance reporting are disabled. No active custom build-profile override exists. Privacy/Support UI and runtime URL/email actions were subsequently removed by request. These are configuration/source findings, not final-binary or packet-capture certification. See [POLICY_REMEDIATION.md](I:/UnityProject/PostmarkProtocol/Assets/Documentation/POLICY_REMEDIATION.md); historical export evidence below remains excluded from current validation.
+
 Date: 2026-08-26. Status: static game-source audit clear at this snapshot; final compiled-artifact and offline-device checks pending.
 
 ## Game runtime

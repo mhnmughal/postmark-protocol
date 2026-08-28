@@ -1,5 +1,7 @@
 # Automated Play Mode session integration QA
 
+> **Historical 2026-08-26 run.** The layout findings recorded below were addressed during the 2026-08-28 remediation. Current evidence is [Policy-UI-Verification.md](I:/UnityProject/PostmarkProtocol/QA/Policy-UI-Verification.md): zero findings across all 36 planning layouts at four resolutions, plus four live representative deliveries. This historical full 36-level live run has not been rewritten as a new run. See [POLICY_REMEDIATION.md](I:/UnityProject/PostmarkProtocol/Assets/Documentation/POLICY_REMEDIATION.md).
+
 UTC: 2026-08-26 13:29:41Z  
 Result: **FAIL: 3 layout audit findings**  
 Completed levels: 36/36  

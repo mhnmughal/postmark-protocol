@@ -22,6 +22,7 @@ namespace RehmanMughal.PostmarkProtocol.UI
         public Material dayDesk;
         public Material nightDesk;
         public Renderer deskRenderer;
+        public RectTransform boardArea;
         public SceneUI ui;
         public LevelDefinition level { get; private set; }
         public PlanState plan { get; private set; }
@@ -31,6 +32,9 @@ namespace RehmanMughal.PostmarkProtocol.UI
         private Coroutine simulation;
         private Coroutine impact;
         private Vector3 cameraRest;
+        private Rect lastBoardRect;
+        private Vector2 lastScreenSize;
+        private readonly Vector3[] boardCorners = new Vector3[4];
         private const float CellSize=1.03f;
         private static readonly Color Paper=new Color(.87f,.82f,.68f), Slot=new Color(.74f,.79f,.68f), InkColor=new Color(.63f,.23f,.16f);
         public Vector3 World(Vector2Int cell) => routeRoot.position + new Vector3((cell.x-(level.width-1)*.5f)*CellSize,.04f,(cell.y-(level.height-1)*.5f)*CellSize);
@@ -65,6 +69,28 @@ namespace RehmanMughal.PostmarkProtocol.UI
             if(deskRenderer!=null) deskRenderer.sharedMaterial=level.night ? nightDesk : dayDesk;
             ResetParcel();
             RefreshStamps();
+            FitBoard();
+        }
+        private void LateUpdate()
+        {
+            if(boardArea!=null && level!=null && (lastScreenSize!=new Vector2(Screen.width,Screen.height) || lastBoardRect!=boardArea.rect)) FitBoard();
+        }
+        private void FitBoard()
+        {
+            if(boardArea==null || level==null || Screen.width==0 || Screen.height==0) return;
+            Canvas.ForceUpdateCanvases();
+            boardArea.GetWorldCorners(boardCorners);
+            var area=Rect.MinMaxRect(boardCorners[0].x/Screen.width,boardCorners[0].y/Screen.height,boardCorners[2].x/Screen.width,boardCorners[2].y/Screen.height);
+            if(area.width<=0 || area.height<=0) return;
+            var bounds=new Bounds(gameCamera.transform.InverseTransformPoint(World(level.start)),Vector3.zero);
+            foreach(var cell in level.route.Concat(level.gaps))
+                foreach(var offset in new[]{new Vector3(-.72f,0,-.72f),new Vector3(.72f,.8f,.72f),new Vector3(-.72f,.8f,.72f),new Vector3(.72f,0,-.72f)})
+                    bounds.Encapsulate(gameCamera.transform.InverseTransformPoint(World(cell)+offset));
+            gameCamera.orthographicSize=Mathf.Max(bounds.size.y/(2*area.height),bounds.size.x/(2*gameCamera.aspect*area.width));
+            var desired=new Vector2((area.center.x-.5f)*2*gameCamera.orthographicSize*gameCamera.aspect,(area.center.y-.5f)*2*gameCamera.orthographicSize);
+            gameCamera.transform.position+=gameCamera.transform.right*(bounds.center.x-desired.x)+gameCamera.transform.up*(bounds.center.y-desired.y);
+            cameraRest=gameCamera.transform.position;
+            lastBoardRect=boardArea.rect;lastScreenSize=new Vector2(Screen.width,Screen.height);
         }
         private void ResetParcel()
         {
@@ -132,6 +158,19 @@ namespace RehmanMughal.PostmarkProtocol.UI
         }
         public bool TryPoint(Vector2 screen,out Vector2Int cell)
         {
+            cell=default;
+            if(boardArea!=null && !RectTransformUtility.RectangleContainsScreenPoint(boardArea,screen)) return false;
+            // Keep small projected route spaces tappable. Overlapping hit regions resolve to the nearest center.
+            float radius=40f*(boardArea!=null ? boardArea.GetComponentInParent<Canvas>().scaleFactor : 1f);
+            float nearest=float.MaxValue;
+            foreach(var slot in level.slots)
+            {
+                Vector2 point=gameCamera.WorldToScreenPoint(World(slot.position));
+                Vector2 delta=point-screen;
+                if(Mathf.Abs(delta.x)<=radius && Mathf.Abs(delta.y)<=radius && delta.sqrMagnitude<nearest)
+                { nearest=delta.sqrMagnitude;cell=slot.position; }
+            }
+            if(nearest<float.MaxValue) return true;
             if(Physics.Raycast(gameCamera.ScreenPointToRay(screen),out var hit,100))
             {
                 var tile=hit.collider.GetComponentInParent<RouteCell>();

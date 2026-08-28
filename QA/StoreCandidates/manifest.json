@@ -1,0 +1,58 @@
+[
+  {
+    "File": "ipad-level1-2732x2048.png",
+    "Width": 2732,
+    "Height": 2048,
+    "PngColorType": 2,
+    "SHA256": "C1366ABC934099D00F8753AC2F2854606767EAED72C50C042B85458463F82E19"
+  },
+  {
+    "File": "ipad-level36-2732x2048.png",
+    "Width": 2732,
+    "Height": 2048,
+    "PngColorType": 2,
+    "SHA256": "EE289A16EE2427ED14D396E2C343A9115875BDB9DF906991A2D3C63868D23E03"
+  },
+  {
+    "File": "ipad-MainMenu-2732x2048.png",
+    "Width": 2732,
+    "Height": 2048,
+    "PngColorType": 2,
+    "SHA256": "BF700EEBC8C2518E1D48C49FC5FD4AA422A769AB8EFAF1705A1B7388C8951B48"
+  },
+  {
+    "File": "ipad-settings-2732x2048.png",
+    "Width": 2732,
+    "Height": 2048,
+    "PngColorType": 2,
+    "SHA256": "017FA0B8EFD5C8DEA3E8B4CFC2A6FA4BDDAAB35ECC4982936F1AFF62005C8B85"
+  },
+  {
+    "File": "iphone-level1-2778x1284.png",
+    "Width": 2778,
+    "Height": 1284,
+    "PngColorType": 2,
+    "SHA256": "C85738C1F3B29A9AEF9BA02B083243D471834405DF86FA53E4110AEF0EB47CA9"
+  },
+  {
+    "File": "iphone-level36-2778x1284.png",
+    "Width": 2778,
+    "Height": 1284,
+    "PngColorType": 2,
+    "SHA256": "B2AA3B66D52F75F9C791896CDD51836A11E1CD84DFC54A723CC56537293389AE"
+  },
+  {
+    "File": "iphone-MainMenu-2778x1284.png",
+    "Width": 2778,
+    "Height": 1284,
+    "PngColorType": 2,
+    "SHA256": "E079610A1266F879B4521CB0002FB423C8B1907E010C9FD9A006C80CD871EA81"
+  },
+  {
+    "File": "iphone-settings-2778x1284.png",
+    "Width": 2778,
+    "Height": 1284,
+    "PngColorType": 2,
+    "SHA256": "925E3379AE1EDE188CBEDAFBBFE85D65CA13511103A4E16FD7F1286AA3E9E160"
+  }
+]

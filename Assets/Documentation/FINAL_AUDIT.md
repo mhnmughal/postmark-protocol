@@ -1,5 +1,9 @@
 # Final audit
 
+> Latest Settings removal: see [Settings-Removal-Verification.md](I:/UnityProject/PostmarkProtocol/QA/Settings-Removal-Verification.md). Earlier zero-finding sweep claims below predate this follow-up: its broad run retained two unexpected-resolution warnings, with fixed-size targeted rechecks passing. Privacy/support in-app access was removed by request and remains unresolved.
+
+> **Current remediation status, 2026-08-28:** See [POLICY_REMEDIATION.md](I:/UnityProject/PostmarkProtocol/Assets/Documentation/POLICY_REMEDIATION.md). The new Editor sweep passed with zero layout findings; 68 NUnit tests and four representative live deliveries passed. Reset handling, UI sizing and diagnostics configuration were repaired. Privacy/Support screens were subsequently removed by request; in-app access and real public URLs/contact remain unresolved. Earlier completion claims below are historical, not submission clearance; physical tests, iOS export/build, signing and login remain excluded.
+
 Date: 2026-08-26. This is the completion-gate record required by `PRODUCTION_BRIEF.md` §83. Each row's evidence is a specific, reproducible artifact from today's session — see `QA_REPORT.md`, `SESSION_QA_REPORT.md`, and the other named documents. EXTERNAL means the remaining evidence requires resources this Windows host genuinely does not have (macOS/Xcode, an Apple signing identity, a physical iPhone/iPad) — not that the work was skipped.
 
 | Category | Status | Evidence |

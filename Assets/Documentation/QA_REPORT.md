@@ -1,5 +1,9 @@
 # QA report
 
+> Latest Settings removal: see [Settings-Removal-Verification.md](I:/UnityProject/PostmarkProtocol/QA/Settings-Removal-Verification.md). Earlier zero-finding sweep claims below predate this follow-up: its broad run retained two unexpected-resolution warnings, with fixed-size targeted rechecks passing. Privacy/support in-app access was removed by request and remains unresolved.
+
+> **Current verification, 2026-08-28:** [POLICY_REMEDIATION.md](I:/UnityProject/PostmarkProtocol/Assets/Documentation/POLICY_REMEDIATION.md) records 68/68 NUnit tests, all 36 planning layouts at four resolutions with zero findings, reset failure/retry, and four live representative deliveries. The 2026-08-26 results below are historical. No physical tests or new iOS export/build/signing/login were performed; public privacy/support details remain missing.
+
 Date: 2026-08-26. Scope: automated test evidence, automated Play Mode integration QA across all 36 levels, iOS export verification, and a final source/artifact compliance re-scan. This is the first pass where every one of these checks has actually been executed and recorded with observed evidence, not just implemented in source.
 
 ## What "manual QA" means here

@@ -5,7 +5,7 @@
 3. Never create buttons that do nothing.
 4. Never create fake settings.
 5. Investigate compiler warnings caused by project code.
-6. No runtime network functionality.
+6. No runtime game networking. Privacy/Support controls and external browser/mail actions were removed at the user's request.
 7. No analytics.
 8. No advertisements.
 9. No tracking.

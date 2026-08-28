@@ -32,21 +32,35 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         }
         public static string LayoutAudit()
         {
+            foreach(var safe in UnityEngine.Object.FindObjectsByType<RehmanMughal.PostmarkProtocol.UI.SafeArea>(FindObjectsSortMode.None)) safe.Apply();
             Canvas.ForceUpdateCanvases();
             var failures=new System.Collections.Generic.List<string>();
             foreach(var label in UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None))
             {
                 if(string.IsNullOrWhiteSpace(label.text)) continue;
-                // Text.preferredHeight reports the size needed at the authored max font size, not the shrunk
-                // size Best Fit actually renders at, so it always looks like an overflow for Best Fit labels
-                // even though Best Fit guarantees the rendered text fits its box (down to resizeTextMinSize).
-                if(!label.resizeTextForBestFit)
+                // Scroll content intentionally extends beyond its clipped viewport.
+                if(label.GetComponentInParent<ScrollRect>()!=null) continue;
+                float preferred=label.preferredHeight;
+                if(label.resizeTextForBestFit)
                 {
-                    float preferred=label.preferredHeight;
-                    if(preferred>label.rectTransform.rect.height+1) failures.Add(label.name+" text height "+preferred+" > "+label.rectTransform.rect.height);
+                    var settings=label.GetGenerationSettings(label.rectTransform.rect.size);
+                    settings.resizeTextForBestFit=false;
+                    settings.fontSize=label.cachedTextGenerator.fontSizeUsedForBestFit;
+                    preferred=label.cachedTextGeneratorForLayout.GetPreferredHeight(label.text,settings)/label.pixelsPerUnit;
                 }
+                if(preferred>label.rectTransform.rect.height+1) failures.Add(label.name+" text height "+preferred+" > "+label.rectTransform.rect.height);
                 var corners=new Vector3[4];label.rectTransform.GetWorldCorners(corners);
                 if(corners.Any(p=>p.x < -1 || p.y < -1 || p.x > Screen.width+1 || p.y > Screen.height+1)) failures.Add(label.name+" outside screen");
+            }
+            foreach(var control in UnityEngine.Object.FindObjectsByType<Selectable>(FindObjectsSortMode.None))
+            {
+                var corners=new Vector3[4];((RectTransform)control.transform).GetWorldCorners(corners);
+                if(corners.Any(p=>p.x < -1 || p.y < -1 || p.x > Screen.width+1 || p.y > Screen.height+1)) failures.Add(control.name+" control outside screen");
+                if(control is Slider slider && slider.handleRect!=null)
+                {
+                    var handleCorners=new Vector3[4];slider.handleRect.GetWorldCorners(handleCorners);
+                    if(handleCorners[0].y<corners[0].y-1 || handleCorners[2].y>corners[2].y+1) failures.Add(control.name+" handle extends outside its hit area");
+                }
             }
             string result=$"{Screen.width}x{Screen.height}: "+(failures.Count==0 ? "PASS text extents and screen bounds" : string.Join("; ",failures));
             Directory.CreateDirectory("QA");File.AppendAllText("QA/LayoutAudit.txt",DateTime.Now.ToString("s")+" "+result+Environment.NewLine);
