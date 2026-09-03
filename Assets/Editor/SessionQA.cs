@@ -8,6 +8,7 @@ using System.Text;
 using UnityEditor;
 using Unity.Profiling;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using RehmanMughal.PostmarkProtocol.Gameplay;
@@ -46,6 +47,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         public static bool Running => routine != null;
         private static string ReportPath = "Assets/Documentation/SESSION_QA_REPORT.md";
         private static bool layoutReview;
+        private static bool sliderReview;
         private static readonly List<string> LayoutResults = new List<string>();
 
         static SessionQA()
@@ -62,7 +64,9 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         { BeginInternal(false); }
         public static void BeginLayoutReview()
         { BeginInternal(true); }
-        private static void BeginInternal(bool review)
+        public static void BeginSliderReview()
+        { BeginInternal(false,true); }
+        private static void BeginInternal(bool review,bool sliders=false)
         {
             if (!EditorApplication.isPlaying) throw new InvalidOperationException("Enter Play Mode before invoking SessionQA.Begin().");
             if (Running) throw new InvalidOperationException("Session QA is already running.");
@@ -82,7 +86,8 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             LayoutFailures.Clear();
             LayoutResults.Clear();
             layoutReview=review;
-            ReportPath=review ? "QA/Policy-UI-Verification.md" : "Assets/Documentation/SESSION_QA_REPORT.md";
+            sliderReview=sliders;
+            ReportPath=sliders ? "QA/Slider-Verification.md" : review ? "QA/Policy-UI-Verification.md" : "Assets/Documentation/SESSION_QA_REPORT.md";
             completed = 0;
             mainSum = mainMax = gcSum = gcMax = drawSum = drawMax = 0;
             frameSum = frameMax = 0;
@@ -98,7 +103,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             started = EditorApplication.timeSinceStartup;
             Status = "Starting isolated authored-UI session.";
             Application.logMessageReceived += CaptureError;
-            routine = review ? LayoutSweep() : Run();
+            routine = sliders ? SliderSweep() : review ? LayoutSweep() : Run();
             EditorApplication.update += Tick;
             Debug.Log("POSTMARK SESSION QA STARTED: isolated save=" + qaPath);
         }
@@ -171,6 +176,79 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             string result = VisualQA.LayoutAudit();
             LayoutResults.Add(context+": "+result);
             if (!result.Contains(": PASS ")) LayoutFailures.Add(context + ": " + result);
+        }
+        private static IEnumerator SliderSweep()
+        {
+            foreach(var size in new[]{new Vector2Int(1136,640),new Vector2Int(2778,1284),new Vector2Int(2732,2048)})
+            foreach(var scene in new[]{"MainDesk","Gameplay"})
+            {
+                Status="Slider checks "+scene+" "+size;
+                VisualQA.Resolution(size.x,size.y);
+                yield return Until(()=>Screen.width==size.x && Screen.height==size.y,"Slider resolution",20);
+                SaveService.Current.musicVolume=.9436195f;
+                SaveService.Current.soundVolume=.7557976f;
+                SceneManager.LoadScene(scene);
+                yield return Until(()=>UI!=null && (UI.route==null)==(scene=="MainDesk"),"Slider scene",20);
+                yield return Delay(.4);
+                UI.Show(scene=="MainDesk" ? "MainMenu" : "PausePanel");Click("Settings");
+                yield return Delay(.3);
+                AudioAuthoring.ValidatePlayback();
+                Check(Math.Abs(SaveService.Current.musicVolume-.94f)<.0001f && Math.Abs(SaveService.Current.soundVolume-.76f)<.0001f,"Legacy fractional settings not aligned to displayed percent");
+                foreach(var slider in UI.GetComponentsInChildren<Slider>())
+                {
+                    var track=(RectTransform)slider.transform.Find("Track");
+                    foreach(int percent in new[]{0,1,25,50,76,94,99,100})
+                    {
+                        // Tap the generous hit area above the visible thumb, then drag to the same X.
+                        var position=(Vector2)track.TransformPoint(new Vector3(Mathf.Lerp(track.rect.xMin,track.rect.xMax,percent/100f),32,0));
+                        var pointer=new PointerEventData(EventSystem.current){position=position,button=PointerEventData.InputButton.Left};
+                        var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(pointer,hits);
+                        Check(hits.Count>0 && hits[0].gameObject.GetComponentInParent<Slider>()==slider,"Slider hit area missed");
+                        pointer.pointerPressRaycast=hits[0];pointer.pointerCurrentRaycast=hits[0];
+                        slider.OnPointerDown(pointer);CheckSlider(slider,percent);
+                        pointer.position=(Vector2)track.TransformPoint(new Vector3(Mathf.Lerp(track.rect.xMin,track.rect.xMax,(100-percent)/100f),32,0));
+                        slider.OnDrag(pointer);CheckSlider(slider,100-percent);
+                        pointer.position=(Vector2)track.TransformPoint(new Vector3(track.rect.xMin-80,32,0));
+                        slider.OnDrag(pointer);CheckSlider(slider,0);
+                        pointer.position=(Vector2)track.TransformPoint(new Vector3(track.rect.xMax+80,32,0));
+                        slider.OnDrag(pointer);CheckSlider(slider,100);
+                        slider.OnPointerUp(pointer);
+                    }
+                }
+                UI.GetComponentsInChildren<Slider>().Single(s=>s.name=="MusicVolume").value=94;
+                UI.GetComponentsInChildren<Slider>().Single(s=>s.name=="SoundVolume").value=76;
+                Click("Close");
+                var disk=ReadDisk();
+                Check(Math.Abs(disk.Data.musicVolume-.94f)<.0001f && Math.Abs(disk.Data.soundVolume-.76f)<.0001f,"Slider values not persisted");
+                RepositoryField.SetValue(null,disk);
+                SceneManager.LoadScene(scene);
+                yield return Until(()=>UI!=null && (UI.route==null)==(scene=="MainDesk"),"Slider reload",20);
+                yield return Delay(.4);UI.Show(scene=="MainDesk" ? "MainMenu" : "PausePanel");Click("Settings");yield return Delay(.3);
+                CheckSlider(UI.GetComponentsInChildren<Slider>().Single(s=>s.name=="MusicVolume"),94);
+                CheckSlider(UI.GetComponentsInChildren<Slider>().Single(s=>s.name=="SoundVolume"),76);
+                Check(Screen.width==size.x && Screen.height==size.y,"Game View changed during slider checks");
+                Audit(scene+" sliders");
+                if(scene=="MainDesk") { VisualQA.Capture("slider-settings-"+size.x+"x"+size.y);yield return Delay(.4); }
+                LayoutResults.Add(scene+" "+size+": tap/drag, endpoint clamping, track/fill/thumb alignment, labels, independent mixer buses, legacy settings and file reload PASS");
+                completed++;
+            }
+        }
+        private static void CheckSlider(Slider slider,int percent)
+        {
+            Check(slider.value==percent && Math.Abs(slider.normalizedValue-percent/100f)<.0001f,"Slider percent mismatch");
+            var track=(RectTransform)slider.transform.Find("Track");
+            float left=track.TransformPoint(new Vector3(track.rect.xMin,0,0)).x;
+            float right=track.TransformPoint(new Vector3(track.rect.xMax,0,0)).x;
+            float expected=Mathf.Lerp(left,right,percent/100f);
+            var corners=new Vector3[4];slider.fillRect.GetWorldCorners(corners);
+            Check(Math.Abs(corners[0].x-left)<.1f && Math.Abs(corners[3].x-expected)<.1f,"Fill does not match visible track percent");
+            Check(Math.Abs(slider.handleRect.TransformPoint(slider.handleRect.rect.center).x-expected)<.1f,"Thumb does not match visible track percent");
+            bool music=slider.name=="MusicVolume";
+            Check(UI.GetComponentsInChildren<Text>().Single(t=>t.name==(music ? "MusicValue" : "SoundValue")).text==percent+"%","Slider label mismatch");
+            Check(Math.Abs((music ? SaveService.Current.musicVolume : SaveService.Current.soundVolume)-percent/100f)<.0001f,"Saved volume mismatch");
+            var mixer=UnityEngine.Object.FindAnyObjectByType<AudioService>().mixer;
+            foreach(var key in new[]{"MusicVolume","SFXVolume","UIVolume"})
+                Check(mixer.GetFloat(key,out var db) && Math.Abs(db-AudioService.Decibels(key=="MusicVolume" ? SaveService.Current.musicVolume : SaveService.Current.soundVolume))<.01f,"Mixer mismatch: "+key);
         }
         private static IEnumerator LayoutSweep()
         {
@@ -292,8 +370,8 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             Check(Panel("SettingsPanel"), "Settings did not open.");
             Audit("Settings");
             var sliders = UI.GetComponentsInChildren<Slider>(true);
-            sliders.Single(s => s.name == "MusicVolume").value = 0.21f;
-            sliders.Single(s => s.name == "SoundVolume").value = 0.37f;
+            sliders.Single(s => s.name == "MusicVolume").normalizedValue = 0.21f;
+            sliders.Single(s => s.name == "SoundVolume").normalizedValue = 0.37f;
             UI.GetComponentsInChildren<Toggle>(true).Single().isOn = false;
             Click("ResetProgress");
             Check(Panel("ResetDialog"), "Reset confirmation missing.");
@@ -433,7 +511,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             PostalApplication.SelectedLevel = originalSelectedLevel;
             Application.runInBackground = originalRunInBackground;
             AudioService.ApplySettings();
-            Status = result + "; " + completed + (layoutReview ? "/4 representative deliveries" : "/36 levels") + "; original user save restored; report=" + ReportPath;
+            Status = result + "; " + completed + (sliderReview ? "/6 slider scene/resolution checks" : layoutReview ? "/4 representative deliveries" : "/36 levels") + "; original user save restored; report=" + ReportPath;
             WriteReport(result);
             if (returnToDesk && EditorApplication.isPlaying) SceneManager.LoadScene("MainDesk");
             Debug.Log("POSTMARK SESSION QA " + Status);
@@ -441,6 +519,11 @@ namespace RehmanMughal.PostmarkProtocol.Editor
 
         private static void WriteReport(string result)
         {
+            if(sliderReview)
+            {
+                File.WriteAllText(ReportPath,"# Audio slider verification\n\nUTC: "+DateTime.UtcNow.ToString("u")+"\n\nResult: **"+result+"**; "+completed+"/6 scene/resolution checks.\n\nNative Unity pointer-event checks in Editor Play Mode, not physical touch or subjective listening. Both sliders: 0, 1, 25, 50, 76, 94, 99 and 100 percent; taps, reverse drags, out-of-range clamping, matching track/fill/handle/label/save/mixer values, independent Music/SFX/UI buses, old fractional settings, file reload, real audio-source playback and layout checks. Original user repository restored at completion. No iOS build/export or signing.\n\n"+string.Join("\n",LayoutResults.Select(s=>"- "+s))+"\n");
+                return;
+            }
             if(layoutReview)
             {
                 File.WriteAllText(ReportPath,"# Policy UI verification\n\nUTC: "+DateTime.UtcNow.ToString("u")+"\n\nResult: **"+result+"**\n\nEditor-only checks; no physical testing, iOS build/export, signing or login. All 36 levels receive planning-layout checks at four measured resolutions. Four representative deliveries use live presentation, authored controls, seal checks and isolated file saves. Settings button/panel removal, reset write failure and retry are exercised. User save is restored at completion.\n\nLayout findings: "+LayoutFailures.Count+". Live deliveries completed: "+completed+"/4.\n\n"+string.Join("\n",LayoutResults.Select(s=>"- "+s))+"\n");

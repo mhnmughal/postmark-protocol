@@ -258,13 +258,14 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             Label(name=="MusicVolume" ? "MusicValue" : "SoundValue",parent,Mathf.RoundToInt(value*100)+"%",new Vector2(392,y),new Vector2(80,64),24,Dark,TextAnchor.MiddleRight);
             var rect=Rect(name,parent,new Vector2(174,y),new Vector2(320,80));var slider=rect.gameObject.AddComponent<UnityEngine.UI.Slider>();
             var hit=Image("Slider hit area",rect,Vector2.zero,new Vector2(320,80),Color.clear);hit.raycastTarget=true;
-            Image("Track",rect,Vector2.zero,new Vector2(290,8),new Color(.69f,.7f,.61f));
+            Image("Track",rect,Vector2.zero,new Vector2(270,8),new Color(.69f,.7f,.61f));
             var fillArea=Rect("Fill area",rect,Vector2.zero,new Vector2(270,8));
             var fill=Image("Fill",fillArea,Vector2.zero,Vector2.zero,Red);Full((RectTransform)fill.transform);
             var handleArea=Rect("Handle area",rect,Vector2.zero,new Vector2(270,56));
             // Slider stretches the handle vertically; zero sizeDelta avoids adding height twice.
             var handle=Image("Handle",handleArea,Vector2.zero,new Vector2(40,0),Dark);handle.raycastTarget=true;
-            slider.fillRect=(RectTransform)fill.transform;slider.handleRect=(RectTransform)handle.transform;slider.targetGraphic=handle;slider.value=value;
+            slider.fillRect=(RectTransform)fill.transform;slider.handleRect=(RectTransform)handle.transform;slider.targetGraphic=handle;
+            slider.maxValue=100;slider.wholeNumbers=true;slider.value=Mathf.RoundToInt(value*100);
         }
         static void FinishScene(UnityEngine.SceneManagement.Scene scene,string name,string initial)
         {

@@ -43,12 +43,14 @@ namespace RehmanMughal.PostmarkProtocol.UI
             foreach (var slider in GetComponentsInChildren<Slider>(true))
             {
                 bool music = slider.name == "MusicVolume";
-                slider.SetValueWithoutNotify(music ? SaveService.Current.musicVolume : SaveService.Current.soundVolume);
+                slider.SetValueWithoutNotify(Mathf.RoundToInt((music ? SaveService.Current.musicVolume : SaveService.Current.soundVolume)*100));
+                // Older saves used fractional percentages; keep the mixer and displayed whole percent identical.
+                if (music) SaveService.Current.musicVolume = slider.normalizedValue; else SaveService.Current.soundVolume = slider.normalizedValue;
                 slider.onValueChanged.AddListener(value =>
                 {
-                    if (music) SaveService.Current.musicVolume = value; else SaveService.Current.soundVolume = value;
+                    if (music) SaveService.Current.musicVolume = slider.normalizedValue; else SaveService.Current.soundVolume = slider.normalizedValue;
                     AudioService.ApplySettings();
-                    SetText(music ? "MusicValue" : "SoundValue", Mathf.RoundToInt(value * 100) + "%");
+                    SetText(music ? "MusicValue" : "SoundValue", Mathf.RoundToInt(value) + "%");
                 });
             }
             var toggle = GetComponentsInChildren<Toggle>(true).FirstOrDefault();

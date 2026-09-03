@@ -28,11 +28,11 @@ Audit date: 2026-08-26. This file records observed configuration, not a claim of
 
 ## Package and network audit
 
-Manifest audit found no ad SDK, Firebase, remote-config service, web-view SDK, or third-party tracking framework. Eighteen unused template/network packages were removed through Package Manager and verified absent from manifest and lockfile. Eight unreferenced template assets were moved to OS trash, including the URP settings. See PACKAGE_AUDIT.md for exact removals and retained engine/Editor dependency rationale. This is not yet a final stripped-player package PASS.
+Manifest audit found no ad SDK, Firebase, remote-config service, web-view SDK, or third-party tracking framework. The original 53 direct dependencies were reduced to 9 through Unity Package Manager. Eight unreferenced template assets were also removed, including the URP settings. See PACKAGE_AUDIT.md for exact retained dependencies and removal rationale.
 
-Retain dependencies actually used by the game: Input System, UGUI, Unity Test Framework, necessary built-in engine modules, and AnkleBreaker MCP for development. Production rendering uses built-in forward; URP, rendering core, and Shader Graph are removed. Both AnkleBreaker assembly definitions explicitly restrict compilation to `Editor`, so its development HTTP bridge is not a player runtime network dependency. Its Editor news/devlog features require the retained core/texture UnityWebRequest modules. No network action should be added to runtime gameplay. See NETWORK_AUDIT.md.
+Retained dependencies are Input System, UGUI, Unity Test Framework, audio, JSON serialization, 3D physics, image/screenshot tooling and AnkleBreaker MCP for development. Production rendering uses built-in forward; URP, rendering core and Shader Graph are absent. Both AnkleBreaker assembly definitions restrict compilation to `Editor`, so its development bridge is not a player runtime feature. UnityWebRequest modules are absent from the resolved package set. No network action should be added to runtime gameplay. See NETWORK_AUDIT.md.
 
-Source scan at this audit time found no matches in Assets C# for `UnityWebRequest`, `HttpClient`, `System.Net`, sockets, Firebase, analytics, remote config, advertisements, web views, or `Application.OpenURL`. Runtime code was still under active development, so rerun this scan on final sources and inspect the exported player before declaring the final offline audit passed. Presence of a built-in web-request module is not evidence of a call, but remove unused modules where dependency resolution allows.
+Source inspection found no matches in Assets C# for `UnityWebRequest`, `HttpClient`, `System.Net`, sockets, Firebase, analytics, remote config, advertisements, web views or `Application.OpenURL`. The resolved manifest and lockfile contain no UnityWebRequest module.
 
 ## Build and release gates
 

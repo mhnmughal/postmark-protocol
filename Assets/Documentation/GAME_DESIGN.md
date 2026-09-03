@@ -55,7 +55,7 @@ Failure returns the parcel with a contextual explanation: off-route travel, clos
 
 ## Navigation, feedback and settings
 
-The authored interface includes Main Desk, chapter selection, level ledger, gameplay HUD, pause, settings, handbook, credits, reset confirmation and success/failure panels. Mouse and touch support both tap-to-place and drag/drop without keyboard dependency. Pause stops dispatch animation; panels animate using unscaled time. The route uses moving/turning/jumping parcel feedback, a mailbox lid/delivery animation, stamp impact, a small camera impulse, local sound and optional haptics.
+The authored interface includes Main Desk, chapter selection, level ledger, gameplay HUD, pause, settings, handbook, reset confirmation and success/failure panels. Mouse and touch support both tap-to-place and drag/drop without keyboard dependency. Pause stops dispatch animation; panels animate using unscaled time. The route uses moving/turning/jumping parcel feedback, a mailbox lid/delivery animation, stamp impact, a small camera impulse, local sound and optional haptics.
 
 Music, effects and haptic controls change real systems and persist locally. Reset Progress asks for confirmation and retains those preferences. Safe-area anchors and landscape scaling support different screen shapes; physical iPhone/iPad readability, controls and performance remain explicit QA gates, not assumptions based on responsive code.
 

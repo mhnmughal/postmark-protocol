@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: RehmanMughal
+  companyName: heromughalsoft
   productName: Postmark Protocol
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -169,7 +169,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.rehmanmughal.postmarkprotocol
     Standalone: com.DefaultCompany.2D-URP
-    iPhone: com.rehmanmughal.postmarkprotocol
+    iPhone: com.heromughalsoft.PostmarkProtocol
   buildNumber:
     Standalone: 0
     VisionOS: 0

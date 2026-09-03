@@ -1,8 +1,32 @@
 # Postmark Protocol — project memory
 
+## App Store policy and metadata scan - 2026-09-03
+
+- `Assets/Documentation/APP_STORE_METADATA.md` is the current US English listing draft. Recommended subtitle: `Postal Route Logic Puzzles`; primary category: Games; Games subcategories: Puzzle and Strategy; leave the optional secondary app category blank.
+- The recommended promotional text is 143 characters, description is 1,716 characters, subtitle is 26 characters and keyword set is 91 ASCII bytes. Five paired subtitle/keyword options are documented, and the customer-facing metadata contains no em dash.
+- Source-aligned claims are limited to the implemented 36 levels, six chapters, seven commands, three inks, four parcel rules, postal seals, handbook, local save, offline play, and current audio/haptics controls.
+- `Assets/Documentation/APPLE_POLICY_AUDIT.md` is the current source and configuration scan. No hidden feature, deceptive commerce, review manipulation, tracking, advertising, account, runtime request, or source-level spam signal was found.
+- ReleaseCompliance currently reports one issue: configure a real HTTPS privacy policy URL and a support URL/email. AppInformation has empty privacy/support fields, and the current app has no easily accessible in-app privacy link. These are assigned to the later App Store submission phase; the current metadata and project-policy scan are complete.
+- Unity services, engine diagnostics, analytics submission and crash reporting are disabled in current settings. Recheck service flags and dependencies before completing App Store Connect privacy answers.
+- Guideline 5.6 account conduct cannot be verified from the repository. The publisher must maintain truthful account identity/contact, respectful review replies, honest discovery practices and responsive support.
+
+## Package cleanup - 2026-09-03
+
+- Unity Package Manager reduced the project from 35 remaining direct dependencies to 9, completing the earlier cleanup from the original 53. Current direct roots: AnkleBreaker MCP, Input System, UGUI, Test Framework, Audio, JSON Serialize, Physics, Image Conversion and Screen Capture.
+- NUnit, IMGUI, UI, UIElements and HierarchyCore remain only as dependency-resolved transitive packages. Do not add them back as direct manifest entries.
+- Rider/Visual Studio integrations and unused Accessibility API, Adaptive Performance, AI, Android JNI, Animation API, AssetBundle, Cloth, Director, Particle System, Physics 2D, Terrain, Terrain Physics, Tilemap, Umbra, UnityWebRequest, UnityWebRequestTexture, Vector Graphics, Vehicles, VR, Wind and XR direct roots were removed through Package Manager.
+- Production assets/scenes were unchanged by this cleanup. `Assets/Documentation/PACKAGE_AUDIT.md` is the current dependency rationale. Package resolution completed, AnkleBreaker remained connected, and CompilationPipeline reported 0 errors/warnings.
+
+## Audio slider accuracy - 2026-08-28
+
+- Music and Sound Effects now use native Unity Slider values 0-100 in whole 1% steps; save data and mixer inputs remain normalized 0-1. Older fractional settings are rounded to the displayed percent when SceneUI initializes, so label, handle and actual mixer input agree.
+- Visible track, fill area and handle travel now share the same 270-unit endpoints in MainDesk, Gameplay and the authoring recipe. The previous track was 290 units while fill/handle travel was only 270. The existing 320x80 touch area remains unchanged.
+- `SessionQA.BeginSliderReview()` reuses the isolated save fixture. `QA/Slider-Verification.md` passed all six scene/resolution combinations: both scenes at 1136x640, 2778x1284 and 2732x2048. Native tap/drag checks cover endpoints, intermediate percentages, clamping, labels, geometry, independent Music/SFX/UI mixer values, legacy settings and file reload. No physical touch or subjective loudness claim.
+- Current Settings screenshot candidates and their hash manifest were refreshed. The user's repository was restored after QA. Regression suite: 68/68 NUnit tests passed (job 8fd6b8e50dbc), with 0 compilation errors/warnings. Privacy/Support/Credits remain removed; no iOS export/build or signing was performed.
+
 ## Current policy-review status - 2026-08-28
 
-- Latest user request removed Privacy Policy and Support buttons, panels and runtime external actions from both MainDesk and Gameplay Settings. Reset Progress is centered above Close Settings. No Credits UI was restored; first-launch introduction remains.
+- The earlier user request removed Privacy Policy and Support buttons, panels and runtime external actions from both MainDesk and Gameplay Settings. Reset Progress is centered above Close Settings. No Credits UI was restored; first-launch introduction remains.
 - [Policy remediation](I:/UnityProject/PostmarkProtocol/Assets/Documentation/POLICY_REMEDIATION.md) retains disabled Engine Diagnostics/automatic analytics, reset error/retry handling and responsive UI fixes. Public privacy/support URLs and contact are still missing, and accessible in-app information is unresolved again. AppInformation remains release configuration only; filling it does not restore the removed UI. No publisher identity was invented.
 - Earlier remediation evidence: 68/68 NUnit tests (job 8d8a9dbaa53c); a zero-finding planning-layout sweep at four resolutions plus four representative deliveries. Latest removal checks are in QA/Settings-Removal-Verification.md: both Settings flows passed, refreshed phone/iPad images, 0 compilation errors/warnings. The follow-up broad sweep retained two unexpected-resolution bounds findings; targeted fixed-size rechecks passed, and its report remains FAIL honestly. The original SESSION_QA_REPORT is historical; its three layout findings were superseded by the new sweep, not rewritten as a new full live run.
 - Fresh RGB candidate screenshots: QA/StoreCandidates, with exact iPhone/iPad dimensions and manifest. Metadata copy/review notes updated; nothing uploaded or published.
@@ -20,7 +44,7 @@
 ## Project identity
 - Game: Postmark Protocol. Tagline: Stamp the instructions. Send the route.
 - Tactile offline 2.5D programming puzzle; iPhone/iPad first, Android-compatible architecture.
-- Landscape left/right. Bundle ID `com.rehmanmughal.postmarkprotocol`.
+- Landscape left/right. Current iOS bundle ID `com.heromughalsoft.PostmarkProtocol`.
 - Namespace `RehmanMughal.PostmarkProtocol`; Unity 6000.3.19f1.
 - Fresh Unity 2D URP template inspected 2026-08-26; no existing game implementation or Git repository was present at that initial inspection. Git was subsequently configured; see the current repository handoff above.
 

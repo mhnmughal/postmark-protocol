@@ -2011,3 +2011,9 @@
 2026-08-28T15:38:49 2778x1284: PASS text extents and screen bounds
 2026-08-28T15:38:49 2778x1284: CloseLabel outside screen; Close control outside screen
 2026-08-28T15:39:26 2778x1284: PASS text extents and screen bounds
+2026-08-28T16:00:32 1136x640: PASS text extents and screen bounds
+2026-08-28T16:00:34 1136x640: PASS text extents and screen bounds
+2026-08-28T16:00:35 2778x1284: PASS text extents and screen bounds
+2026-08-28T16:00:37 2778x1284: PASS text extents and screen bounds
+2026-08-28T16:00:39 2732x2048: PASS text extents and screen bounds
+2026-08-28T16:00:41 2732x2048: PASS text extents and screen bounds
