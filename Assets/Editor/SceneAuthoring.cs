@@ -12,7 +12,7 @@ using RehmanMughal.PostmarkProtocol.Levels;
 
 namespace RehmanMughal.PostmarkProtocol.Editor
 {
-    // Edit-mode authoring recipe, invoked through AnkleBreaker MCP. Nothing here enters a player build.
+    // Edit-mode authoring recipe, run from this menu or the C# Editor console. Nothing here enters a player build.
     public static class SceneAuthoring
     {
         static readonly Color Cream=new Color(.94f,.89f,.76f), Dark=new Color(.12f,.22f,.21f), Red=new Color(.64f,.23f,.16f), Muted=new Color(.39f,.43f,.36f);

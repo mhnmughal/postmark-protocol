@@ -2,15 +2,17 @@
 
 Updated: 2026-09-03. Scope: direct Unity Package Manager dependencies and current project/tooling references.
 
+> **Update, 2026-09-12:** `com.anklebreaker.unity-mcp` was removed from the manifest at the user's explicit request, now that the AI-assisted development phase using it is finished. It was always Editor-only development tooling, absent from every exported build already (see `NETWORK_AUDIT.md`), so this changes nothing about the shipped game; it only drops the project down to 8 direct dependencies. The row below is left in place as a historical record of what this package audit found at the time.
+
 ## Result
 
-The project now has **9 direct dependencies**, reduced from the original 53. Unity Package Manager resolved the manifest and lockfile. AnkleBreaker remains operational and Unity reports no current compilation errors or warnings.
+The project had **9 direct dependencies** at the time of this audit, reduced from the original 53. Unity Package Manager resolved the manifest and lockfile. AnkleBreaker was operational at the time and Unity reported no compilation errors or warnings.
 
-### Retained direct dependencies
+### Retained direct dependencies (at the time of this audit; see the 2026-09-12 update above)
 
 | Package | Current use |
 |---|---|
-| `com.anklebreaker.unity-mcp` | Required Editor integration; its assemblies are Editor-only |
+| `com.anklebreaker.unity-mcp` | Removed 2026-09-12. Was required Editor integration; its assemblies were Editor-only |
 | `com.unity.inputsystem` | Authored EventSystem and touch/mouse input |
 | `com.unity.ugui` | Production UI, controls and EventSystem components |
 | `com.unity.modules.audio` | AudioSource, AudioClip and AudioMixer runtime |
@@ -37,4 +39,4 @@ No production asset or scene was removed in this package pass. The retained pack
 
 ## Current dependency boundary
 
-`Packages/manifest.json` and `Packages/packages-lock.json` are the canonical dependency records. The manifest contains no advertising, analytics, multiplayer, cloud, remote-configuration or runtime-network package. Game runtime source contains no network API call site. AnkleBreaker remains development tooling only.
+`Packages/manifest.json` and `Packages/packages-lock.json` are the canonical dependency records. The manifest contains no advertising, analytics, multiplayer, cloud, remote-configuration or runtime-network package. Game runtime source contains no network API call site. AnkleBreaker was development tooling only and has since been removed entirely (2026-09-12).

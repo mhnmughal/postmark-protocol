@@ -1,5 +1,7 @@
 # Network audit
 
+> **Update, 2026-09-12:** `com.anklebreaker.unity-mcp` (the "Editor-only networking" analyzed below) was removed from the project entirely at the user's request. The section below is kept as a historical record of why its presence was never a compliance concern; it no longer describes the current package set. Privacy Policy and Support access were also restored to Settings on this date, superseding the note below about that removal.
+
 > **Current configuration, 2026-08-28:** EngineDiagnosticsSettings.enabled, its default-build value, and PlayerSettings.submitAnalytics were verified false after remediation. Insights, Analytics/Ads initialization, cloud crash and performance reporting are disabled. No active custom build-profile override exists. Privacy/Support UI and runtime URL/email actions were subsequently removed by request. These are configuration/source findings, not final-binary or packet-capture certification. See [POLICY_REMEDIATION.md](I:/UnityProject/PostmarkProtocol/Documentation/POLICY_REMEDIATION.md); historical export evidence below remains excluded from current validation.
 
 Date: 2026-08-26. Status: static game-source audit clear at this snapshot; final compiled-artifact and offline-device checks pending.
