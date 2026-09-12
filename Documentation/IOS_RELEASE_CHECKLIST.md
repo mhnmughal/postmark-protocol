@@ -2,6 +2,8 @@
 
 Audit date: 2026-08-26. This file records observed configuration, not a claim of App Store approval or completed physical-device QA. Update build/test rows with the actual final integration evidence.
 
+> **Update, 2026-09-12:** Orientation changed at the user's explicit request. The Orientation row below (Autorotation, landscape left/right) is historical and no longer current. `defaultScreenOrientation` is now 3, fixed LandscapeRight; the game no longer rotates between the two landscape directions, and stays in one fixed landscape orientation regardless of how the device is physically held. This is a deliberate deviation from the original design, recorded per AI_RULES #2; see `MEMORY_BANK.md` for the full decision record. Company/bundle values below are also historical; the current bundle identifier is `com.heromughalsoft.PostmarkProtocol` (see `ProjectSettings/ProjectSettings.asset`).
+
 ## Verified project configuration
 
 | Item | Observed value | Evidence |
