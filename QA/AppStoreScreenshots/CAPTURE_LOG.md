@@ -1,10 +1,10 @@
 # App Store screenshot capture log
 
-UTC: 2026-09-12 08:25:49Z  
+UTC: 2026-09-12 10:19:02Z  
 Result: **PASS**  
 Captured: 8/8
 
-Captured from the live authored UI in an isolated Play Mode session (real menu, real level geometry, real settings panel), not composited or edited. Test save: `C:/Users/mhn13/AppData/Local/Temp/heromughalsoft/Postmark Protocol\SessionQA-20260912-082540-5ee1fd4e\save.json`.
+Captured from the live authored UI in an isolated Play Mode session (real menu, real level geometry, real settings panel), not composited or edited. Test save: `C:/Users/mhn13/AppData/Local/Temp/heromughalsoft/Postmark Protocol\SessionQA-20260912-101854-d13a5b46\save.json`.
 
 | Folder | Device size | Source |
 | --- | --- | --- |

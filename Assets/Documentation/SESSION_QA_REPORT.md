@@ -1,15 +1,13 @@
 # Automated Play Mode session integration QA
 
-> **Historical 2026-08-26 run.** The layout findings recorded below were addressed during the 2026-08-28 remediation. Current evidence is [Policy-UI-Verification.md](I:/UnityProject/PostmarkProtocol/QA/Policy-UI-Verification.md): zero findings across all 36 planning layouts at four resolutions, plus four live representative deliveries. This historical full 36-level live run has not been rewritten as a new run. See [POLICY_REMEDIATION.md](I:/UnityProject/PostmarkProtocol/Assets/Documentation/POLICY_REMEDIATION.md).
-
-UTC: 2026-08-26 13:29:41Z  
-Result: **FAIL: 3 layout audit findings**  
+UTC: 2026-09-12 10:17:43Z  
+Result: **FAIL: 1 layout audit findings**  
 Completed levels: 36/36  
-Elapsed: 832.0 seconds
+Elapsed: 829.8 seconds
 
 This is automated Editor Play Mode integration, **not manual playtesting**, physical touch testing, visual QA, an OS relaunch, or iOS device QA. The runner invokes authored Button listeners, SceneUI placement, live RoutePresentation animation, and the local save repository. No direct core-simulator-only result is accepted.
 
-The user save is isolated by an Editor-only repository swap and restored at termination. Test save: `C:/Users/mhn13/AppData/Local/Temp/RehmanMughal/Postmark Protocol\SessionQA-20260826-131549-7d4882cc\save.json`. Each persisted record is independently read from disk.
+The user save is isolated by an Editor-only repository swap and restored at termination. Test save: `C:/Users/mhn13/AppData/Local/Temp/heromughalsoft/Postmark Protocol\SessionQA-20260912-100353-0c7cf36d\save.json`. Each persisted record is independently read from disk.
 
 | Level | Empty-plan return | Restart/review | Known solution | Pause/resume | Replay | Seals/file save | Next/menu/ledger |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -56,18 +54,16 @@ Successful full completion additionally checks settings controls and file persis
 
 Planning and delivered screenshots are saved under `QA/Playthrough/level-XX-planning.png` and `level-XX-delivered.png`. Active text extents and screen bounds are audited on menus and every level's planning, pause, returned and delivered screens. Full audit output is in `QA/LayoutAudit.txt`.
 
-Layout findings: 3.
-- Level 1 delivered: 1278x1044: Panel running header outside screen
-- Level 2 planning: 1278x1044: Stamp_SlowLabel outside screen; DispatchLabel outside screen; Stamp_WaitLabel outside screen; TrayTitle outside screen; EraseLabel outside screen; Stamp_LeftLabel outside screen; Stamp_FastLabel outside screen; Stamp_JumpLabel outside screen; Stamp_RightLabel outside screen; PauseLabel outside screen; Stamp_ReverseLabel outside screen
-- Level 34 delivered: 1278x1044: Panel running header outside screen
+Layout findings: 1.
+- Intro: 941x954: IntroTitle outside screen; Panel running header outside screen; GotItLabel outside screen; IntroBody outside screen; GotIt control outside screen
 
 ## Editor profiling during live delivery
 
-Target frame rate: 60. Samples: 45673. Real-time simulation at scale 1; paused frames excluded. These measurements include Editor and QA overhead and do **not** establish iPhone/iPad performance.
+Target frame rate: 60. Samples: 45726. Real-time simulation at scale 1; paused frames excluded. These measurements include Editor and QA overhead and do **not** establish iPhone/iPad performance.
 
 | Counter | Mean | Maximum |
 | --- | --- | --- |
-| Frame time | 16.707 ms | 97.686 ms |
-| Main Thread | 16.700 ms | 76.270 ms |
-| GC Allocated In Frame | 164182.4 B | 1088745 B |
-| Draw Calls Count | 56.4 | 150 |
+| Frame time | 16.696 ms | 239.449 ms |
+| Main Thread | 16.689 ms | 38.895 ms |
+| GC Allocated In Frame | 144819.6 B | 454524 B |
+| Draw Calls Count | 57.5 | 148 |

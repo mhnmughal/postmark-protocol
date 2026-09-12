@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424825cbe6b464b469a69ac97f797445, type: 3}
   m_Name: AppInformation
   m_EditorClassIdentifier: PostmarkProtocol.Runtime::RehmanMughal.PostmarkProtocol.AppInformation
-  privacyPolicyUrl: 
-  supportUrl: 
-  supportEmail: 
+  privacyPolicyUrl:
+  supportUrl:
+  supportEmail: buistovanhl@icloud.com

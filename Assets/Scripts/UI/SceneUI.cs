@@ -17,6 +17,7 @@ namespace RehmanMughal.PostmarkProtocol.UI
         public RectTransform stampGhost;
         public GameObject[] panels;
         public GameObject[] rewardSeals;
+        public AppInformation appInfo;
         private readonly Dictionary<string, Text> texts = new Dictionary<string, Text>();
         private readonly Dictionary<string, Button> buttons = new Dictionary<string, Button>();
         private string currentPanel;
@@ -110,6 +111,14 @@ namespace RehmanMughal.PostmarkProtocol.UI
                 case "BackChapters": RefreshChapters(); Show("ChapterPanel"); break;
                 case "Settings": returnPanel=currentPanel; SettingsLabels(); Show("SettingsPanel"); break;
                 case "Handbook": returnPanel=currentPanel; Show("HandbookPanel"); break;
+                case "PrivacyPolicy": returnPanel=currentPanel; Show("PrivacyPanel"); break;
+                case "Support":
+                    if(appInfo!=null)
+                    {
+                        if(AppInformation.IsWebUrl(appInfo.supportUrl)) Application.OpenURL(appInfo.supportUrl);
+                        else if(AppInformation.IsEmail(appInfo.supportEmail)) Application.OpenURL("mailto:"+appInfo.supportEmail);
+                    }
+                    break;
                 case "Close": SaveService.Save(); Show(returnPanel); break;
                 case "Desk": Time.timeScale=1; SceneManager.LoadScene("MainDesk"); break;
                 case "BackMain": Show("MainMenu"); break;

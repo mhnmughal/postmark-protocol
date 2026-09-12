@@ -215,6 +215,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             var audio=Empty("Audio").AddComponent<AudioService>();AudioAuthoring.Configure(audio);
             var eventSystem=Empty("EventSystem",root);eventSystem.AddComponent<EventSystem>();eventSystem.AddComponent<InputSystemUIInputModule>();
             ui.levels=AssetDatabase.FindAssets("t:LevelDefinition").Select(g=>AssetDatabase.LoadAssetAtPath<LevelDefinition>(AssetDatabase.GUIDToAssetPath(g))).OrderBy(l=>l.id).ToArray();
+            ui.appInfo=AssetDatabase.LoadAssetAtPath<AppInformation>("Assets/Data/AppInformation.asset");
         }
         static void ScrollText(Transform panel,string name,string value)
         {
@@ -238,8 +239,11 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             var check=Image("Haptics check",toggleRect,new Vector2(-121,0),new Vector2(36,36),Red);toggle.graphic=check;
             Label("HapticsOnLabel",toggleRect,"ENABLED",new Vector2(23,0),new Vector2(220,50),24,Cream,TextAnchor.MiddleCenter);
             Label("HapticsLabel",settings,"Haptic feedback",new Vector2(-252,-46),new Vector2(360,64),25);
-            Button("ResetProgress",settings,"RESET PROGRESS",new Vector2(0,-133),new Vector2(430,80),Red,null,24);
-            Button("Close",settings,"CLOSE SETTINGS",new Vector2(0,-221),new Vector2(430,80));
+            // Below Haptics there is only ~176 units left before the canvas' own -270 edge (not the paper's, which is decorative and can hang past it); three rows have to fit there, so these four buttons run shorter (52 tall, size 20 font) than the sliders/toggle above. Reset/Close are widened to 876 to span the same width as the Privacy+Support pair instead of looking narrower than the row above them.
+            Button("PrivacyPolicy",settings,"PRIVACY POLICY",new Vector2(-223,-126),new Vector2(430,52),null,null,20);
+            Button("Support",settings,"SUPPORT",new Vector2(223,-126),new Vector2(430,52),null,null,20);
+            Button("ResetProgress",settings,"RESET PROGRESS",new Vector2(0,-182),new Vector2(876,52),Red,null,20);
+            Button("Close",settings,"CLOSE SETTINGS",new Vector2(0,-238),new Vector2(876,52),null,null,20);
             var reset=Panel("ResetDialog").transform;Title(reset,"ResetTitle","CLEAR THE LEDGER?");
             Label("ResetExplanation",reset,"Clear delivery progress, seals and tutorial state.\nMusic, sound and haptic preferences are kept.\nThis cannot be undone.",new Vector2(0,78),new Vector2(840,152),26,Dark,TextAnchor.MiddleCenter);
             Label("ResetStatus",reset,"",new Vector2(0,-68),new Vector2(840,128),25,Red,TextAnchor.MiddleCenter);
@@ -251,6 +255,9 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             var handbook=Panel("HandbookPanel").transform;Title(handbook,"HandbookTitle","THE ROUTE HANDBOOK");
             ScrollText(handbook,"HandbookBody","INSTRUCTION STAMPS\nLEFT / RIGHT: Turn 90 degrees. REVERSE: Turn back.\nWAIT: Pause one cycle. FAST: Next move one cycle. SLOW: Next move three cycles. JUMP: Cross a small marked gap.\n\nINK AND PARCELS\nSTANDARD executes once per visit. DOUBLE executes twice per visit. PERMANENT locks editing until Restart. Stamps remain on the sheet through a dispatch.\nFRAGILE: Avoid bumps. EXPRESS: Never wait. REGISTERED: Visit every checkpoint.\n\nPLANNING\nChoose a stamp, then tap a marked space. You can also drag a stamp onto the route. LIFT INK erases a non-permanent stamp. From chapter 4, choose INK to open the ink selector.\n\nTIMING AND SEALS\nA normal step takes two cycles. Gates show open phase / period. Dispatch runs your plan. Pause stops it. Review lets you adjust it.\nDelivered: Reach the mailbox. Efficient: Meet par stamp count. Perfect Route: Meet par and optimal distance.");
             Button("Close",handbook,"BACK",new Vector2(0,-221),new Vector2(430,80));
+            var privacy=Panel("PrivacyPanel").transform;Title(privacy,"PrivacyTitle","PRIVACY POLICY");
+            ScrollText(privacy,"PrivacyBody","NO DATA COLLECTED\nPostmark Protocol does not collect, store or transmit any personal information. The game works fully offline and never needs an account, a login, or an internet connection.\n\nLOCAL SAVE FILE\nYour delivery progress, unlocked levels, best results, and your music, sound and haptic preferences are saved only in a file on your own device. This information never leaves your device.\n\nNO THIRD PARTIES\nThis app contains no advertising, no analytics, no tracking and no in app purchases. Nothing is ever shared with a third party because nothing is collected.\n\nCHILDREN\nNo personal information is collected from any player, including children, so no additional data safeguards are required.\n\nCONTACT\nQuestions about this policy can be sent to buistovanhl@icloud.com.\n\nThis policy may be updated occasionally; the date above reflects the latest revision.");
+            Button("Close",privacy,"BACK",new Vector2(0,-221),new Vector2(430,80));
         }
         static void Slider(Transform parent,string name,string caption,float y,float value)
         {

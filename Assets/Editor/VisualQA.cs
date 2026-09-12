@@ -17,11 +17,27 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             var singleton=typeof(ScriptableSingleton<>).MakeGenericType(sizesType);
             var sizes=singleton.GetProperty("instance",BindingFlags.Public|BindingFlags.Static|BindingFlags.FlattenHierarchy).GetValue(null);
             var group=sizesType.GetProperty("currentGroup",BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance).GetValue(sizes);
+            var groupType=group.GetType();
             var sizeType=assembly.GetType("UnityEditor.GameViewSize");
-            var kind=assembly.GetType("UnityEditor.GameViewSizeType");
-            var size=Activator.CreateInstance(sizeType,BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance,null,new object[]{Enum.Parse(kind,"FixedResolution"),width,height,"Postmark QA "+width+"x"+height},null);
-            group.GetType().GetMethod("AddCustomSize").Invoke(group,new[]{size});
-            int index=(int)group.GetType().GetMethod("GetTotalCount").Invoke(group,null)-1;
+            string label="Postmark QA "+width+"x"+height;
+            // Reuse an existing matching entry instead of adding a duplicate every call. A long automated
+            // session calls this repeatedly (including the self-healing reassert below), and letting the
+            // GameViewSizes group grow unbounded destabilized the Game View's own size selection over time.
+            int total=(int)groupType.GetMethod("GetTotalCount").Invoke(group,null);
+            var getSize=groupType.GetMethod("GetGameViewSize");
+            int index=-1;
+            for(int i=0;i<total;i++)
+            {
+                var existing=getSize.Invoke(group,new object[]{i});
+                if((string)sizeType.GetProperty("baseText").GetValue(existing)==label) { index=i; break; }
+            }
+            if(index<0)
+            {
+                var kind=assembly.GetType("UnityEditor.GameViewSizeType");
+                var size=Activator.CreateInstance(sizeType,BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance,null,new object[]{Enum.Parse(kind,"FixedResolution"),width,height,label},null);
+                groupType.GetMethod("AddCustomSize").Invoke(group,new[]{size});
+                index=total;
+            }
             var view=EditorWindow.GetWindow(assembly.GetType("UnityEditor.GameView"));
             view.GetType().GetProperty("selectedSizeIndex",BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance).SetValue(view,index);
             // Unattended automation can leave the Game View undocked/unfocused, in which case Screen.width/height
@@ -33,6 +49,9 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         public static string LayoutAudit()
         {
             foreach(var safe in UnityEngine.Object.FindObjectsByType<RehmanMughal.PostmarkProtocol.UI.SafeArea>(FindObjectsSortMode.None)) safe.Apply();
+            // PanelMotion slides a panel up from -46 over 0.24s on enable; a panel opened just before this
+            // audit runs is a legitimate mid-animation state, not a real layout bug, so settle it to rest first.
+            foreach(var motion in UnityEngine.Object.FindObjectsByType<RehmanMughal.PostmarkProtocol.UI.PanelMotion>(FindObjectsSortMode.None)) ((RectTransform)motion.transform).anchoredPosition=Vector2.zero;
             Canvas.ForceUpdateCanvases();
             var failures=new System.Collections.Generic.List<string>();
             foreach(var label in UnityEngine.Object.FindObjectsByType<Text>(FindObjectsSortMode.None))
