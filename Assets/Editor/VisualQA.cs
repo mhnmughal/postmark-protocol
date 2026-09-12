@@ -66,10 +66,10 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             Directory.CreateDirectory("QA");File.AppendAllText("QA/LayoutAudit.txt",DateTime.Now.ToString("s")+" "+result+Environment.NewLine);
             return result;
         }
-        public static string Capture(string name)
+        public static string Capture(string name,string folder="QA/Screens")
         {
-            Directory.CreateDirectory("QA/Screens");
-            string path=Path.GetFullPath("QA/Screens/"+name+".png");ScreenCapture.CaptureScreenshot(path);return path;
+            Directory.CreateDirectory(folder);
+            string path=Path.GetFullPath(folder+"/"+name+".png");ScreenCapture.CaptureScreenshot(path);return path;
         }
     }
 }

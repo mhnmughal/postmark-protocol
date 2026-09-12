@@ -94,6 +94,7 @@
 - [x] Automated Play Mode integration QA — 36/36 levels PASS, 0 layout findings, 0 console errors (`SESSION_QA_REPORT.md`)
 - [x] Build/export — dev + release iOS Xcode exports both succeed, 0 errors/0 warnings, icon catalog and Info.plist verified in the exported artifact (`QA_REPORT.md`, `FINAL_AUDIT.md`)
 - [ ] Human manual QA on physical device, signed Xcode archive, App Store Connect submission — EXTERNAL, requires macOS/Xcode/Apple signing credentials/physical iPhone or iPad not available on this host
+- [x] App Store Connect screenshot set — `SessionQA.BeginStoreScreenshots()` (menu: Postmark Protocol/QA/Capture App Store Screenshots) captures the live authored UI (Main Menu, Level 1, Level 36, Settings) at the current mandatory sizes, iPhone 6.9" (2868x1320 landscape) and iPad 13" (2752x2064 landscape), into separate `QA/AppStoreScreenshots/iPhone-6.9/` and `QA/AppStoreScreenshots/iPad-13/` folders. See `QA/AppStoreScreenshots/CAPTURE_LOG.md`.
 
 ## Known problems / open gates
 - iOS module installed; IL2CPP ARM64 Metal iOS15 landscape-only configured. Apple team/profile absent; signed archive and physical iPhone/iPad checks require macOS/Xcode, authorized credentials and devices — the sole remaining external blocker, see `FINAL_AUDIT.md`.

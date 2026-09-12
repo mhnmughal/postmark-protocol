@@ -48,6 +48,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         private static string ReportPath = "Assets/Documentation/SESSION_QA_REPORT.md";
         private static bool layoutReview;
         private static bool sliderReview;
+        private static bool storeMode;
         private static readonly List<string> LayoutResults = new List<string>();
 
         static SessionQA()
@@ -66,7 +67,10 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         { BeginInternal(true); }
         public static void BeginSliderReview()
         { BeginInternal(false,true); }
-        private static void BeginInternal(bool review,bool sliders=false)
+        [MenuItem("Postmark Protocol/QA/Capture App Store Screenshots (Play Mode)")]
+        public static void BeginStoreScreenshots()
+        { BeginInternal(false,false,true); }
+        private static void BeginInternal(bool review,bool sliders=false,bool store=false)
         {
             if (!EditorApplication.isPlaying) throw new InvalidOperationException("Enter Play Mode before invoking SessionQA.Begin().");
             if (Running) throw new InvalidOperationException("Session QA is already running.");
@@ -87,7 +91,8 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             LayoutResults.Clear();
             layoutReview=review;
             sliderReview=sliders;
-            ReportPath=sliders ? "QA/Slider-Verification.md" : review ? "QA/Policy-UI-Verification.md" : "Assets/Documentation/SESSION_QA_REPORT.md";
+            storeMode=store;
+            ReportPath=sliders ? "QA/Slider-Verification.md" : review ? "QA/Policy-UI-Verification.md" : store ? "QA/AppStoreScreenshots/CAPTURE_LOG.md" : "Assets/Documentation/SESSION_QA_REPORT.md";
             completed = 0;
             mainSum = mainMax = gcSum = gcMax = drawSum = drawMax = 0;
             frameSum = frameMax = 0;
@@ -103,7 +108,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             started = EditorApplication.timeSinceStartup;
             Status = "Starting isolated authored-UI session.";
             Application.logMessageReceived += CaptureError;
-            routine = sliders ? SliderSweep() : review ? LayoutSweep() : Run();
+            routine = sliders ? SliderSweep() : review ? LayoutSweep() : store ? StoreScreenshotSweep() : Run();
             EditorApplication.update += Tick;
             Debug.Log("POSTMARK SESSION QA STARTED: isolated save=" + qaPath);
         }
@@ -329,6 +334,49 @@ namespace RehmanMughal.PostmarkProtocol.Editor
                 WriteReport("RUNNING");
             }
         }
+        private static IEnumerator StoreScreenshotSweep()
+        {
+            SaveService.MarkTutorialSeen("intro");
+            var devices = new (string folder,int w,int h)[]
+            {
+                ("QA/AppStoreScreenshots/iPhone-6.9", 2868, 1320),
+                ("QA/AppStoreScreenshots/iPad-13", 2752, 2064),
+            };
+            foreach (var device in devices)
+            {
+                Status = "App Store screenshots " + device.folder;
+                VisualQA.Resolution(device.w, device.h);
+                yield return Until(() => Screen.width == device.w && Screen.height == device.h, "Screenshot resolution", 20);
+                SaveService.ResetProgress(); // fresh 0/36 for every device's Main Menu shot, not whatever the previous device left behind
+                SceneManager.LoadScene("MainDesk");
+                yield return Until(() => UI != null && UI.route == null, "Main desk for screenshots", 20);
+                yield return Delay(.4);
+                UI.Show("MainMenu");
+                yield return Delay(.3);
+                VisualQA.Capture("01-MainMenu-" + device.w + "x" + device.h, device.folder);
+                yield return Delay(.4);
+                completed++;
+                SaveService.RecordDelivery(35, 1, 5, 1, 5); // unlock level 36 for its screenshot
+                PostalApplication.SelectedLevel = 1;
+                SceneManager.LoadScene("Gameplay");
+                yield return Until(() => Panel("GameHUD") && UI.route != null, "Gameplay for screenshots", 20);
+                yield return Delay(.4);
+                foreach (int id in new[] { 1, 36 })
+                {
+                    typeof(SceneUI).GetMethod("LoadLevel", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(UI, new object[] { id });
+                    yield return Delay(.3);
+                    VisualQA.Capture("0" + (id == 1 ? 2 : 3) + "-Level" + id + "-" + device.w + "x" + device.h, device.folder);
+                    yield return Delay(.4);
+                    completed++;
+                }
+                UI.Show("PausePanel");
+                Click("Settings");
+                yield return Delay(.3);
+                VisualQA.Capture("04-Settings-" + device.w + "x" + device.h, device.folder);
+                yield return Delay(.4);
+                completed++;
+            }
+        }
         private static string Capture(int id, string state)
         {
             Directory.CreateDirectory("QA/Playthrough");
@@ -511,7 +559,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             PostalApplication.SelectedLevel = originalSelectedLevel;
             Application.runInBackground = originalRunInBackground;
             AudioService.ApplySettings();
-            Status = result + "; " + completed + (sliderReview ? "/6 slider scene/resolution checks" : layoutReview ? "/4 representative deliveries" : "/36 levels") + "; original user save restored; report=" + ReportPath;
+            Status = result + "; " + completed + (sliderReview ? "/6 slider scene/resolution checks" : layoutReview ? "/4 representative deliveries" : storeMode ? "/8 App Store screenshots" : "/36 levels") + "; original user save restored; report=" + ReportPath;
             WriteReport(result);
             if (returnToDesk && EditorApplication.isPlaying) SceneManager.LoadScene("MainDesk");
             Debug.Log("POSTMARK SESSION QA " + Status);
@@ -519,6 +567,21 @@ namespace RehmanMughal.PostmarkProtocol.Editor
 
         private static void WriteReport(string result)
         {
+            if(storeMode)
+            {
+                var log = new StringBuilder();
+                log.AppendLine("# App Store screenshot capture log\n");
+                log.AppendLine("UTC: " + DateTime.UtcNow.ToString("u") + "  \nResult: **" + result.Replace("\n", " ") + "**  \nCaptured: " + completed + "/8\n");
+                log.AppendLine("Captured from the live authored UI in an isolated Play Mode session (real menu, real level geometry, real settings panel), not composited or edited. Test save: `" + qaPath + "`.\n");
+                log.AppendLine("| Folder | Device size | Source |\n| --- | --- | --- |");
+                log.AppendLine("| `QA/AppStoreScreenshots/iPhone-6.9/` | 2868x1320 (iPhone 6.9\" display, landscape) | Main Menu, Level 1, Level 36, Settings |");
+                log.AppendLine("| `QA/AppStoreScreenshots/iPad-13/` | 2752x2064 (iPad 13\" display, landscape) | Main Menu, Level 1, Level 36, Settings |");
+                log.AppendLine("\nGame is landscape-only, so both sizes are captured landscape (width x height swapped from Apple's portrait-listed spec). No text or content was added or edited.");
+                if (error != null) log.AppendLine("\nCaptured Unity error:\n```text\n" + error + "\n```");
+                Directory.CreateDirectory(Path.GetDirectoryName(ReportPath));
+                File.WriteAllText(ReportPath, log.ToString());
+                return;
+            }
             if(sliderReview)
             {
                 File.WriteAllText(ReportPath,"# Audio slider verification\n\nUTC: "+DateTime.UtcNow.ToString("u")+"\n\nResult: **"+result+"**; "+completed+"/6 scene/resolution checks.\n\nNative Unity pointer-event checks in Editor Play Mode, not physical touch or subjective listening. Both sliders: 0, 1, 25, 50, 76, 94, 99 and 100 percent; taps, reverse drags, out-of-range clamping, matching track/fill/handle/label/save/mixer values, independent Music/SFX/UI buses, old fractional settings, file reload, real audio-source playback and layout checks. Original user repository restored at completion. No iOS build/export or signing.\n\n"+string.Join("\n",LayoutResults.Select(s=>"- "+s))+"\n");
