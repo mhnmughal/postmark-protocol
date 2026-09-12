@@ -1,8 +1,8 @@
 # Postmark Protocol: App Store metadata
 
-Updated: September 3, 2026
+Updated: September 12, 2026
 
-All customer-facing copy in this document uses US English. The recommended listing describes features implemented in the current project and avoids promises about future content, rankings, awards, or unverified performance.
+All customer-facing copy in this document uses US English. The recommended listing describes features implemented in the current project and avoids promises about future content, rankings, awards, or unverified performance. No em dash appears anywhere in the customer-facing copy below.
 
 ## Recommended listing
 
@@ -12,7 +12,7 @@ All customer-facing copy in this document uses US English. The recommended listi
 Postmark Protocol
 ```
 
-17 characters. Apple permits up to 30 characters. An exact App Store search did not surface a current matching listing, but that does not establish trademark or name clearance.
+17 characters. Apple permits up to 30 characters. A fresh search on September 12, 2026 found no current App Store game named Postmark Protocol; the closest result was an unrelated, unpublished business email tool called Postmark. That is a naming check, not trademark or legal clearance, and the publisher should still confirm the name is free to use before submission.
 
 ### Subtitle
 
@@ -41,57 +41,59 @@ programming,stamp,mail,delivery,envelope,commands,grid,brain,teaser,offline,stra
 ```text
 Stamp the instructions. Send the route.
 
-A letter is waiting on your desk, but it cannot find the mailbox on its own. In Postmark Protocol, you plan each journey by placing instruction stamps on a printed route. When the plan feels right, press Dispatch and watch the delivery unfold.
+Every letter on your desk needs a plan before it can find its way home. In Postmark Protocol, you build that plan by placing instruction stamps along a printed route, then press Dispatch and watch it play out exactly as written.
 
-Every mistake leaves a clue. Review the route, move a stamp, and try again until the letter reaches its destination.
+When something goes wrong, the route shows you why. Move a stamp, try again, and get a little closer each time until the letter reaches its destination.
 
 BUILD THE ROUTE
-Use seven commands: Turn Left, Turn Right, Wait, Reverse, Fast, Slow, and Jump. Place them only on marked spaces, then learn how timing and direction change the result.
+Choose from seven commands, Turn Left, Turn Right, Wait, Reverse, Fast, Slow, and Jump, and place them on marked spaces. Timing and direction both matter, and you will feel the difference the first time you get one wrong.
 
-MASTER THREE TYPES OF INK
-Standard ink runs once each time a letter visits a space. Double ink repeats the command. Permanent ink locks a stamp in place until you reset the sheet.
+LEARN THREE KINDS OF INK
+Standard ink fires once per visit. Double ink fires twice. Permanent ink locks a stamp in place until you reset the sheet, so plan carefully before you commit.
 
 HANDLE SPECIAL DELIVERIES
-Fragile parcels must avoid bumps. Express Mail cannot wait. Registered Mail must visit every checkpoint. Later routes combine these rules with gates, return paths, and carefully timed moves.
+Fragile parcels cannot take a bump. Express Mail will not wait around. Registered Mail needs a checkpoint visit at every stop. Later routes mix these rules with timed gates, return paths, and moves measured down to the cycle.
 
-SOLVE 36 HANDCRAFTED PUZZLES
-Work through six chapters, from the welcoming Local Route to the final Night Shift. Each delivery introduces a clear idea before combining it with earlier lessons.
+WORK THROUGH 36 HANDCRAFTED DELIVERIES
+Six chapters carry you from the easygoing Local Route to the tense final Night Shift, each one teaching a new idea before folding it into everything you already know.
 
-EARN POSTAL SEALS
-Complete a route to earn Delivered. Use an efficient plan to earn Efficient. Find the shortest qualifying route to earn Perfect Route. Your best results and unlocked deliveries are saved locally.
+EARN YOUR POSTAL SEALS
+Deliver the letter and earn Delivered. Do it efficiently and earn Efficient. Find the shortest route that still qualifies and earn Perfect Route. Every result and every delivery you unlock is saved right on your device.
 
-MADE FOR THOUGHTFUL PLAY
-Learn through a guided first delivery and consult the built-in handbook whenever you need it. Adjust music, sound effects, and haptics to suit your desk.
+BUILT FOR UNHURRIED PLAY
+A short guided first delivery gets you started, and the handbook is there whenever you need a reminder. Music, sound effects, and haptics are all yours to adjust.
 
-Play offline with no account, ads, in-app purchases, subscriptions, or downloaded levels.
-
-Designed for landscape play on iPhone and iPad.
+No account, no ads, no in-app purchases, no subscriptions, and no downloaded content. Everything plays offline, the same on iPhone and iPad, in landscape.
 ```
+
+Every claim in this description matches an implemented feature; see the claim-to-project check table below.
 
 ## Subtitle and keyword alternatives
 
-Use each subtitle with the keyword set on the same row. This prevents repeated words from wasting keyword space.
+Use each subtitle with the keyword set on the same row. Every set below was checked word by word against its own subtitle and against the app name so nothing is wasted repeating a word already searchable elsewhere, and none use a competitor's name.
 
 | Option | Subtitle | Length | Matching keyword set | Bytes |
 | --- | --- | ---: | --- | ---: |
 | 1, recommended | Postal Route Logic Puzzles | 26 | `programming,stamp,mail,delivery,envelope,commands,grid,brain,teaser,offline,strategy,casual` | 91 |
-| 2 | Program Every Delivery | 22 | `postal,route,puzzle,logic,stamp,mail,envelope,commands,grid,brainteaser,offline,strategy` | 88 |
-| 3 | Stamp, Route, Deliver | 21 | `postal,mail,puzzle,logic,programming,envelope,commands,grid,brain,teaser,offline,strategy` | 89 |
-| 4 | Mailroom Logic Challenge | 24 | `postal,route,puzzle,programming,stamp,delivery,envelope,commands,grid,brain,teaser,offline` | 90 |
-| 5 | A Tactile Programming Game | 26 | `postal,route,puzzle,logic,stamp,mail,delivery,envelope,commands,grid,brainteaser,offline,strategy` | 97 |
+| 2 | Stamp, Plan, Deliver | 20 | `programming,mail,envelope,commands,grid,brain,teaser,offline,strategy,casual,postal,route,puzzle` | 96 |
+| 3 | A Tactile Logic Puzzle | 22 | `programming,stamp,mail,delivery,envelope,commands,grid,brain,teaser,offline,strategy,postal,route` | 97 |
+| 4 | Program the Perfect Route | 25 | `stamp,mail,delivery,envelope,commands,grid,brain,teaser,offline,strategy,casual,postal,puzzle` | 93 |
+| 5 | Puzzles for Patient Minds | 25 | `programming,stamp,mail,delivery,envelope,commands,grid,brain,teaser,offline,strategy,postal,route` | 97 |
 
-Option 1 is the clearest fit for people who want a logic puzzle. Option 2 is the most direct expression of the programming mechanic. Option 3 has the strongest rhythm but communicates the puzzle genre less clearly on its own.
+Option 1 states the genre plainly and is the safest default. Option 2 leans on the game's own verb, stamp, plan, deliver, which doubles as a one-line pitch. Option 3 foregrounds the tactile, physical feel of placing a stamp rather than the programming angle, useful if screenshots are doing the genre-explaining work instead. Option 4 speaks directly to the programming-minded player who searches for that mechanic first. Option 5 is the most emotional and brand-like of the five; it reads well but explains the mechanic least, so pair it only with a description and screenshots that do that explaining clearly (both do, in the current draft).
 
 ## Category recommendation
 
 | App Store Connect field | Selection | Reason |
 | --- | --- | --- |
 | Primary category | Games | The product is a complete single-player game with campaign progression, success conditions, failure states, and replayable scores. |
-| Primary Games subcategory | Puzzle | Solving deterministic route problems is the central player activity. |
-| Secondary Games subcategory | Strategy | Players plan command placement, timing, direction, and resource efficiency before dispatch. |
-| Secondary app category | Leave blank | A second app category is optional, and no non-game category describes the product more accurately. |
+| Primary Games subcategory | Puzzle | Solving deterministic route problems is the central player activity. This is one of Apple's 16 published Games subcategories. |
+| Secondary Games subcategory | Strategy | Players plan command placement, timing, direction, and resource efficiency before dispatch. Also one of the 16 published subcategories; Apple allows up to two. |
+| Secondary app category | Leave blank | A second top-level category is optional, and no non-game category describes the product more accurately than Games already does. |
 
-Do not use Education unless the submitted version is positioned and designed as instructional software. The programming theme supports the puzzle mechanics, but the current app is entertainment rather than a curriculum.
+Do not use Education unless the submitted version is positioned and designed as instructional software. The programming theme supports the puzzle mechanics, but the current app is entertainment rather than a curriculum, and Apple reviews Education listings against that standard specifically.
+
+A newer requirement to flag for submission: starting September 2026, Apple requires every app or game to declare in App Store Connect whether it includes social media capabilities before it can be submitted or notarized. Postmark Protocol has no social features, accounts, sharing, or network access of any kind, so this should be answered No, but the publisher must still make that declaration explicitly; it will not default correctly on its own.
 
 ## Claim-to-project check
 
@@ -114,15 +116,15 @@ These are source and configuration findings for the current checkout. Reconcile 
 ## App Review notes draft
 
 ```text
-Postmark Protocol is a single-player postal route puzzle with 36 bundled levels across six chapters. It does not require an account and contains no advertisements, in-app purchases, subscriptions, or downloaded levels.
+Postmark Protocol is an offline, single-player puzzle game with 36 built-in levels across six chapters. There is no account of any kind, and no advertising, analytics, in-app purchases, subscriptions, or downloadable content.
 
-On first launch, dismiss the introduction with Got It, choose Start Shift, and open level 1. Select Turn Right, place the stamp on the marked corner, and press Dispatch. After delivery, choose Next or return to the desk and open the level ledger.
+To try it: on first launch, tap Got It to dismiss the welcome screen, then tap Start Shift to open level 1. Tap the Turn Right stamp, place it on the marked corner of the route, and tap Dispatch to run it. After the letter is delivered, tap Next for the following level, or tap Desk and open the Delivery Ledger to pick any unlocked level directly.
 
-Progression is sequential. Later chapters introduce timing gates, return paths, Double and Permanent ink, and Fragile, Express, and Registered parcel rules. The INK control becomes available when ink mechanics are introduced. These mechanics are ordinary campaign progression available to every player. There is no separate reviewer mode or remote feature switch.
+Progression is linear and the same for every player. Later chapters add timing gates, return paths, Double and Permanent ink, and Fragile, Express, and Registered parcel rules, each introduced with its own short lesson the first time it appears. The Ink button only appears once ink mechanics are introduced, which is expected behavior, not a hidden or reviewer-only feature. There is no alternate reviewer mode, remote configuration, or server-controlled content of any kind; every player sees the same 36 levels in the same order.
 
-The handbook explains all commands and rules. Settings includes separate music and sound effect controls, a haptics toggle, and a confirmed progress reset. A failed save keeps the reset dialog open and displays an error so the player can retry.
+Settings, reachable from the Main Menu or the in-level pause screen, has independent Music and Sound Effects volume controls, a Haptic Feedback toggle, Privacy Policy and Support buttons, and a Reset Progress option that asks for confirmation before it clears saved progress. If a progress reset cannot be saved to disk, the app keeps the confirmation dialog open and shows the reason, rather than reporting success it cannot guarantee.
 
-No demo account is required.
+No demo account, login, or special access is needed to review any part of the app.
 ```
 
 Add the exact steps needed to reach any feature Apple asks to inspect. For an update, replace this draft with notes that describe the actual changes in that submitted version.
@@ -131,11 +133,11 @@ Add the exact steps needed to reach any feature Apple asks to inspect. For an up
 
 These publisher-owned items are assigned to the later App Store submission phase. The release compliance check intentionally keeps the final release configuration open until they are completed.
 
-Before submission, the publisher must provide and verify:
+Before submission, the publisher must still provide and verify:
 
-1. A public HTTPS privacy policy URL in App Store Connect.
-2. An easily accessible privacy policy link inside the app.
-3. A Support URL that opens a page with a working contact method.
+1. A public HTTPS privacy policy URL in App Store Connect. Draft copy for that page is ready at `PRIVACY_POLICY_FOR_GOOGLE_SITE.md`; it only needs to go live at a real URL.
+2. ~~An easily accessible privacy policy link inside the app.~~ Done as of September 12, 2026: Settings has a working Privacy Policy button showing the in-app policy text. Once a public URL exists, that in-app screen can also link out to it.
+3. A Support URL that opens a page with a working contact method. Draft copy is ready at `SUPPORT_PAGE_FOR_GOOGLE_SITE.md`. In the meantime, Settings' Support button already opens a working `mailto:` to the publisher's support address, so in-app contact access is not blocked on this.
 4. Current review contact details in App Store Connect.
 5. App Privacy answers that match the submitted binary and every included third-party SDK.
 
