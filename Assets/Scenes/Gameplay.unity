@@ -3837,7 +3837,7 @@ GameObject:
   - component: {fileID: 382149392}
   - component: {fileID: 382149391}
   m_Layer: 0
-  m_Name: Close
+  m_Name: ClosePrivacy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -111,7 +111,13 @@ namespace RehmanMughal.PostmarkProtocol.UI
                 case "BackChapters": RefreshChapters(); Show("ChapterPanel"); break;
                 case "Settings": returnPanel=currentPanel; SettingsLabels(); Show("SettingsPanel"); break;
                 case "Handbook": returnPanel=currentPanel; Show("HandbookPanel"); break;
-                case "PrivacyPolicy": returnPanel=currentPanel; Show("PrivacyPanel"); break;
+                // Privacy is only ever opened from Settings, so its Close returns straight there by name
+                // rather than through the shared returnPanel, which Settings itself is already using to
+                // remember where IT should return to (MainMenu or PausePanel). Routing Privacy's Close
+                // through returnPanel too would overwrite that outer target with "SettingsPanel", so the
+                // next Close on Settings itself would just re-show Settings instead of actually closing it.
+                case "PrivacyPolicy": Show("PrivacyPanel"); break;
+                case "ClosePrivacy": Show("SettingsPanel"); break;
                 case "Support":
                     if(appInfo!=null)
                     {

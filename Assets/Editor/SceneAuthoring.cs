@@ -257,7 +257,8 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             Button("Close",handbook,"BACK",new Vector2(0,-221),new Vector2(430,80));
             var privacy=Panel("PrivacyPanel").transform;Title(privacy,"PrivacyTitle","PRIVACY POLICY");
             ScrollText(privacy,"PrivacyBody","NO DATA COLLECTED\nPostmark Protocol does not collect, store or transmit any personal information. The game works fully offline and never needs an account, a login, or an internet connection.\n\nLOCAL SAVE FILE\nYour delivery progress, unlocked levels, best results, and your music, sound and haptic preferences are saved only in a file on your own device. This information never leaves your device.\n\nNO THIRD PARTIES\nThis app contains no advertising, no analytics, no tracking and no in app purchases. Nothing is ever shared with a third party because nothing is collected.\n\nCHILDREN\nNo personal information is collected from any player, including children, so no additional data safeguards are required.\n\nCONTACT\nQuestions about this policy can be sent to buistovanhl@icloud.com.\n\nThis policy may be updated occasionally; the date above reflects the latest revision.");
-            Button("Close",privacy,"BACK",new Vector2(0,-221),new Vector2(430,80));
+            // Named ClosePrivacy, not the shared Close, so it doesn't route through Settings' returnPanel (see SceneUI.Act).
+            Button("ClosePrivacy",privacy,"BACK",new Vector2(0,-221),new Vector2(430,80));
         }
         static void Slider(Transform parent,string name,string caption,float y,float value)
         {

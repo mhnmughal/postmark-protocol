@@ -950,7 +950,7 @@ GameObject:
   - component: {fileID: 125532181}
   - component: {fileID: 125532180}
   m_Layer: 0
-  m_Name: Close
+  m_Name: ClosePrivacy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
