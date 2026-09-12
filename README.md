@@ -37,23 +37,23 @@ A tactile, completely offline 2.5D programming puzzle for iPhone and iPad. You d
 - iOS dev + release Xcode exports: succeed, 0 errors/0 warnings, icon catalog and `Info.plist` verified
 - Remaining gate: a signed archive and physical-device QA require macOS/Xcode and an Apple signing identity — genuinely external to this environment, not unfinished work
 
-See [`Assets/Documentation/FINAL_AUDIT.md`](Assets/Documentation/FINAL_AUDIT.md) for the full PASS/FAIL/EXTERNAL breakdown.
+See [`Documentation/FINAL_AUDIT.md`](Documentation/FINAL_AUDIT.md) for the full PASS/FAIL/EXTERNAL breakdown.
 
 ## Documentation
 
 | Doc | Covers |
 |---|---|
-| [`PRODUCTION_BRIEF.md`](Assets/Documentation/PRODUCTION_BRIEF.md) | Original production spec |
-| [`ARCHITECTURE.md`](Assets/Documentation/ARCHITECTURE.md) | Systems, dependency direction, scene/save/audio architecture |
-| [`GAME_DESIGN.md`](Assets/Documentation/GAME_DESIGN.md) | Implemented mechanics and rules |
-| [`LEVEL_DESIGN.md`](Assets/Documentation/LEVEL_DESIGN.md) | All 36 levels: objective, stamps, par, solution |
-| [`UI_UX_SYSTEM.md`](Assets/Documentation/UI_UX_SYSTEM.md) | Visual language, color/spacing/typography tokens, animation |
-| [`QA_REPORT.md`](Assets/Documentation/QA_REPORT.md) / [`UI_QA_REPORT.md`](Assets/Documentation/UI_QA_REPORT.md) | Test and integration QA evidence |
-| [`FINAL_AUDIT.md`](Assets/Documentation/FINAL_AUDIT.md) | Completion gate, category by category |
-| [`IOS_RELEASE_CHECKLIST.md`](Assets/Documentation/IOS_RELEASE_CHECKLIST.md) | Bundle ID, build config, export evidence |
-| [`NETWORK_AUDIT.md`](Assets/Documentation/NETWORK_AUDIT.md) / [`PACKAGE_AUDIT.md`](Assets/Documentation/PACKAGE_AUDIT.md) | Offline/dependency verification |
-| [`ART_LICENSES.md`](Assets/Documentation/ART_LICENSES.md) / [`AUDIO_LICENSES.md`](Assets/Documentation/AUDIO_LICENSES.md) | Provenance for every shipped asset |
-| [`APP_STORE_METADATA.md`](Assets/Documentation/APP_STORE_METADATA.md) | App Store listing draft |
+| [`PRODUCTION_BRIEF.md`](Documentation/PRODUCTION_BRIEF.md) | Original production spec |
+| [`ARCHITECTURE.md`](Documentation/ARCHITECTURE.md) | Systems, dependency direction, scene/save/audio architecture |
+| [`GAME_DESIGN.md`](Documentation/GAME_DESIGN.md) | Implemented mechanics and rules |
+| [`LEVEL_DESIGN.md`](Documentation/LEVEL_DESIGN.md) | All 36 levels: objective, stamps, par, solution |
+| [`UI_UX_SYSTEM.md`](Documentation/UI_UX_SYSTEM.md) | Visual language, color/spacing/typography tokens, animation |
+| [`QA_REPORT.md`](Documentation/QA_REPORT.md) / [`UI_QA_REPORT.md`](Documentation/UI_QA_REPORT.md) | Test and integration QA evidence |
+| [`FINAL_AUDIT.md`](Documentation/FINAL_AUDIT.md) | Completion gate, category by category |
+| [`IOS_RELEASE_CHECKLIST.md`](Documentation/IOS_RELEASE_CHECKLIST.md) | Bundle ID, build config, export evidence |
+| [`NETWORK_AUDIT.md`](Documentation/NETWORK_AUDIT.md) / [`PACKAGE_AUDIT.md`](Documentation/PACKAGE_AUDIT.md) | Offline/dependency verification |
+| [`ART_LICENSES.md`](Documentation/ART_LICENSES.md) / [`AUDIO_LICENSES.md`](Documentation/AUDIO_LICENSES.md) | Provenance for every shipped asset |
+| [`APP_STORE_METADATA.md`](Documentation/APP_STORE_METADATA.md) | App Store listing draft |
 
 Development rules for any agent or contributor working on this project are in [`AI_RULES.md`](AI_RULES.md); persistent project memory is in [`MEMORY_BANK.md`](MEMORY_BANK.md).
 

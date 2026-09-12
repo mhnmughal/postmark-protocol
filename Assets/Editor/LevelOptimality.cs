@@ -90,7 +90,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             }
             report.Insert(0,$"Exact reachable-plan audit: {allNodes} states, {mismatches} target mismatches/incomplete searches. Command mutations: {mutations}, valid alternatives: {alternatives}.\n");
             string resultText=report.ToString();
-            System.IO.File.WriteAllText("Assets/Documentation/LEVEL_OPTIMALITY.txt",resultText);
+            System.IO.File.WriteAllText("Documentation/LEVEL_OPTIMALITY.txt",resultText);
             Debug.Log(resultText);
             return resultText;
         }

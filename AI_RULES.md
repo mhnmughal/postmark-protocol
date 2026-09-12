@@ -1,7 +1,7 @@
 # Postmark Protocol — AI development rules
 
 1. Never replace production systems with placeholders.
-2. Never silently remove a requirement from `Assets/Documentation/PRODUCTION_BRIEF.md`.
+2. Never silently remove a requirement from `Documentation/PRODUCTION_BRIEF.md`.
 3. Never create buttons that do nothing.
 4. Never create fake settings.
 5. Investigate compiler warnings caused by project code.

@@ -65,7 +65,7 @@ The game has no user-generated content, messaging, social feed, account profile,
 
 ### 2. Performance and metadata
 
-The game features described in [APP_STORE_METADATA.md](I:/UnityProject/PostmarkProtocol/Assets/Documentation/APP_STORE_METADATA.md) correspond to current implementation: 36 levels, six chapters, seven commands, three ink types, four parcel rules, local progress, a handbook, and separate audio and haptics controls.
+The game features described in [APP_STORE_METADATA.md](I:/UnityProject/PostmarkProtocol/Documentation/APP_STORE_METADATA.md) correspond to current implementation: 36 levels, six chapters, seven commands, three ink types, four parcel rules, local progress, a handbook, and separate audio and haptics controls.
 
 No remote feature flag, downloaded code, reviewer-specific branch, secret unlock, hidden purchase, or dormant network feature was found. Later mechanics are normal campaign progression and are disclosed in the App Review notes draft.
 

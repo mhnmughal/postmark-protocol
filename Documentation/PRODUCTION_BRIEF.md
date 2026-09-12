@@ -1594,7 +1594,7 @@ When provenance cannot be verified, do not ship the asset.
 
 Create:
 
-`Assets/Documentation/AUDIO_LICENSES.md`
+`Documentation/AUDIO_LICENSES.md`
 
 For original assets write:
 
@@ -2012,7 +2012,7 @@ For each of the 36 levels test:
 
 Record results in:
 
-`Assets/Documentation/QA_REPORT.md`
+`Documentation/QA_REPORT.md`
 
 ---
 
@@ -2198,7 +2198,7 @@ Do not add unnecessary personal information.
 Create:
 
 ```text
-Assets/Documentation/
+Documentation/
 ├── ARCHITECTURE.md
 ├── GAME_DESIGN.md
 ├── LEVEL_DESIGN.md

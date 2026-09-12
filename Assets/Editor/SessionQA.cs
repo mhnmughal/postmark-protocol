@@ -45,7 +45,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
         private static int completed;
         public static string Status { get; private set; } = "Not run.";
         public static bool Running => routine != null;
-        private static string ReportPath = "Assets/Documentation/SESSION_QA_REPORT.md";
+        private static string ReportPath = "Documentation/SESSION_QA_REPORT.md";
         private static bool layoutReview;
         private static bool sliderReview;
         private static bool storeMode;
@@ -92,7 +92,7 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             layoutReview=review;
             sliderReview=sliders;
             storeMode=store;
-            ReportPath=sliders ? "QA/Slider-Verification.md" : review ? "QA/Policy-UI-Verification.md" : store ? "QA/AppStoreScreenshots/CAPTURE_LOG.md" : "Assets/Documentation/SESSION_QA_REPORT.md";
+            ReportPath=sliders ? "QA/Slider-Verification.md" : review ? "QA/Policy-UI-Verification.md" : store ? "QA/AppStoreScreenshots/CAPTURE_LOG.md" : "Documentation/SESSION_QA_REPORT.md";
             completed = 0;
             mainSum = mainMax = gcSum = gcMax = drawSum = drawMax = 0;
             frameSum = frameMax = 0;

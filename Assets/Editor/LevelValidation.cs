@@ -51,8 +51,8 @@ namespace RehmanMughal.PostmarkProtocol.Editor
             }
             int assertions = RuleChecks();
             string summary = "PASS: 36 unique route assets, 72 deterministic solution runs, 36 empty-plan failures, " + assertions + " rule checks.\n" + report;
-            System.IO.Directory.CreateDirectory("Assets/Documentation");
-            System.IO.File.WriteAllText("Assets/Documentation/LEVEL_VALIDATION.txt", summary);
+            System.IO.Directory.CreateDirectory("Documentation");
+            System.IO.File.WriteAllText("Documentation/LEVEL_VALIDATION.txt", summary);
             Debug.Log(summary);
             return summary;
         }

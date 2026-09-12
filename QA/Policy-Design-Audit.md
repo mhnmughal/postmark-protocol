@@ -13,14 +13,14 @@ Review date: 2026-08-28. Read-only inspection of source, authored scene YAML, le
 
 ### P2: The proposed screenshot set includes an obsolete screen
 
-- `Assets/Documentation/APP_STORE_METADATA.md` recommends `QA/Screens/settings-wide.png` as screenshot 5.
+- `Documentation/APP_STORE_METADATA.md` recommends `QA/Screens/settings-wide.png` as screenshot 5.
 - Visual inspection of that image shows **CREDITS & ORIGINS** next to Reset Progress. The current authoring recipe and both current scenes no longer contain that button, following the user's removal request. Do not reintroduce Credits to match an obsolete screenshot.
 - Required action: replace the candidate with a fresh capture of the final Settings screen. Review all remaining candidates against the release UI before selecting them. A screenshot showing an earlier UI is not sufficient evidence of the current state.
 - Metadata must reflect the current experience; screenshots should demonstrate the app in use. [Guidelines 2.3 and 2.3.3](https://developer.apple.com/app-store/review/guidelines/)
 
 ### P2: Unresolved layout evidence and small phone controls weaken design readiness
 
-- `Assets/Documentation/SESSION_QA_REPORT.md` currently says **FAIL: 3 layout audit findings**, despite all 36 levels passing its functional matrix. The entries concern the running header at levels 1/34 and multiple planning controls at level 2 at 1278x1044. This audit did not reproduce them or establish whether they represent layout defects or capture/resolution drift. Older clean QA summaries do not override this artifact.
+- `Documentation/SESSION_QA_REPORT.md` currently says **FAIL: 3 layout audit findings**, despite all 36 levels passing its functional matrix. The entries concern the running header at levels 1/34 and multiple planning controls at level 2 at 1278x1044. This audit did not reproduce them or establish whether they represent layout defects or capture/resolution drift. Older clean QA summaries do not override this artifact.
 - `Assets/Scenes/Gameplay.unity:12783` and `Assets/Editor/SceneAuthoring.cs:210` use a 1600x900 reference canvas matching height. The current Stamp_Slow RectTransform is 206x52; other stamps are authored likewise at `SceneAuthoring.cs:321`. Ink selectors are 55 units high.
 - Static inference: on a 390-point-high landscape screen, 52 reference units become approximately 22.5 points. A 23-unit label becomes approximately 10 points. This is a design calculation, not a hardware measurement. The claim of a minimum 56-reference-pixel target in project notes is also inconsistent with these 52-unit controls.
 - Required action: audit supported landscape aspect ratios and hit regions in logical points; make primary controls comfortably tappable and resolve/reproduce the three findings. Avoid asserting universal safe-area readiness until then.
