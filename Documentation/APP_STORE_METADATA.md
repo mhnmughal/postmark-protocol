@@ -135,11 +135,13 @@ These publisher-owned items are assigned to the later App Store submission phase
 
 Before submission, the publisher must still provide and verify:
 
-1. A public HTTPS privacy policy URL in App Store Connect. Draft copy for that page is ready at `PRIVACY_POLICY_FOR_GOOGLE_SITE.md`; it only needs to go live at a real URL.
-2. ~~An easily accessible privacy policy link inside the app.~~ Done as of September 12, 2026: Settings has a working Privacy Policy button showing the in-app policy text. Once a public URL exists, that in-app screen can also link out to it.
-3. A Support URL that opens a page with a working contact method. Draft copy is ready at `SUPPORT_PAGE_FOR_GOOGLE_SITE.md`. In the meantime, Settings' Support button already opens a working `mailto:` to the publisher's support address, so in-app contact access is not blocked on this.
+1. ~~A public HTTPS privacy policy URL in App Store Connect.~~ Done as of September 12, 2026: live at [sites.google.com/view/privacypolicyforpostmarkprotoc/home](https://sites.google.com/view/privacypolicyforpostmarkprotoc/home), matching the drafted copy at `PRIVACY_POLICY_FOR_GOOGLE_SITE.md`. Set this as the Privacy Policy URL in App Store Connect. `AppInformation.asset` also has this URL now, so `ReleaseCompliance`'s build gate accepts it.
+2. ~~An easily accessible privacy policy link inside the app.~~ Done as of September 12, 2026: Settings has a working Privacy Policy button showing the in-app policy text.
+3. ~~A Support URL that opens a page with a working contact method.~~ Done as of September 12, 2026: live at [sites.google.com/view/postmark-protocol-suppor/home](https://sites.google.com/view/postmark-protocol-suppor/home), matching the drafted copy at `SUPPORT_PAGE_FOR_GOOGLE_SITE.md`. Set this as the Support URL in App Store Connect. `AppInformation.asset` also has this URL now; Settings' Support button now opens it directly (falling back to `mailto:` only if this URL were ever unset).
 4. Current review contact details in App Store Connect.
 5. App Privacy answers that match the submitted binary and every included third-party SDK.
+
+One remaining, optional polish item: the published privacy policy page identifies the game but not a publisher name. Consider adding one (for example, the company name used in Player Settings, `heromughalsoft`) so the policy names an accountable party as directly as its App Store Connect entry will.
 
 The policy should identify the publisher, explain that gameplay progress and preferences are stored locally, describe any data collected by the app or third parties, state the purposes and retention rules, explain deletion choices, and provide a working privacy contact. Do not publish a policy containing placeholders.
 
