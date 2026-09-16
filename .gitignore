@@ -47,3 +47,9 @@ crashlytics-build.properties
 # Editor auto-generated files not needed in VCS
 /ExportedObj/
 /DevelopmentPlayer/
+
+# Internal dev/AI working notes and QA evidence, not part of the shipped project
+/Documentation/
+/QA/
+/AI_RULES.md
+/MEMORY_BANK.md
