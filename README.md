@@ -56,7 +56,3 @@ See [`Documentation/FINAL_AUDIT.md`](Documentation/FINAL_AUDIT.md) for the full 
 | [`APP_STORE_METADATA.md`](Documentation/APP_STORE_METADATA.md) | App Store listing draft |
 
 Development rules for any agent or contributor working on this project are in [`AI_RULES.md`](AI_RULES.md); persistent project memory is in [`MEMORY_BANK.md`](MEMORY_BANK.md).
-
-## Identity
-
-Bundle ID `com.rehmanmughal.postmarkprotocol` · Version 1.0.0 · IL2CPP / ARM64 / Metal · iOS 15+ · Landscape only (iPhone + iPad)
